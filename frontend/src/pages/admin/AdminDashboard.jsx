@@ -68,11 +68,11 @@ export default function AdminDashboard() {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-            <StatCard icon={GiTrophy}     label="Total Tournaments"   value={stats.total_tournaments   || 0} color="#F97316" />
-            <StatCard icon={FiActivity}   label="Live Now"            value={stats.live_tournaments    || 0} color="#ef4444" />
-            <StatCard icon={FiUsers}      label="Total Players"       value={stats.total_players       || 0} color="#22D3EE" />
-            <StatCard icon={FiClock}      label="Pending Approvals"   value={stats.pending_approvals   || 0} color="#ffd700" sub="action needed" />
-            <StatCard icon={FiDollarSign} label="Total Revenue"       value={`₹${(stats.total_revenue||0).toLocaleString()}`} color="#7C3AED" />
+            <StatCard icon={GiTrophy}     label="Total Tournaments"   value={stats.total_tournaments   || 0} color="#FF007F" />
+            <StatCard icon={FiActivity}   label="Live Now"            value={stats.live_tournaments    || 0} color="#00FF9C" />
+            <StatCard icon={FiUsers}      label="Total Players"       value={stats.total_players       || 0} color="#00D2FF" />
+            <StatCard icon={FiClock}      label="Pending Approvals"   value={stats.pending_approvals   || 0} color="#FFD700" sub="action needed" />
+            <StatCard icon={FiDollarSign} label="Total Revenue"       value={`₹${(stats.total_revenue||0).toLocaleString()}`} color="#FF007F" />
           </div>
         )}
 
@@ -100,8 +100,8 @@ export default function AdminDashboard() {
                 <XAxis dataKey="title" tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11 }} />
                 <YAxis tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11 }} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="joins"   name="Joins"   fill="#F97316" radius={[4,4,0,0]} />
-                <Bar dataKey="revenue" name="Revenue (₹)" fill="#7C3AED" radius={[4,4,0,0]} />
+                <Bar dataKey="joins"   name="Joins"   fill="#FF007F" radius={[4,4,0,0]} />
+                <Bar dataKey="revenue" name="Revenue (₹)" fill="#00D2FF" radius={[4,4,0,0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -110,10 +110,10 @@ export default function AdminDashboard() {
         {/* Quick action links */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
           {[
-            ['/admin/tournaments/create', <FiPlus />, 'Create Tournament', '#F97316'],
-            ['/admin/payments',           <FiDollarSign />, 'Review Payments',  '#22D3EE'],
-            ['/admin/players',            <FiUsers />, 'Manage Players',   '#7C3AED'],
-            ['/admin/tournaments',        <FaTrophy />, 'All Tournaments',  '#ffd700'],
+            ['/admin/tournaments/create', <FiPlus />, 'Create Tournament', '#FF007F'],
+            ['/admin/payments',           <FiDollarSign />, 'Review Payments',  '#00D2FF'],
+            ['/admin/players',            <FiUsers />, 'Manage Players',   '#00FF9C'],
+            ['/admin/tournaments',        <FaTrophy />, 'All Tournaments',  '#FF007F'],
           ].map(([to, icon, label, color]) => (
             <Link key={to} to={to}
               className="card p-4 flex flex-col items-center justify-center gap-2 text-sm font-bold transition hover:scale-105"
