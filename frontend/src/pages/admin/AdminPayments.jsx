@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { FiCheck, FiX, FiEye, FiClock } from 'react-icons/fi'
 import toast from 'react-hot-toast'
-import api from '../../lib/api'
+import api, { getImageUrl } from '../../lib/api'
 import AdminLayout from './AdminLayout'
 
 export default function AdminPayments() {
@@ -63,7 +63,7 @@ export default function AdminPayments() {
                   {reg.screenshot && (
                     <button onClick={() => setPreview(reg.screenshot)} className="shrink-0">
                       <div className="w-16 h-16 rounded-xl overflow-hidden border border-white/10 bg-[#0B0F1A] relative group">
-                        <img src={reg.screenshot} alt="proof" className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition" />
+                        <img src={getImageUrl(reg.screenshot)} alt="proof" className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition" />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                           <FiEye size={18} className="text-white" />
                         </div>
@@ -114,7 +114,7 @@ export default function AdminPayments() {
             <button onClick={() => setPreview(null)} className="absolute -top-10 right-0 text-white/60 hover:text-white">
               <FiX size={24} />
             </button>
-            <img src={preview} alt="Payment proof" className="w-full rounded-2xl border border-white/10" />
+            <img src={getImageUrl(preview)} alt="Payment proof" className="w-full rounded-2xl border border-white/10" />
           </div>
         </div>
       )}

@@ -9,7 +9,7 @@ import { FiEdit2, FiCamera, FiSave, FiX, FiClipboard } from 'react-icons/fi'
 import { FaUser, FaMedal, FaGem, FaCrown } from 'react-icons/fa'
 import { GiFlame, GiTrophy, GiTargetShot } from 'react-icons/gi'
 import toast from 'react-hot-toast'
-import api from '../lib/api'
+import api, { getImageUrl } from '../lib/api'
 import useAuthStore from '../store/authStore'
 
 const RANKS = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']
@@ -103,7 +103,7 @@ export default function ProfilePage() {
               <div className="w-20 h-20 rounded-full border-2 overflow-hidden flex items-center justify-center"
                 style={{ borderColor: color, background: `${color}20` }}>
                 {p.avatar_url ? (
-                  <img src={p.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+                  <img src={getImageUrl(p.avatar_url)} alt="avatar" className="w-full h-full object-cover" />
                 ) : (
                   <span className="text-3xl font-black" style={{ color }}>{(p.name||'?')[0].toUpperCase()}</span>
                 )}

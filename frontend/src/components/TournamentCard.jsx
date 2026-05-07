@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { FiUsers, FiClock, FiMapPin, FiZap } from 'react-icons/fi'
 import { GiTrophy, GiCrossedSwords } from 'react-icons/gi'
 import { format } from 'date-fns'
+import { getImageUrl } from '../lib/api'
 
 const STATUS_CONFIG = {
   live:      { label: 'LIVE',      cls: 'badge-live',      dot: 'bg-[#FF007F] animate-pulse' },
@@ -36,7 +37,7 @@ export default function TournamentCard({ tournament }) {
       {/* Banner */}
       <div className="relative h-40 overflow-hidden bg-[#05070A]">
         {banner ? (
-          <img src={banner} alt={title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70" />
+          <img src={getImageUrl(banner)} alt={title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70" />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center opacity-10">
             <GiCrossedSwords size={80} color="#FF007F" />

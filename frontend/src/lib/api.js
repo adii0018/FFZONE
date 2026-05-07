@@ -6,7 +6,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   timeout: 15000,
 })
 
@@ -29,7 +29,7 @@ api.interceptors.response.use(
       const refresh = localStorage.getItem('refresh_token')
       if (refresh) {
         try {
-          const { data } = await axios.post('/api/token/refresh/', { refresh })
+          const { data } = await axios.post(`${import.meta.env.VITE_API_URL || ''}/api/token/refresh/`, { refresh })
           localStorage.setItem('access_token', data.access)
           original.headers.Authorization = `Bearer ${data.access}`
           return api(original)
@@ -42,5 +42,14 @@ api.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+export const getImageUrl = (path) => {
+  if (!path) return ''
+  if (path.startsWith('http') || path.startsWith('blob:') || path.startsWith('data:')) {
+    return path
+  }
+  const baseUrl = import.meta.env.VITE_API_URL || ''
+  return `${baseUrl}${path}`
+}
 
 export default api

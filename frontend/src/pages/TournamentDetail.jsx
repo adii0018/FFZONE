@@ -9,7 +9,7 @@ import { FiUsers, FiMapPin, FiClock, FiShare2, FiArrowLeft, FiTarget, FiAlertTri
 import { FaWhatsapp, FaInstagram, FaGamepad, FaCopy } from 'react-icons/fa'
 import { GiTrophy, GiCrossedSwords, GiTargetShot } from 'react-icons/gi'
 import { format } from 'date-fns'
-import api from '../lib/api'
+import api, { getImageUrl } from '../lib/api'
 import useAuthStore from '../store/authStore'
 import CountdownTimer from '../components/CountdownTimer'
 
@@ -56,7 +56,7 @@ export default function TournamentDetail() {
         {/* Banner */}
         <div className="relative h-56 md:h-72 rounded-2xl overflow-hidden mb-6 border border-[rgba(249,115,22,0.2)]">
           {t.banner ? (
-            <img src={t.banner} alt={t.title} className="w-full h-full object-cover opacity-60" />
+            <img src={getImageUrl(t.banner)} alt={t.title} className="w-full h-full object-cover opacity-60" />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-[#1a1f2e] to-[#0B0F1A] flex items-center justify-center">
               <GiCrossedSwords size={80} color="#F97316" className="opacity-20" />
