@@ -1,0 +1,196 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg:       #0B0F1A;
+  --color-surface:  #111827;
+  --color-fire:     #F97316;
+  --color-purple:   #7C3AED;
+  --color-cyan:     #22D3EE;
+  --color-border:   rgba(249,115,22,0.25);
+  --font-sans: 'Outfit', 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: #0B0F1A;
+    color: #ffffff;
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar        { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track  { background: #0B0F1A; }
+  ::-webkit-scrollbar-thumb  { background: #F97316; border-radius: 3px; }
+
+  ::selection { background: rgba(249,115,22,0.3); }
+}
+
+@layer components {
+  /* ─── Glow utilities ─────────────────────────────────── */
+  .glow-fire   { box-shadow: 0 0 20px rgba(249,115,22,0.4), 0 0 60px rgba(249,115,22,0.15); }
+  .glow-purple { box-shadow: 0 0 20px rgba(124,58,237,0.4), 0 0 60px rgba(124,58,237,0.15); }
+  .glow-cyan   { box-shadow: 0 0 20px rgba(34,211,238,0.4), 0 0 60px rgba(34,211,238,0.15); }
+
+  .text-glow-fire   { text-shadow: 0 0 20px rgba(249,115,22,0.8); }
+  .text-glow-purple { text-shadow: 0 0 20px rgba(124,58,237,0.8); }
+  .text-glow-cyan   { text-shadow: 0 0 20px rgba(34,211,238,0.8); }
+
+  /* ─── Card ───────────────────────────────────────────── */
+  .card {
+    background: #111827;
+    border: 1px solid rgba(249,115,22,0.2);
+    border-radius: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .card:hover {
+    border-color: rgba(249,115,22,0.5);
+    box-shadow: 0 0 20px rgba(249,115,22,0.2);
+  }
+
+  /* ─── Buttons ────────────────────────────────────────── */
+  .btn-fire {
+    background: linear-gradient(135deg, #F97316, #ea580c);
+    color: #fff;
+    font-weight: 700;
+    padding: 0.625rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .btn-fire:hover {
+    background: linear-gradient(135deg, #fb923c, #F97316);
+    box-shadow: 0 0 20px rgba(249,115,22,0.6);
+    transform: translateY(-1px);
+  }
+  .btn-fire:active { transform: translateY(0); }
+
+  .btn-ghost {
+    background: transparent;
+    color: #F97316;
+    font-weight: 700;
+    padding: 0.625rem 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(249,115,22,0.4);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover {
+    background: rgba(249,115,22,0.1);
+    border-color: #F97316;
+    box-shadow: 0 0 15px rgba(249,115,22,0.3);
+  }
+
+  .btn-cyan {
+    background: linear-gradient(135deg, #22D3EE, #0891b2);
+    color: #0B0F1A;
+    font-weight: 700;
+    padding: 0.625rem 1.5rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-cyan:hover {
+    box-shadow: 0 0 20px rgba(34,211,238,0.5);
+    transform: translateY(-1px);
+  }
+
+  /* ─── Status badges ──────────────────────────────────── */
+  .badge-live     { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid rgba(239,68,68,0.4); }
+  .badge-upcoming { background: rgba(34,211,238,0.15); color: #22D3EE; border: 1px solid rgba(34,211,238,0.4); }
+  .badge-open     { background: rgba(249,115,22,0.15); color: #F97316; border: 1px solid rgba(249,115,22,0.4); }
+  .badge-completed{ background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.15); }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ─── Input ──────────────────────────────────────────── */
+  .input-dark {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(249,115,22,0.2);
+    border-radius: 0.5rem;
+    color: #fff;
+    padding: 0.625rem 1rem;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .input-dark:focus {
+    border-color: #F97316;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+  }
+  .input-dark::placeholder { color: rgba(255,255,255,0.3); }
+
+  /* ─── Slot progress bar ──────────────────────────────── */
+  .slot-bar-track {
+    background: rgba(255,255,255,0.08);
+    border-radius: 9999px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .slot-bar-fill {
+    background: linear-gradient(90deg, #F97316, #7C3AED);
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.5s ease;
+  }
+
+  /* ─── Animated grid background ───────────────────────── */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(249,115,22,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(249,115,22,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  /* ─── Rank colors ─────────────────────────────────────── */
+  .rank-bronze   { color: #cd7f32; }
+  .rank-silver   { color: #c0c0c0; }
+  .rank-gold     { color: #ffd700; }
+  .rank-platinum { color: #22D3EE; }
+  .rank-diamond  { color: #b9f2ff; text-shadow: 0 0 10px #22D3EE; }
+}
+
+/* ─── Animations ─────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-20px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.animate-float     { animation: float 6s ease-in-out infinite; }
+.animate-pulse-glow{ animation: pulse-glow 2s ease-in-out infinite; }
+.animate-slide-up  { animation: slide-up 0.6s ease-out both; }
+.animate-fade-in   { animation: fade-in 0.4s ease-out both; }
+.animate-spin-slow { animation: spin-slow 20s linear infinite; }
