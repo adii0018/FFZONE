@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { FiSearch, FiFilter } from 'react-icons/fi'
 import { GiCrossedSwords } from 'react-icons/gi'
 import api from '../lib/api'
+import { FaGamepad } from 'react-icons/fa'
 import TournamentCard from '../components/TournamentCard'
 
 const MODES   = ['All', 'Solo', 'Duo', 'Squad']
@@ -41,8 +42,8 @@ export default function TournamentsPage() {
 
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-black text-white mb-1">
-            🎮 Tournaments
+          <h1 className="text-3xl font-black text-white mb-1 flex items-center gap-2">
+            <FaGamepad className="text-[#F97316]" /> Tournaments
           </h1>
           <p className="text-white/50 text-sm">{total} tournaments available</p>
         </div>

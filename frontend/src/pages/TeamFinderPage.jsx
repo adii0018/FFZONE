@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { FiPlus, FiUsers, FiMessageSquare, FiCheck } from 'react-icons/fi'
+import { FaHandshake } from 'react-icons/fa'
 import { GiCrossedSwords } from 'react-icons/gi'
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
@@ -90,7 +91,7 @@ export default function TeamFinderPage() {
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-black text-white">🤝 Team Finder</h1>
+            <h1 className="text-3xl font-black text-white flex items-center gap-2"><FaHandshake className="text-[#7C3AED]" /> Team Finder</h1>
             <p className="text-white/50 text-sm mt-1">Find Duo & Squad partners</p>
           </div>
           {isAuthenticated() && (

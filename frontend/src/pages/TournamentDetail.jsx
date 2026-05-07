@@ -5,8 +5,8 @@
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
-import { FiUsers, FiMapPin, FiClock, FiShare2, FiArrowLeft } from 'react-icons/fi'
-import { FaWhatsapp, FaInstagram } from 'react-icons/fa'
+import { FiUsers, FiMapPin, FiClock, FiShare2, FiArrowLeft, FiTarget, FiAlertTriangle, FiClipboard } from 'react-icons/fi'
+import { FaWhatsapp, FaInstagram, FaGamepad, FaCopy } from 'react-icons/fa'
 import { GiTrophy, GiCrossedSwords, GiTargetShot } from 'react-icons/gi'
 import { format } from 'date-fns'
 import api from '../lib/api'
@@ -14,7 +14,7 @@ import useAuthStore from '../store/authStore'
 import CountdownTimer from '../components/CountdownTimer'
 
 const MAP_COLORS = { Bermuda: '#22D3EE', Purgatory: '#7C3AED', Kalahari: '#F97316' }
-const MODE_ICONS = { Solo: '🎯', Duo: '👥', Squad: '⚔️' }
+const MODE_ICONS = { Solo: <FiTarget />, Duo: <FiUsers />, Squad: <GiCrossedSwords /> }
 
 export default function TournamentDetail() {
   const { id } = useParams()
@@ -81,7 +81,7 @@ export default function TournamentDetail() {
               {[
                 { label: 'Prize Pool', value: `₹${t.prize_pool?.toLocaleString()}`, color: '#F97316', icon: GiTrophy },
                 { label: 'Entry Fee',  value: `₹${t.entry_fee}`,  color: '#22D3EE', icon: GiTargetShot },
-                { label: 'Mode',       value: `${MODE_ICONS[t.mode]||''} ${t.mode}`, color: '#7C3AED', icon: GiCrossedSwords },
+                { label: 'Mode',       value: <span className="flex items-center justify-center gap-1">{MODE_ICONS[t.mode]} {t.mode}</span>, color: '#7C3AED', icon: GiCrossedSwords },
                 { label: 'Map',        value: t.map,              color: mapColor,   icon: FiMapPin },
               ].map(({ label, value, color, icon: Icon }) => (
                 <div key={label} className="card p-3 text-center">
@@ -113,14 +113,14 @@ export default function TournamentDetail() {
               <div className="slot-bar-track">
                 <div className="slot-bar-fill" style={{ width: `${fillPct}%` }} />
               </div>
-              {isFull && <p className="text-red-400 text-xs mt-2">⚠️ Tournament is full</p>}
+              {isFull && <p className="text-red-400 text-xs mt-2 flex items-center gap-1"><FiAlertTriangle /> Tournament is full</p>}
             </div>
 
             {/* Rules */}
             {t.rules && (
               <div className="card p-5">
                 <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-                  📋 Rules & Info
+                  <FiClipboard /> Rules & Info
                 </h3>
                 <div className="text-white/60 text-sm leading-relaxed whitespace-pre-wrap">{t.rules}</div>
               </div>
@@ -130,7 +130,7 @@ export default function TournamentDetail() {
             {t.room_id && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 className="card p-5 border-[#22D3EE]/30 glow-cyan">
-                <h3 className="text-[#22D3EE] font-bold mb-3">🎮 Room Details</h3>
+                <h3 className="text-[#22D3EE] font-bold mb-3 flex items-center gap-2"><FaGamepad /> Room Details</h3>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-[#22D3EE]/10 rounded-lg p-3 text-center">
                     <div className="text-[#22D3EE] font-mono font-black text-lg">{t.room_id}</div>
@@ -177,7 +177,7 @@ export default function TournamentDetail() {
                   </a>
                   <button onClick={() => { navigator.clipboard.writeText(shareUrl); }}
                     className="flex-1 py-2 rounded-lg bg-white/5 border border-white/10 text-white/60 text-xs font-bold hover:bg-white/10 transition">
-                    📋 Copy Link
+                    <FaCopy /> Copy Link
                   </button>
                 </div>
               </div>

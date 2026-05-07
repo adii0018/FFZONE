@@ -1,19 +1,49 @@
 /**
- * FFZone – Navbar
+ * FFZone – Navbar (Enhanced)
  */
 
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { useState } from 'react'
-import { FiMenu, FiX, FiBell, FiUser, FiLogOut, FiShield } from 'react-icons/fi'
-import { GiFlame } from 'react-icons/gi'
+import { useState, useEffect, useRef } from 'react'
+import { FiMenu, FiX, FiUser, FiLogOut, FiShield, FiChevronDown, FiHelpCircle, FiMail, FiFileText } from 'react-icons/fi'
+import { GiFlame, GiTrophy, GiCrosshair, GiPodium, GiSwordsPower } from 'react-icons/gi'
+import { MdPeople, MdLeaderboard } from 'react-icons/md'
+import { HiSparkles } from 'react-icons/hi'
 import useAuthStore from '../store/authStore'
 import toast from 'react-hot-toast'
 
+// ─── Help Dropdown items ─────────────────────────────────────
+const HELP_LINKS = [
+  { to: '/faq',     icon: FiHelpCircle, label: 'FAQ',            desc: 'Common questions answered' },
+  { to: '/contact', icon: FiMail,       label: 'Contact Us',     desc: 'Reach out to our team' },
+  { to: '/terms',   icon: FiFileText,   label: 'Terms of Service', desc: 'Platform rules & terms' },
+]
+
 export default function Navbar() {
   const { user, isAuthenticated, isAdmin, logout } = useAuthStore()
-  const navigate   = useNavigate()
-  const location   = useLocation()
-  const [open, setOpen] = useState(false)
+  const navigate  = useNavigate()
+  const location  = useLocation()
+  const [open, setOpen]         = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [helpOpen, setHelpOpen] = useState(false)
+  const helpRef = useRef(null)
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // Close help dropdown on outside click
+  useEffect(() => {
+    function onClickOutside(e) {
+      if (helpRef.current && !helpRef.current.contains(e.target)) setHelpOpen(false)
+    }
+    document.addEventListener('mousedown', onClickOutside)
+    return () => document.removeEventListener('mousedown', onClickOutside)
+  }, [])
+
+  // Close mobile menu on route change
+  useEffect(() => { setOpen(false) }, [location.pathname])
 
   const handleLogout = () => {
     logout()
@@ -21,109 +51,239 @@ export default function Navbar() {
     navigate('/')
   }
 
-  const navLinks = [
-    { to: '/tournaments', label: 'Tournaments' },
-    { to: '/team-finder', label: 'Team Finder' },
-    ...(isAuthenticated() ? [
-      { to: '/matches',   label: 'My Matches' },
-      { to: '/dashboard', label: 'Dashboard' },
-    ] : []),
+  const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/')
+
+  const publicLinks = [
+    { to: '/tournaments', label: 'Tournaments', icon: GiTrophy },
+    { to: '/team-finder', label: 'Team Finder',  icon: MdPeople },
   ]
 
-  return (
-    <nav className="sticky top-0 z-50 border-b border-[rgba(249,115,22,0.15)] bg-[#0B0F1A]/90 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+  const authLinks = isAuthenticated() ? [
+    { to: '/matches',   label: 'My Matches', icon: GiSwordsPower },
+    { to: '/dashboard', label: 'Dashboard',  icon: MdLeaderboard },
+  ] : []
 
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <GiFlame className="text-[#F97316] text-2xl group-hover:scale-125 transition-transform" />
-          <span className="text-xl font-black text-white tracking-wider">
-            FF<span className="text-[#F97316]">ZONE</span>
+  const allNavLinks = [...publicLinks, ...authLinks]
+
+  return (
+    <nav className={`sticky w-full top-0 z-[60] transition-all duration-500 ${
+      scrolled
+        ? 'bg-[#0B0F1A]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]'
+        : 'bg-[#0B0F1A] border-b border-[rgba(249,115,22,0.05)]'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 h-[72px] flex items-center justify-between gap-4">
+
+        {/* ── Logo ────────────────────────────────────────── */}
+        <Link to="/" className="flex items-center gap-2 group relative z-50 flex-shrink-0">
+          <div className="absolute -inset-4 bg-gradient-to-r from-[#F97316]/20 to-transparent blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+          <GiFlame className="text-[#F97316] text-3xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 drop-shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
+          <span className="text-2xl font-black text-white tracking-wider relative">
+            FF<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#ea580c]">ZONE</span>
+          </span>
+          {/* Live badge */}
+          <span className="hidden sm:flex items-center gap-1 text-[10px] font-bold text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded-full ml-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>LIVE
           </span>
         </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.map(({ to, label }) => (
+        {/* ── Desktop Nav ─────────────────────────────────── */}
+        <div className="hidden lg:flex items-center gap-1 bg-white/[0.02] border border-white/5 px-4 py-2 rounded-full backdrop-blur-md">
+          {allNavLinks.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
-              className={`text-sm font-medium transition-colors hover:text-[#F97316] ${
-                location.pathname === to ? 'text-[#F97316]' : 'text-white/70'
+              className={`relative flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-full transition-all duration-300 group ${
+                isActive(to)
+                  ? 'text-white bg-[#F97316]/10 border border-[#F97316]/20'
+                  : 'text-white/60 hover:text-white hover:bg-white/5'
               }`}
             >
+              <Icon className={`text-base transition-colors ${isActive(to) ? 'text-[#F97316]' : 'group-hover:text-[#F97316]'}`} />
               {label}
+              {isActive(to) && (
+                <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-[2px] bg-gradient-to-r from-[#F97316] to-[#ea580c] rounded-full"></span>
+              )}
             </Link>
           ))}
+
+          {/* Leaderboard link (coming soon) */}
+          <Link
+            to="/leaderboard"
+            className={`relative flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-full transition-all duration-300 group text-white/60 hover:text-white hover:bg-white/5`}
+          >
+            <GiPodium className="text-base group-hover:text-[#F97316] transition-colors" />
+            Leaderboard
+            <span className="text-[9px] font-bold text-[#22D3EE] bg-[#22D3EE]/10 border border-[#22D3EE]/30 px-1.5 py-0.5 rounded-full ml-0.5">SOON</span>
+          </Link>
+
+          {/* Help Dropdown */}
+          <div className="relative" ref={helpRef}>
+            <button
+              onClick={() => setHelpOpen(o => !o)}
+              className={`flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-full transition-all duration-300 ${
+                helpOpen ? 'text-white bg-white/5' : 'text-white/60 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <FiHelpCircle className={`text-base transition-colors ${helpOpen ? 'text-[#F97316]' : ''}`} />
+              Help
+              <FiChevronDown className={`text-xs transition-transform duration-300 ${helpOpen ? 'rotate-180 text-[#F97316]' : ''}`} />
+            </button>
+
+            {/* Dropdown panel */}
+            <div className={`absolute top-full right-0 mt-3 w-64 bg-[#0D1120]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.5)] overflow-hidden transition-all duration-300 origin-top-right ${
+              helpOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
+            }`}>
+              <div className="p-2">
+                {HELP_LINKS.map(({ to, icon: Icon, label, desc }) => (
+                  <Link
+                    key={to}
+                    to={to}
+                    onClick={() => setHelpOpen(false)}
+                    className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 group transition-all duration-200"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-[#F97316]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#F97316]/20 transition-colors">
+                      <Icon className="text-[#F97316]" size={16} />
+                    </div>
+                    <div>
+                      <p className="text-white text-sm font-semibold group-hover:text-[#F97316] transition-colors">{label}</p>
+                      <p className="text-white/40 text-xs">{desc}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="border-t border-white/5 px-4 py-3 bg-white/[0.02]">
+                <Link to="/contact" onClick={() => setHelpOpen(false)} className="flex items-center justify-center gap-2 w-full py-2 rounded-lg bg-[#F97316]/10 border border-[#F97316]/20 text-[#F97316] text-sm font-bold hover:bg-[#F97316]/20 transition-colors">
+                  <HiSparkles size={14} /> Get Support
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Right actions */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* ── Right Actions ────────────────────────────────── */}
+        <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
           {isAuthenticated() ? (
-            <>
+            <div className="flex items-center gap-3">
               {isAdmin() && (
-                <Link to="/admin/dashboard" className="btn-ghost flex items-center gap-1 text-sm py-1.5 px-3">
-                  <FiShield size={14} /> Admin
+                <Link to="/admin/dashboard" className="flex items-center gap-1.5 text-xs font-bold text-[#F97316] bg-[#F97316]/10 px-3 py-1.5 rounded-lg border border-[#F97316]/20 hover:bg-[#F97316]/20 transition-colors">
+                  <FiShield size={13} /> ADMIN
                 </Link>
               )}
-              <Link to="/profile" className="flex items-center gap-2 text-white/70 hover:text-white transition">
-                <div className="w-8 h-8 rounded-full bg-[#F97316]/20 border border-[#F97316]/40 flex items-center justify-center">
-                  <FiUser size={14} className="text-[#F97316]" />
+              <div className="h-8 w-px bg-white/10"></div>
+              <Link to="/profile" className="flex items-center gap-2 group hover:bg-white/5 pr-3 py-1 pl-1 rounded-full transition-all border border-transparent hover:border-white/10">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#F97316] to-[#ea580c] p-[1.5px] group-hover:shadow-[0_0_15px_rgba(249,115,22,0.4)] transition-shadow">
+                  <div className="w-full h-full rounded-full bg-[#111827] flex items-center justify-center">
+                    <FiUser size={13} className="text-white group-hover:text-[#F97316] transition-colors" />
+                  </div>
                 </div>
-                <span className="text-sm font-medium">{user?.name?.split(' ')[0]}</span>
+                <span className="text-sm font-semibold text-white/90 group-hover:text-white transition-colors">
+                  {user?.name?.split(' ')[0] || 'Player'}
+                </span>
               </Link>
-              <button onClick={handleLogout} className="btn-ghost py-1.5 px-3 text-sm flex items-center gap-1">
-                <FiLogOut size={14} /> Out
+              <button onClick={handleLogout} className="text-white/40 hover:text-red-400 hover:bg-red-400/10 p-2 rounded-full transition-all" title="Logout">
+                <FiLogOut size={17} />
               </button>
-            </>
+            </div>
           ) : (
-            <>
-              <Link to="/login" className="btn-ghost py-1.5 px-4 text-sm">Login</Link>
-              <Link to="/login?tab=register" className="btn-fire py-1.5 px-4 text-sm">Join Free</Link>
-            </>
+            <div className="flex items-center gap-2">
+              <Link to="/login" className="px-4 py-2 text-sm font-bold text-white/70 hover:text-white transition-colors">
+                Login
+              </Link>
+              <Link to="/login?tab=register" className="relative group overflow-hidden rounded-lg p-[1px]">
+                <span className="absolute inset-0 bg-gradient-to-r from-[#F97316] via-[#ea580c] to-[#F97316] opacity-70 group-hover:opacity-100 bg-[length:200%_auto] animate-gradient transition-opacity duration-300"></span>
+                <div className="relative bg-[#0B0F1A] px-5 py-2 rounded-[7px] group-hover:bg-transparent transition-all duration-300">
+                  <span className="text-sm font-bold text-white relative z-10">Join Free 🔥</span>
+                </div>
+              </Link>
+            </div>
           )}
         </div>
 
-        {/* Mobile hamburger */}
-        <button className="md:hidden text-white" onClick={() => setOpen(!open)}>
-          {open ? <FiX size={22} /> : <FiMenu size={22} />}
+        {/* ── Mobile Hamburger ──────────────────────────────── */}
+        <button className="lg:hidden relative z-[70] p-2 text-white/80 hover:text-white transition-colors" onClick={() => setOpen(!open)}>
+          {open ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
-      {open && (
-        <div className="md:hidden border-t border-[rgba(249,115,22,0.1)] bg-[#111827] px-4 py-4 space-y-3">
-          {navLinks.map(({ to, label }) => (
+      {/* ── Mobile Menu ───────────────────────────────────── */}
+      <div className={`fixed inset-0 bg-[#0B0F1A] z-[65] transition-all duration-300 lg:hidden flex flex-col ${
+        open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      }`}>
+        {/* Sticky mini-header inside menu */}
+        <div className="flex items-center justify-between px-6 h-[72px] border-b border-white/5 flex-shrink-0">
+          <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2">
+            <GiFlame className="text-[#F97316] text-2xl" />
+            <span className="text-xl font-black text-white">FF<span className="text-[#F97316]">ZONE</span></span>
+          </Link>
+          <button onClick={() => setOpen(false)} className="p-2 text-white/60 hover:text-white transition-colors">
+            <FiX size={24} />
+          </button>
+        </div>
+
+        {/* Scrollable content */}
+        <div className={`flex-1 overflow-y-auto px-6 py-6 transition-all duration-500 ${open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+          <div className="flex flex-col gap-2">
+
+          {/* Mobile nav links */}
+          <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-2 ml-1">Navigate</p>
+          {allNavLinks.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
               onClick={() => setOpen(false)}
-              className="block text-white/80 hover:text-[#F97316] font-medium transition"
+              className={`flex items-center gap-4 px-5 py-4 rounded-xl font-bold text-lg transition-all ${
+                isActive(to)
+                  ? 'text-[#F97316] bg-[#F97316]/10 border border-[#F97316]/20'
+                  : 'text-white/70 hover:text-white hover:bg-white/5'
+              }`}
             >
+              <Icon size={22} className={isActive(to) ? 'text-[#F97316]' : ''} />
               {label}
             </Link>
           ))}
-          <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
-            {isAuthenticated() ? (
-              <>
-                {isAdmin() && (
-                  <Link to="/admin/dashboard" onClick={() => setOpen(false)} className="btn-ghost text-center text-sm">
-                    Admin Dashboard
-                  </Link>
-                )}
-                <button onClick={() => { handleLogout(); setOpen(false) }} className="btn-ghost text-sm">
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link to="/login" onClick={() => setOpen(false)} className="btn-ghost text-center text-sm">Login</Link>
-                <Link to="/login?tab=register" onClick={() => setOpen(false)} className="btn-fire text-center text-sm">Join Free</Link>
-              </>
-            )}
+
+          <Link to="/leaderboard" onClick={() => setOpen(false)} className="flex items-center gap-4 px-5 py-4 rounded-xl font-bold text-lg text-white/70 hover:text-white hover:bg-white/5 transition-all">
+            <GiPodium size={22} /> Leaderboard <span className="text-xs text-[#22D3EE] ml-1 bg-[#22D3EE]/10 px-2 py-0.5 rounded-full">SOON</span>
+          </Link>
+
+          <div className="h-px bg-white/5 my-3"></div>
+
+          <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-2 ml-1">Support</p>
+          {HELP_LINKS.map(({ to, icon: Icon, label }) => (
+            <Link key={to} to={to} onClick={() => setOpen(false)} className="flex items-center gap-4 px-5 py-3.5 rounded-xl font-semibold text-base text-white/60 hover:text-white hover:bg-white/5 transition-all">
+              <Icon size={18} /> {label}
+            </Link>
+          ))}
+
+          <div className="h-px bg-white/5 my-3"></div>
+
+          {isAuthenticated() ? (
+            <div className="flex flex-col gap-3">
+              {isAdmin() && (
+                <Link to="/admin/dashboard" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#F97316]/10 text-[#F97316] font-bold border border-[#F97316]/20">
+                  <FiShield /> Admin Dashboard
+                </Link>
+              )}
+              <Link to="/profile" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/5 text-white font-bold border border-white/10">
+                <FiUser /> My Profile
+              </Link>
+              <button onClick={() => { handleLogout(); setOpen(false) }} className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-red-500/10 text-red-400 font-bold border border-red-500/20">
+                <FiLogOut /> Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3">
+              <Link to="/login" onClick={() => setOpen(false)} className="text-center py-3.5 rounded-xl bg-white/5 text-white font-bold border border-white/10">
+                Login
+              </Link>
+              <Link to="/login?tab=register" onClick={() => setOpen(false)} className="text-center py-3.5 rounded-xl bg-gradient-to-r from-[#F97316] to-[#ea580c] text-white font-bold shadow-[0_0_30px_rgba(249,115,22,0.3)]">
+                Join Free 🔥
+              </Link>
+            </div>
+          )}
           </div>
         </div>
-      )}
+      </div>
     </nav>
   )
 }

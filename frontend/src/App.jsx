@@ -21,6 +21,14 @@ import PaymentPage        from './pages/PaymentPage'
 import MatchesPage        from './pages/MatchesPage'
 import TeamFinderPage     from './pages/TeamFinderPage'
 import ProfilePage        from './pages/ProfilePage'
+import LeaderboardPage    from './pages/LeaderboardPage'
+
+// ── Static / Legal Pages ──────────────────────────────────────────────────
+import TermsPage          from './pages/TermsPage'
+import PrivacyPolicyPage  from './pages/PrivacyPolicyPage'
+import RefundPolicyPage   from './pages/RefundPolicyPage'
+import ContactPage        from './pages/ContactPage'
+import FAQPage            from './pages/FAQPage'
 
 // ── Admin Pages ────────────────────────────────────────────────────────────
 import AdminDashboard     from './pages/admin/AdminDashboard'
@@ -62,6 +70,7 @@ export default function App() {
           <Route path="/login"       element={<AuthPage />} />
           <Route path="/tournaments" element={<><Navbar /><TournamentsPage /><Footer /></>} />
           <Route path="/tournament/:id" element={<><Navbar /><TournamentDetail /><Footer /></>} />
+          <Route path="/leaderboard" element={<><Navbar /><LeaderboardPage /><Footer /></>} />
 
           {/* ── Player Protected ────────────────────────────── */}
           <Route path="/dashboard" element={
@@ -102,6 +111,13 @@ export default function App() {
           <Route path="/admin/results/:id" element={
             <ProtectedRoute adminOnly><AdminResults /></ProtectedRoute>
           } />
+
+          {/* ── Legal / Static Pages ─────────────────────── */}
+          <Route path="/terms"   element={<><Navbar /><TermsPage /><Footer /></>} />
+          <Route path="/privacy" element={<><Navbar /><PrivacyPolicyPage /><Footer /></>} />
+          <Route path="/refund"  element={<><Navbar /><RefundPolicyPage /><Footer /></>} />
+          <Route path="/contact" element={<><Navbar /><ContactPage /><Footer /></>} />
+          <Route path="/faq"     element={<><Navbar /><FAQPage /><Footer /></>} />
 
           {/* ── Catch-all ─────────────────────────────────── */}
           <Route path="*" element={<Navigate to="/" replace />} />

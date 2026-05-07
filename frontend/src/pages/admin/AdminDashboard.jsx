@@ -4,8 +4,9 @@
  */
 import { useQuery } from '@tanstack/react-query'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
-import { FiUsers, FiDollarSign, FiClock, FiActivity } from 'react-icons/fi'
+import { FiUsers, FiDollarSign, FiClock, FiActivity, FiPlus } from 'react-icons/fi'
 import { GiFlame, GiTrophy } from 'react-icons/gi'
+import { FaTrophy } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import api from '../../lib/api'
 import AdminLayout from './AdminLayout'
@@ -92,7 +93,7 @@ export default function AdminDashboard() {
         {/* Analytics chart */}
         {stats.chart_data?.length > 0 && (
           <div className="card p-6">
-            <h2 className="text-white font-bold mb-5">📊 Tournament Analytics (Last 10)</h2>
+            <h2 className="text-white font-bold mb-5 flex items-center gap-2"><FiActivity /> Tournament Analytics (Last 10)</h2>
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={stats.chart_data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
@@ -109,14 +110,15 @@ export default function AdminDashboard() {
         {/* Quick action links */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
           {[
-            ['/admin/tournaments/create', '+ Create Tournament', '#F97316'],
-            ['/admin/payments',           '💳 Review Payments',  '#22D3EE'],
-            ['/admin/players',            '👥 Manage Players',   '#7C3AED'],
-            ['/admin/tournaments',        '🏆 All Tournaments',  '#ffd700'],
-          ].map(([to, label, color]) => (
+            ['/admin/tournaments/create', <FiPlus />, 'Create Tournament', '#F97316'],
+            ['/admin/payments',           <FiDollarSign />, 'Review Payments',  '#22D3EE'],
+            ['/admin/players',            <FiUsers />, 'Manage Players',   '#7C3AED'],
+            ['/admin/tournaments',        <FaTrophy />, 'All Tournaments',  '#ffd700'],
+          ].map(([to, icon, label, color]) => (
             <Link key={to} to={to}
-              className="card p-4 text-center text-sm font-bold transition hover:scale-105"
+              className="card p-4 flex flex-col items-center justify-center gap-2 text-sm font-bold transition hover:scale-105"
               style={{ color }}>
+              <div className="text-2xl">{icon}</div>
               {label}
             </Link>
           ))}
