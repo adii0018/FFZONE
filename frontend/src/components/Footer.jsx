@@ -9,10 +9,17 @@ import { MdOutlineMail } from 'react-icons/md'
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[#050810] pt-20 pb-6 mt-20 overflow-hidden font-sans border-t border-white/5">
-      {/* Background glowing gradients */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#F97316]/5 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#F97316]/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <footer className="relative pt-20 pb-6 mt-20 overflow-hidden font-sans border-t border-white/5">
+      {/* Free Fire Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/footer-bg.jpg')" }}
+      />
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050810]/90 via-[#050810]/80 to-[#050810]/95" />
+      {/* Extra orange tint glow */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#F97316]/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#F97316]/10 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         
