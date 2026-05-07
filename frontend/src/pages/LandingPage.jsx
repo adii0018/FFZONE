@@ -3,14 +3,24 @@
  * Hero with animated background, stats bar, featured tournaments.
  */
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FiZap, FiUsers, FiAward, FiTrendingUp } from 'react-icons/fi'
+import { FiZap, FiUsers, FiAward } from 'react-icons/fi'
 import { GiFlame, GiCrossedSwords, GiTrophy, GiTargetShot } from 'react-icons/gi'
+import { FaFire } from 'react-icons/fa'
 import { useQuery } from '@tanstack/react-query'
 import api from '../lib/api'
 import TournamentCard from '../components/TournamentCard'
+
+// ── Stable particle positions (generated once) ────────────────────────────
+const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  top:   `${((i * 37 + 13) % 97)}%`,
+  left:  `${((i * 53 + 7)  % 97)}%`,
+  delay: `${(i * 0.3) % 5}s`,
+  dur:   `${2 + (i % 3)}s`,
+}))
 
 // ── Animated orbs background ──────────────────────────────────────────────
 function AnimatedBackground() {
@@ -28,16 +38,16 @@ function AnimatedBackground() {
       <div className="absolute top-20 right-10 w-32 h-32 rounded-full border border-[#F97316]/10 animate-spin-slow" />
       <div className="absolute bottom-20 left-10 w-20 h-20 rounded-full border border-[#7C3AED]/15 animate-spin-slow" style={{ animationDuration: '15s' }} />
 
-      {/* Particles */}
-      {[...Array(20)].map((_, i) => (
+      {/* Stable Particles */}
+      {PARTICLES.map(p => (
         <div
-          key={i}
+          key={p.id}
           className="absolute w-0.5 h-0.5 rounded-full bg-[#F97316]/30"
           style={{
-            top:  `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 5}s`,
-            animation: `pulse-glow ${2 + Math.random() * 3}s ease-in-out infinite`,
+            top:  p.top,
+            left: p.left,
+            animationDelay: p.delay,
+            animation: `pulse-glow ${p.dur} ease-in-out infinite`,
           }}
         />
       ))}
@@ -72,12 +82,54 @@ export default function LandingPage() {
 
   const featured = data?.tournaments?.slice(0, 3) || []
 
+  const bgImages = [
+    '/landing-bg.png',
+    '/slide-1.jpg',
+    '/slide-2.jpg',
+    '/slide-3.png',
+    '/slide-4.jpg'
+  ]
+
+  const heroTitles = [
+    <>Battle <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#ea580c] text-glow-fire">Begins</span><br />Here</>,
+    <>Only <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#ea580c] text-glow-fire">Legends</span><br />Survive</>,
+    <>Rise <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#ea580c] text-glow-fire">To</span><br />Booyah</>,
+    <>India's Ultimate <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#ea580c] text-glow-fire">FF</span><br />Arena</>,
+    <>Dominate <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#ea580c] text-glow-fire">The</span><br />Battleground</>
+  ]
+
+  const [bgIndex, setBgIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgIndex((prev) => (prev + 1) % bgImages.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div className="min-h-screen bg-[#0B0F1A]">
 
       {/* ── Hero ──────────────────────────────────────────── */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <AnimatedBackground />
+        {/* Crossfade background slides */}
+        {bgImages.map((src, i) => (
+          <div
+            key={src}
+            style={{
+              backgroundImage: `url('${src}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              opacity: i === bgIndex ? 1 : 0,
+              transition: 'opacity 1s ease-in-out',
+              position: 'absolute',
+              inset: 0,
+              zIndex: 0,
+            }}
+          />
+        ))}
+        <div className="absolute inset-0 bg-black/45" style={{ zIndex: 1 }}></div>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 2 }}><AnimatedBackground /></div>
 
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
           {/* Badge */}
@@ -92,17 +144,13 @@ export default function LandingPage() {
 
           {/* Headline */}
           <motion.h1
+            key={bgIndex}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight"
           >
-            COMPETE.{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#ea580c] text-glow-fire">
-              WIN.
-            </span>
-            <br />
-            DOMINATE.
+            {heroTitles[bgIndex]}
           </motion.h1>
 
           <motion.p
@@ -153,8 +201,8 @@ export default function LandingPage() {
       <section className="max-w-7xl mx-auto px-4 pb-16">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-black text-white">
-              🔥 Featured <span className="text-[#F97316]">Tournaments</span>
+            <h2 className="text-2xl md:text-3xl font-black text-white flex items-center gap-2">
+              <FaFire className="text-[#F97316]" /> Featured <span className="text-[#F97316]">Tournaments</span>
             </h2>
             <p className="text-white/50 text-sm mt-1">Upcoming competitions you can join right now</p>
           </div>
@@ -210,11 +258,11 @@ export default function LandingPage() {
       <section className="max-w-4xl mx-auto px-4 pb-20">
         <div className="card p-10 text-center relative overflow-hidden glow-fire">
           <div className="absolute inset-0 bg-gradient-to-r from-[#F97316]/5 to-[#7C3AED]/5" />
-          <GiFlame className="text-5xl text-[#F97316] mx-auto mb-4 animate-pulse-glow relative z-10" />
+          <GiFlame size={48} className="text-[#F97316] mx-auto mb-4 animate-pulse-glow relative z-10" />
           <h2 className="text-3xl font-black text-white mb-3 relative z-10">Ready to Dominate?</h2>
           <p className="text-white/60 mb-6 relative z-10">Create your account and join the battle today. First match is free!</p>
-          <Link to="/login?tab=register" className="btn-fire px-10 py-3 text-base relative z-10 inline-block">
-            Start Playing Now 🔥
+          <Link to="/login?tab=register" className="btn-fire px-10 py-3 text-base relative z-10 inline-flex items-center gap-2">
+            Start Playing Now <FaFire />
           </Link>
         </div>
       </section>

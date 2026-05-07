@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDropzone } from 'react-dropzone'
 import { FiUpload, FiCheckCircle, FiArrowLeft } from 'react-icons/fi'
+import { FaTrophy } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import api from '../../lib/api'
 import AdminLayout from './AdminLayout'
@@ -50,7 +51,7 @@ export default function AdminCreateTournament() {
         <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white/50 hover:text-white mb-6 transition">
           <FiArrowLeft /> Back
         </button>
-        <h1 className="text-2xl font-black text-white mb-6">🏆 Create Tournament</h1>
+        <h1 className="text-2xl font-black text-white mb-6 flex items-center gap-2"><FaTrophy className="text-[#F97316]" /> Create Tournament</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Title */}
@@ -138,7 +139,7 @@ export default function AdminCreateTournament() {
           </div>
 
           <button type="submit" disabled={loading} className="btn-fire w-full py-3 text-base flex items-center justify-center gap-2">
-            {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : '🏆 Create Tournament'}
+            {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FaTrophy /> Create Tournament</>}
           </button>
         </form>
       </div>

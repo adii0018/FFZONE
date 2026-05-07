@@ -188,9 +188,15 @@
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
 .animate-float     { animation: float 6s ease-in-out infinite; }
 .animate-pulse-glow{ animation: pulse-glow 2s ease-in-out infinite; }
 .animate-slide-up  { animation: slide-up 0.6s ease-out both; }
 .animate-fade-in   { animation: fade-in 0.4s ease-out both; }
 .animate-spin-slow { animation: spin-slow 20s linear infinite; }
+.animate-gradient  { animation: gradient 3s ease infinite; }

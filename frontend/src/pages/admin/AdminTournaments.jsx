@@ -6,6 +6,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { FiEdit2, FiKey, FiAward, FiTrash2 } from 'react-icons/fi'
 import { GiCrossedSwords } from 'react-icons/gi'
+import { FaTrophy } from 'react-icons/fa'
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 import api from '../../lib/api'
@@ -38,7 +39,7 @@ export default function AdminTournaments() {
     <AdminLayout>
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black text-white">🏆 Tournaments</h1>
+          <h1 className="text-2xl font-black text-white flex items-center gap-2"><FaTrophy className="text-[#F97316]" /> Tournaments</h1>
           <Link to="/admin/tournaments/create" className="btn-fire text-sm">+ Create New</Link>
         </div>
 

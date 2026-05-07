@@ -5,7 +5,8 @@
 import { useState, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
-import { FiEdit2, FiCamera, FiSave, FiX } from 'react-icons/fi'
+import { FiEdit2, FiCamera, FiSave, FiX, FiClipboard } from 'react-icons/fi'
+import { FaUser, FaMedal, FaGem, FaCrown } from 'react-icons/fa'
 import { GiFlame, GiTrophy, GiTargetShot } from 'react-icons/gi'
 import toast from 'react-hot-toast'
 import api from '../lib/api'
@@ -13,7 +14,7 @@ import useAuthStore from '../store/authStore'
 
 const RANKS = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']
 const RANK_COLORS = { Bronze:'#cd7f32', Silver:'#c0c0c0', Gold:'#ffd700', Platinum:'#22D3EE', Diamond:'#b9f2ff' }
-const RANK_ICONS  = { Bronze:'🥉', Silver:'🥈', Gold:'🥇', Platinum:'💎', Diamond:'👑' }
+const RANK_ICONS  = { Bronze:<FaMedal />, Silver:<FaMedal />, Gold:<FaMedal />, Platinum:<FaGem />, Diamond:<FaCrown /> }
 
 function RankProgress({ rank }) {
   const idx   = RANKS.indexOf(rank)
@@ -92,7 +93,7 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-black text-white mb-6">👤 My Profile</h1>
+        <h1 className="text-3xl font-black text-white mb-6 flex items-center gap-2"><FaUser className="text-[#F97316]" /> My Profile</h1>
 
         {/* Profile card */}
         <div className="card p-6 mb-6">
@@ -147,7 +148,7 @@ export default function ProfilePage() {
           <div className="mt-5 pt-4 border-t border-white/5">
             <div className="flex items-center justify-between mb-2">
               <span className="text-white/60 text-xs font-bold uppercase">Rank Progress</span>
-              <span className="font-black text-sm" style={{ color }}>{RANK_ICONS[rank]} {rank}</span>
+              <span className="font-black text-sm flex items-center gap-1" style={{ color }}>{RANK_ICONS[rank]} {rank}</span>
             </div>
             <RankProgress rank={rank} />
           </div>
@@ -171,7 +172,7 @@ export default function ProfilePage() {
         {/* Badges */}
         {p.badges?.length > 0 && (
           <div className="card p-5 mb-6">
-            <h3 className="text-white font-bold mb-3">🏅 Badges Earned</h3>
+            <h3 className="text-white font-bold mb-3 flex items-center gap-2"><FaMedal /> Badges Earned</h3>
             <div className="flex flex-wrap gap-2">
               {p.badges.map((b, i) => (
                 <span key={i} className="badge badge-open">{b}</span>
@@ -183,7 +184,7 @@ export default function ProfilePage() {
         {/* Match history */}
         {history.length > 0 && (
           <div className="card p-5">
-            <h3 className="text-white font-bold mb-3">📋 Recent Match History</h3>
+            <h3 className="text-white font-bold mb-3 flex items-center gap-2"><FiClipboard /> Recent Match History</h3>
             <div className="space-y-2">
               {history.map(reg => {
                 const t = reg.tournament || {}

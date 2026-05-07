@@ -4,18 +4,19 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { GiFlame, GiTrophy, GiTargetShot } from 'react-icons/gi'
+import { GiFlame, GiTrophy, GiTargetShot, GiCrossedSwords } from 'react-icons/gi'
+import { FaMedal, FaGem, FaCrown, FaGamepad, FaHandshake, FaUser, FaFire } from 'react-icons/fa'
 import { format } from 'date-fns'
 import api from '../lib/api'
 import useAuthStore from '../store/authStore'
 import TournamentCard from '../components/TournamentCard'
 
 const RANK_CONFIG = {
-  Bronze:   { color: '#cd7f32', icon: '🥉', next: 'Silver' },
-  Silver:   { color: '#c0c0c0', icon: '🥈', next: 'Gold' },
-  Gold:     { color: '#ffd700', icon: '🥇', next: 'Platinum' },
-  Platinum: { color: '#22D3EE', icon: '💎', next: 'Diamond' },
-  Diamond:  { color: '#b9f2ff', icon: '👑', next: null },
+  Bronze:   { color: '#cd7f32', icon: <FaMedal />, next: 'Silver' },
+  Silver:   { color: '#c0c0c0', icon: <FaMedal />, next: 'Gold' },
+  Gold:     { color: '#ffd700', icon: <FaMedal />, next: 'Platinum' },
+  Platinum: { color: '#22D3EE', icon: <FaGem />, next: 'Diamond' },
+  Diamond:  { color: '#b9f2ff', icon: <FaCrown />, next: null },
 }
 
 function NotificationsList() {
@@ -94,7 +95,7 @@ export default function DashboardPage() {
         <div className="grid md:grid-cols-3 gap-6">
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="text-lg font-black text-white">⚔️ Active Tournaments</h2>
+              <h2 className="text-lg font-black text-white flex items-center gap-2"><GiCrossedSwords /> Active Tournaments</h2>
               <Link to="/matches" className="text-[#F97316] text-sm hover:underline">View All</Link>
             </div>
             {regs.length > 0 ? regs.map(reg => {
@@ -128,14 +129,14 @@ export default function DashboardPage() {
 
           <div className="space-y-4">
             <div className="card p-5 text-center" style={{ borderColor: `${rankCfg.color}30` }}>
-              <div className="text-4xl mb-2">{rankCfg.icon}</div>
+              <div className="text-4xl mb-2 flex justify-center" style={{ color: rankCfg.color }}>{rankCfg.icon}</div>
               <div className="text-xl font-black" style={{ color: rankCfg.color }}>{rank}</div>
               <div className="text-white/40 text-xs mb-3">Current Rank</div>
               {rankCfg.next && <div className="text-[10px] text-white/30">Keep playing to reach <span style={{ color: rankCfg.color }}>{rankCfg.next}</span></div>}
             </div>
             {p.badges?.length > 0 && (
               <div className="card p-4">
-                <h3 className="text-white/60 text-xs font-bold uppercase mb-3">🏅 Badges</h3>
+                <h3 className="text-white/60 text-xs font-bold uppercase mb-3 flex items-center gap-1"><FaMedal /> Badges</h3>
                 <div className="flex flex-wrap gap-2">
                   {p.badges.map((b, i) => <span key={i} className="badge badge-open text-xs">{b}</span>)}
                 </div>
@@ -143,8 +144,14 @@ export default function DashboardPage() {
             )}
             <div className="card p-4 space-y-2">
               <h3 className="text-white/60 text-xs font-bold uppercase mb-2">Quick Links</h3>
-              {[['/tournaments','🎮 Browse Tournaments'],['/team-finder','🤝 Find Team'],['/profile','👤 My Profile']].map(([to, label]) => (
-                <Link key={to} to={to} className="block text-white/60 hover:text-[#F97316] text-sm transition py-1.5 border-b border-white/5 last:border-0">{label}</Link>
+              {[
+                { to: '/tournaments', icon: <FaGamepad />, label: 'Browse Tournaments' },
+                { to: '/team-finder', icon: <FaHandshake />, label: 'Find Team' },
+                { to: '/profile', icon: <FaUser />, label: 'My Profile' }
+              ].map(({ to, icon, label }) => (
+                <Link key={to} to={to} className="flex items-center gap-2 text-white/60 hover:text-[#F97316] text-sm transition py-1.5 border-b border-white/5 last:border-0">
+                  {icon} {label}
+                </Link>
               ))}
             </div>
           </div>
@@ -153,7 +160,7 @@ export default function DashboardPage() {
         {featured.length > 0 && (
           <div className="mt-10">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-black text-white">🔥 Upcoming Tournaments</h2>
+              <h2 className="text-xl font-black text-white flex items-center gap-2"><FaFire className="text-[#F97316]" /> Upcoming Tournaments</h2>
               <Link to="/tournaments" className="text-[#F97316] text-sm hover:underline">See All</Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

@@ -60,8 +60,17 @@ export default function AuthPage() {
   </button>
 
   return (
-    <div className="min-h-screen bg-[#0B0F1A] grid-bg flex items-center justify-center px-4 py-10">
-      <motion.div initial={{ opacity:0, scale:0.95 }} animate={{ opacity:1, scale:1 }} className="w-full max-w-md">
+    <div 
+      className="min-h-screen flex items-center justify-center px-4 py-10 relative bg-[#0B0F1A]"
+      style={{
+        backgroundImage: `url('/auth-bg.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      <div className="absolute inset-0 bg-black/45 z-0"></div>
+      <motion.div initial={{ opacity:0, scale:0.95 }} animate={{ opacity:1, scale:1 }} className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
             <GiFlame className="text-[#F97316] text-3xl" />

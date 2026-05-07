@@ -4,15 +4,16 @@
  */
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
-import { FiClock, FiLock, FiUnlock, FiAward } from 'react-icons/fi'
+import { FiClock, FiLock, FiUnlock, FiAward, FiCheck, FiX } from 'react-icons/fi'
 import { GiTrophy, GiCrossedSwords } from 'react-icons/gi'
+import { FaTrophy } from 'react-icons/fa'
 import { format } from 'date-fns'
 import api from '../lib/api'
 
 const STATUS_BADGE = {
-  pending:  { label: 'Pending',  cls: 'badge-open',      icon: '⏳' },
-  approved: { label: 'Approved', cls: 'badge-upcoming',  icon: '✅' },
-  rejected: { label: 'Rejected', cls: 'badge-completed', icon: '❌' },
+  pending:  { label: 'Pending',  cls: 'badge-open',      icon: <FiClock /> },
+  approved: { label: 'Approved', cls: 'badge-upcoming',  icon: <FiCheck /> },
+  rejected: { label: 'Rejected', cls: 'badge-completed', icon: <FiX /> },
 }
 
 function KillLeaderboard({ tournamentId }) {
@@ -26,7 +27,7 @@ function KillLeaderboard({ tournamentId }) {
   const top5 = data.slice(0, 5)
   return (
     <div className="mt-3 bg-[#0B0F1A] rounded-xl p-3 border border-white/5">
-      <h4 className="text-white/60 text-xs font-bold uppercase mb-2">🏆 Leaderboard</h4>
+      <h4 className="text-white/60 text-xs font-bold uppercase mb-2 flex items-center gap-1"><FaTrophy className="text-[#F97316]" /> Leaderboard</h4>
       {top5.map((r, i) => (
         <div key={r._id} className="flex items-center justify-between py-1 border-b border-white/5 last:border-0">
           <div className="flex items-center gap-2">
@@ -60,7 +61,7 @@ export default function MatchesPage() {
   return (
     <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-black text-white mb-2">⚔️ My Matches</h1>
+        <h1 className="text-3xl font-black text-white mb-2 flex items-center gap-2"><GiCrossedSwords className="text-[#F97316]" /> My Matches</h1>
         <p className="text-white/50 text-sm mb-8">All tournaments you've joined</p>
 
         {!regs?.length ? (
@@ -83,7 +84,7 @@ export default function MatchesPage() {
                         {t.mode} • {t.map} • {t.start_time ? format(new Date(t.start_time), 'dd MMM, hh:mm a') : '—'}
                       </p>
                     </div>
-                    <span className={`badge ${cfg.cls} shrink-0`}>{cfg.icon} {cfg.label}</span>
+                    <span className={`badge ${cfg.cls} shrink-0 flex items-center gap-1`}>{cfg.icon} {cfg.label}</span>
                   </div>
 
                   {/* Payment method */}
