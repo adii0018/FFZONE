@@ -97,7 +97,7 @@ export default function ProfilePage() {
 
         {/* Profile card */}
         <div className="card p-6 mb-6">
-          <div className="flex items-start gap-5">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5">
             {/* Avatar */}
             <div className="relative shrink-0">
               <div className="w-20 h-20 rounded-full border-2 overflow-hidden flex items-center justify-center"
@@ -116,7 +116,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Info */}
-            <div className="flex-1">
+            <div className="flex-1 w-full">
               {editing ? (
                 <div className="space-y-2">
                   <input value={name} onChange={e => setName(e.target.value)}
@@ -133,15 +133,17 @@ export default function ProfilePage() {
               )}
             </div>
 
-            <button onClick={() => editing ? handleSave() : setEditing(true)}
-              className={editing ? 'btn-fire py-1.5 px-3 text-sm flex items-center gap-1' : 'btn-ghost py-1.5 px-3 text-sm flex items-center gap-1'}>
-              {editing ? <><FiSave size={13}/>Save</> : <><FiEdit2 size={13}/>Edit</>}
-            </button>
-            {editing && (
-              <button onClick={() => setEditing(false)} className="btn-ghost py-1.5 px-3 text-sm">
-                <FiX size={13}/>
+            <div className="flex gap-2">
+              <button onClick={() => editing ? handleSave() : setEditing(true)}
+                className={editing ? 'btn-fire py-1.5 px-3 text-sm flex items-center gap-1' : 'btn-ghost py-1.5 px-3 text-sm flex items-center gap-1'}>
+                {editing ? <><FiSave size={13}/>Save</> : <><FiEdit2 size={13}/>Edit</>}
               </button>
-            )}
+              {editing && (
+                <button onClick={() => setEditing(false)} className="btn-ghost py-1.5 px-3 text-sm">
+                  <FiX size={13}/>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Rank progress */}

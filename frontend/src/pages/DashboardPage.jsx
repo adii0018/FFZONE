@@ -101,7 +101,7 @@ export default function DashboardPage() {
             {regs.length > 0 ? regs.map(reg => {
               const t = reg.tournament || {}
               return (
-                <div key={reg._id} className="card p-4 flex items-center gap-4">
+                <div key={reg._id} className="card p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <div className="w-10 h-10 rounded-xl bg-[#F97316]/10 border border-[#F97316]/20 flex items-center justify-center shrink-0">
                     <GiTrophy className="text-[#F97316]" />
                   </div>
@@ -109,9 +109,11 @@ export default function DashboardPage() {
                     <h3 className="text-white font-semibold text-sm truncate">{t.title}</h3>
                     <p className="text-white/40 text-xs">{t.mode} • {t.start_time ? format(new Date(t.start_time), 'dd MMM') : '—'}</p>
                   </div>
-                  <span className={`badge shrink-0 ${reg.status==='approved' ? 'badge-upcoming' : reg.status==='rejected' ? 'badge-completed' : 'badge-open'}`}>
-                    {reg.status}
-                  </span>
+                  <div className="w-full sm:w-auto flex justify-end">
+                    <span className={`badge shrink-0 ${reg.status==='approved' ? 'badge-upcoming' : reg.status==='rejected' ? 'badge-completed' : 'badge-open'}`}>
+                      {reg.status}
+                    </span>
+                  </div>
                 </div>
               )
             }) : (

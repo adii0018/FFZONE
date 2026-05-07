@@ -55,7 +55,7 @@ export default function AdminTournaments() {
         ) : (
           <div className="space-y-3">
             {tournaments.map(t => (
-              <div key={t._id} className="card p-4 flex items-center gap-4">
+              <div key={t._id} className="card p-4 flex flex-col md:flex-row md:items-center gap-4">
                 <div className="flex-1 min-w-0">
                   <h3 className="text-white font-bold text-sm truncate">{t.title}</h3>
                   <p className="text-white/40 text-xs mt-0.5">
@@ -64,30 +64,36 @@ export default function AdminTournaments() {
                   </p>
                 </div>
 
-                {/* Status selector */}
-                <select
-                  value={t.status}
-                  onChange={e => statusMut.mutate({ id: t._id, status: e.target.value })}
-                  className="bg-[#0B0F1A] border border-white/10 text-white/70 text-xs rounded-lg px-2 py-1.5 outline-none focus:border-[#F97316]"
-                >
-                  {STATUS_OPTS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase()+s.slice(1)}</option>)}
-                </select>
+                <div className="flex items-center justify-between md:justify-end gap-4 w-full md:w-auto">
+                  {/* Status selector */}
+                  <select
+                    value={t.status}
+                    onChange={e => statusMut.mutate({ id: t._id, status: e.target.value })}
+                    className="bg-[#0B0F1A] border border-white/10 text-white/70 text-xs rounded-lg px-2 py-1.5 outline-none focus:border-[#F97316] w-full md:w-auto"
+                  >
+                    {STATUS_OPTS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase()+s.slice(1)}</option>)}
+                  </select>
 
-                {/* Actions */}
-                <div className="flex items-center gap-2 shrink-0">
-                  <Link to={`/admin/room/${t._id}`} title="Set Room Info"
-                    className="w-8 h-8 rounded-lg bg-[#22D3EE]/10 border border-[#22D3EE]/20 text-[#22D3EE] flex items-center justify-center hover:bg-[#22D3EE]/20 transition">
-                    <FiKey size={13} />
-                  </Link>
-                  <Link to={`/admin/results/${t._id}`} title="Enter Results"
-                    className="w-8 h-8 rounded-lg bg-[#7C3AED]/10 border border-[#7C3AED]/20 text-[#7C3AED] flex items-center justify-center hover:bg-[#7C3AED]/20 transition">
-                    <FiAward size={13} />
-                  </Link>
-                  <button
-                    onClick={() => { if (window.confirm('Delete this tournament?')) deleteMut.mutate(t._id) }}
-                    className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center hover:bg-red-500/20 transition">
-                    <FiTrash2 size={13} />
-                  </button>
+                  {/* Actions */}
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Link to={`/admin/tournaments/edit/${t._id}`} title="Edit Tournament"
+                      className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 flex items-center justify-center hover:bg-orange-500/20 transition">
+                      <FiEdit2 size={13} />
+                    </Link>
+                    <Link to={`/admin/room/${t._id}`} title="Set Room Info"
+                      className="w-8 h-8 rounded-lg bg-[#22D3EE]/10 border border-[#22D3EE]/20 text-[#22D3EE] flex items-center justify-center hover:bg-[#22D3EE]/20 transition">
+                      <FiKey size={13} />
+                    </Link>
+                    <Link to={`/admin/results/${t._id}`} title="Enter Results"
+                      className="w-8 h-8 rounded-lg bg-[#7C3AED]/10 border border-[#7C3AED]/20 text-[#7C3AED] flex items-center justify-center hover:bg-[#7C3AED]/20 transition">
+                      <FiAward size={13} />
+                    </Link>
+                    <button
+                      onClick={() => { if (window.confirm('Delete this tournament?')) deleteMut.mutate(t._id) }}
+                      className="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center hover:bg-red-500/20 transition">
+                      <FiTrash2 size={13} />
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

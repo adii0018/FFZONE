@@ -1,23 +1,20 @@
-/**
- * FFZone – Tournament Card Component
- */
-
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { FiUsers, FiClock, FiMapPin, FiZap } from 'react-icons/fi'
 import { GiTrophy, GiCrossedSwords } from 'react-icons/gi'
 import { format } from 'date-fns'
 
 const STATUS_CONFIG = {
-  live:      { label: 'LIVE',      cls: 'badge-live',      dot: 'bg-red-500 animate-pulse' },
-  upcoming:  { label: 'UPCOMING',  cls: 'badge-upcoming',  dot: 'bg-cyan-400' },
-  open:      { label: 'OPEN',      cls: 'badge-open',      dot: 'bg-orange-400' },
+  live:      { label: 'LIVE',      cls: 'badge-live',      dot: 'bg-[#FF007F] animate-pulse' },
+  upcoming:  { label: 'UPCOMING',  cls: 'badge-upcoming',  dot: 'bg-[#00D2FF]' },
+  open:      { label: 'OPEN',      cls: 'badge-open',      dot: 'bg-[#00FF9C]' },
   completed: { label: 'COMPLETED', cls: 'badge-completed', dot: 'bg-white/30' },
 }
 
 const MAP_COLOR = {
-  Bermuda:   '#22D3EE',
-  Purgatory: '#7C3AED',
-  Kalahari:  '#F97316',
+  Bermuda:   '#00D2FF',
+  Purgatory: '#00FF9C',
+  Kalahari:  '#FF007F',
 }
 
 export default function TournamentCard({ tournament }) {
@@ -28,81 +25,84 @@ export default function TournamentCard({ tournament }) {
 
   const cfg        = STATUS_CONFIG[status] || STATUS_CONFIG.upcoming
   const pct        = Math.min(100, Math.round((filled_slots / max_slots) * 100))
-  const mapColor   = MAP_COLOR[map] || '#F97316'
+  const mapColor   = MAP_COLOR[map] || '#FF007F'
   const startDate  = start_time ? format(new Date(start_time), 'dd MMM, hh:mm a') : '—'
 
   return (
-    <div className="card overflow-hidden group cursor-pointer animate-fade-in">
+    <motion.div
+      whileHover={{ y: -10, scale: 1.02 }}
+      className="card overflow-hidden group cursor-pointer hover:shadow-[0_20px_50px_rgba(255,0,127,0.2)] transition-all duration-500"
+    >
       {/* Banner */}
-      <div className="relative h-36 overflow-hidden bg-gradient-to-br from-[#1a1f2e] to-[#0B0F1A]">
+      <div className="relative h-40 overflow-hidden bg-[#05070A]">
         {banner ? (
-          <img src={banner} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60" />
+          <img src={banner} alt={title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70" />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center opacity-10">
-            <GiCrossedSwords size={80} color="#F97316" />
+            <GiCrossedSwords size={80} color="#FF007F" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111827] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0E121A] via-transparent to-transparent" />
 
         {/* Status badge */}
-        <div className="absolute top-3 left-3">
-          <span className={`badge ${cfg.cls} flex items-center gap-1.5`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
+        <div className="absolute top-4 left-4">
+          <span className={`badge ${cfg.cls} flex items-center gap-2 px-3 py-1`}>
+            <span className={`w-2 h-2 rounded-full ${cfg.dot}`} />
             {cfg.label}
           </span>
         </div>
 
         {/* Map tag */}
-        <div className="absolute top-3 right-3" style={{ color: mapColor }}>
-          <span className="text-xs font-bold bg-black/50 px-2 py-0.5 rounded-full border" style={{ borderColor: `${mapColor}40` }}>
-            <FiMapPin size={9} className="inline mr-1" />{map}
+        <div className="absolute top-4 right-4" style={{ color: mapColor }}>
+          <span className="text-[10px] font-black bg-black/60 px-3 py-1 rounded-sm border backdrop-blur-md uppercase tracking-tighter" style={{ borderColor: `${mapColor}40` }}>
+            <FiMapPin size={10} className="inline mr-1" />{map}
           </span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-4">
-        <h3 className="font-bold text-white text-base mb-1 line-clamp-1 group-hover:text-[#F97316] transition-colors">
+      <div className="p-5">
+        <h3 className="font-black text-white text-lg mb-2 line-clamp-1 group-hover:text-[#FF007F] transition-colors tracking-tight">
           {title}
         </h3>
 
-        <div className="flex items-center gap-3 text-xs text-white/50 mb-3">
-          <span className="flex items-center gap-1"><GiCrossedSwords size={11} />{mode}</span>
-          <span className="flex items-center gap-1"><FiClock size={11} />{startDate}</span>
+        <div className="flex items-center gap-4 text-xs text-white/50 mb-4 font-bold uppercase tracking-wider">
+          <span className="flex items-center gap-1.5"><GiCrossedSwords size={12} className="text-[#FF007F]" />{mode}</span>
+          <span className="flex items-center gap-1.5"><FiClock size={12} className="text-[#00D2FF]" />{startDate}</span>
         </div>
 
         {/* Prize & Entry */}
-        <div className="grid grid-cols-2 gap-2 mb-3">
-          <div className="bg-[#F97316]/10 rounded-lg p-2 text-center">
-            <div className="text-[#F97316] font-bold text-sm">₹{prize_pool?.toLocaleString()}</div>
-            <div className="text-white/40 text-[10px]">Prize Pool</div>
+        <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="bg-[#FF007F]/10 border border-[#FF007F]/20 rounded-xl p-3 text-center group-hover:bg-[#FF007F]/20 transition-colors">
+            <div className="text-[#FF007F] font-black text-lg">₹{prize_pool?.toLocaleString()}</div>
+            <div className="text-white/40 text-[9px] font-black uppercase tracking-widest">Prize Pool</div>
           </div>
-          <div className="bg-white/5 rounded-lg p-2 text-center">
-            <div className="text-white font-semibold text-sm">₹{entry_fee}</div>
-            <div className="text-white/40 text-[10px]">Entry Fee</div>
+          <div className="bg-white/5 border border-white/5 rounded-xl p-3 text-center group-hover:bg-white/10 transition-colors">
+            <div className="text-white font-black text-lg">₹{entry_fee}</div>
+            <div className="text-white/40 text-[9px] font-black uppercase tracking-widest">Entry Fee</div>
           </div>
         </div>
 
         {/* Slot progress */}
-        <div className="mb-3">
-          <div className="flex justify-between text-[10px] text-white/40 mb-1">
-            <span className="flex items-center gap-1"><FiUsers size={10} />{filled_slots}/{max_slots} slots</span>
-            <span>{pct}%</span>
+        <div className="mb-5">
+          <div className="flex justify-between text-[10px] text-white/60 mb-2 font-black uppercase tracking-widest">
+            <span className="flex items-center gap-1.5"><FiUsers size={12} className="text-[#00FF9C]" />{filled_slots}/{max_slots} slots</span>
+            <span className="text-[#00FF9C]">{pct}% Full</span>
           </div>
-          <div className="slot-bar-track">
+          <div className="slot-bar-track h-2">
             <div className="slot-bar-fill" style={{ width: `${pct}%` }} />
           </div>
         </div>
 
         <Link
           to={`/tournament/${_id}`}
-          className="btn-fire w-full text-center text-sm py-2 block"
+          className="btn-fire w-full text-center text-sm font-black py-3 block uppercase tracking-widest shadow-lg shadow-[#FF007F]/20"
           onClick={(e) => e.stopPropagation()}
         >
-          <FiZap className="inline mr-1" size={13} />
+          <FiZap className="inline mr-1 animate-pulse" size={14} />
           View Details
         </Link>
       </div>
-    </div>
+    </motion.div>
   )
 }

@@ -38,6 +38,7 @@ import AdminPayments      from './pages/admin/AdminPayments'
 import AdminPlayers       from './pages/admin/AdminPlayers'
 import AdminRoom          from './pages/admin/AdminRoom'
 import AdminResults       from './pages/admin/AdminResults'
+import AdminEditTournament from './pages/admin/AdminEditTournament'
 
 const qc = new QueryClient()
 
@@ -98,6 +99,9 @@ export default function App() {
           } />
           <Route path="/admin/tournaments/create" element={
             <ProtectedRoute adminOnly><AdminCreateTournament /></ProtectedRoute>
+          } />
+          <Route path="/admin/tournaments/edit/:id" element={
+            <ProtectedRoute adminOnly><AdminEditTournament /></ProtectedRoute>
           } />
           <Route path="/admin/payments" element={
             <ProtectedRoute adminOnly><AdminPayments /></ProtectedRoute>

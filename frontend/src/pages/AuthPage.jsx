@@ -12,7 +12,7 @@ import useAuthStore from '../store/authStore'
 
 const InputField = ({ icon: Icon, type='text', placeholder, value, onChange, right }) => (
   <div className="relative">
-    <Icon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#F97316]/60" />
+    <Icon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#FF007F]/60" />
     <input type={type} placeholder={placeholder} value={value}
       onChange={e => onChange(e.target.value)} className="input-dark pl-10 pr-10" required />
     {right && <div className="absolute right-3 top-1/2 -translate-y-1/2">{right}</div>}
@@ -61,7 +61,7 @@ export default function AuthPage() {
 
   return (
     <div 
-      className="min-h-screen flex items-center justify-center px-4 py-10 relative bg-[#0B0F1A]"
+      className="min-h-screen flex items-center justify-center px-4 py-10 relative bg-[#05070A]"
       style={{
         backgroundImage: `url('/auth-bg.png')`,
         backgroundSize: 'cover',
@@ -73,17 +73,17 @@ export default function AuthPage() {
       <motion.div initial={{ opacity:0, scale:0.95 }} animate={{ opacity:1, scale:1 }} className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
-            <GiFlame className="text-[#F97316] text-3xl" />
-            <span className="text-2xl font-black">FF<span className="text-[#F97316]">ZONE</span></span>
+            <GiFlame className="text-[#FF007F] text-3xl" />
+            <span className="text-2xl font-black">FF<span className="text-[#FF007F]">ZONE</span></span>
           </Link>
           <h1 className="text-2xl font-black text-white">{tab==='login' ? 'Welcome Back' : 'Join the Battle'}</h1>
           <p className="text-white/50 text-sm mt-1">{tab==='login' ? 'Login to your account' : 'Create your free account'}</p>
         </div>
 
-        <div className="flex bg-[#111827] rounded-xl p-1 mb-6 border border-[rgba(249,115,22,0.15)]">
+        <div className="flex bg-[#0E121A] rounded-xl p-1 mb-6 border border-[rgba(255,0,127,0.15)]">
           {['login','register'].map(t => (
             <button key={t} onClick={() => setTab(t)}
-              className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${tab===t ? 'bg-[#F97316] text-white' : 'text-white/50 hover:text-white'}`}>
+              className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${tab===t ? 'bg-[#FF007F] text-white' : 'text-white/50 hover:text-white'}`}>
               {t === 'login' ? 'Login' : 'Register'}
             </button>
           ))}
