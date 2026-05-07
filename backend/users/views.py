@@ -9,7 +9,7 @@ import string
 from datetime import datetime, timedelta
 
 from django.contrib.auth import get_user_model, authenticate
-from django.core.cache import cache
+from django.conf import settings
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -17,16 +17,12 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from ffzone_backend.db import get_db
-from .serializers import RegisterSerializer, LoginSerializer, ProfileUpdateSerializer, OTPRequestSerializer
+from .serializers import RegisterSerializer, LoginSerializer, ProfileUpdateSerializer
 
 User = get_user_model()
 
 
 # ── Helper ────────────────────────────────────────────────────────────────────
-
-def _generate_otp():
-    return "".join(random.choices(string.digits, k=6))
-
 
 def _rank_from_stats(kills: int, wins: int) -> str:
     score = kills + wins * 5
@@ -59,29 +55,6 @@ def logout_view(request):
     return Response({"message": "Logged out."})
 
 
-
-
-@api_view(["POST"])
-@permission_classes([AllowAny])
-def request_otp(request):
-    """Generate & cache OTP for email verification (simulate sending)."""
-    ser = OTPRequestSerializer(data=request.data)
-    if not ser.is_valid():
-        return Response(ser.errors, status=400)
-
-    email = ser.validated_data["email"]
-    otp   = _generate_otp()
-    # Cache OTP for 10 minutes (key: otp_<email>)
-    cache.set(f"otp_{email}", otp, timeout=600)
-
-    # In production: send email/SMS here
-    # For dev, return OTP in response for testing
-    return Response({
-        "message": "OTP sent successfully.",
-        "dev_otp": otp if True else None,   # Remove in production
-    })
-
-
 # ── Register ──────────────────────────────────────────────────────────────────
 
 @api_view(["POST"])
@@ -94,11 +67,6 @@ def register(request):
 
     data  = ser.validated_data
     email = data["email"]
-
-    # Verify OTP
-    cached_otp = cache.get(f"otp_{email}")
-    if not cached_otp or cached_otp != data["otp"]:
-        return Response({"error": "Invalid or expired OTP."}, status=400)
 
     # Check duplicate email
     if User.objects.filter(email=email).exists():
@@ -131,8 +99,6 @@ def register(request):
         "is_admin":   False,
         "created_at": datetime.utcnow(),
     })
-
-    cache.delete(f"otp_{email}")
     tokens = _tokens_for_user(user)
     return Response({"message": "Registration successful.", **tokens}, status=201)
 
@@ -168,7 +134,7 @@ def login(request):
             "id":          user.id,
             "email":       user.email,
             "name":        user.first_name,
-            "is_admin":    user.is_admin_user or (profile or {}).get("is_admin", False),
+            "is_admin":    user.email == settings.ADMIN_EMAIL,
             "rank":        (profile or {}).get("rank", "Bronze"),
             "avatar_url":  (profile or {}).get("avatar_url", ""),
             "uid":         (profile or {}).get("uid", ""),
@@ -253,7 +219,7 @@ def public_profile(request, user_id):
 @permission_classes([IsAuthenticated])
 def admin_list_players(request):
     """Admin: list all players with pagination."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     db      = get_db()
@@ -267,7 +233,7 @@ def admin_list_players(request):
 @permission_classes([IsAuthenticated])
 def admin_ban_player(request, user_id):
     """Admin: ban or unban a player."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     action = request.data.get("action", "ban")  # 'ban' or 'unban'
@@ -300,7 +266,7 @@ def admin_ban_player(request, user_id):
 @permission_classes([IsAuthenticated])
 def admin_warn_player(request, user_id):
     """Admin: send a warning notification to a player."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     reason = request.data.get("reason", "Violation of tournament rules.")

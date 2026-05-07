@@ -224,7 +224,7 @@ def verify_razorpay_payment(request, tournament_id):
 @permission_classes([IsAuthenticated])
 def list_pending_payments(request):
     """Admin: list all pending payment proofs."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     db       = get_db()
@@ -243,7 +243,7 @@ def list_pending_payments(request):
 @permission_classes([IsAuthenticated])
 def approve_payment(request, registration_id):
     """Admin: approve a pending payment registration."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     db  = get_db()
@@ -274,7 +274,7 @@ def approve_payment(request, registration_id):
 @permission_classes([IsAuthenticated])
 def reject_payment(request, registration_id):
     """Admin: reject a pending payment registration."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     reason = request.data.get("reason", "Payment proof not valid.")
@@ -305,7 +305,7 @@ def reject_payment(request, registration_id):
 @permission_classes([IsAuthenticated])
 def all_registrations_for_tournament(request, tournament_id):
     """Admin: list all registrations for a tournament."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     db   = get_db()

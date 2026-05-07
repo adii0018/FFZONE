@@ -129,7 +129,7 @@ def tournament_detail(request, tournament_id):
 @parser_classes([MultiPartParser, FormParser])
 def create_tournament(request):
     """Admin: create a new tournament."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     data = request.data
@@ -171,7 +171,7 @@ def create_tournament(request):
 @parser_classes([MultiPartParser, FormParser, JSONParser])
 def update_tournament(request, tournament_id):
     """Admin: update tournament details or status."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     db  = get_db()
@@ -200,7 +200,7 @@ def update_tournament(request, tournament_id):
 @permission_classes([IsAuthenticated])
 def delete_tournament(request, tournament_id):
     """Admin: delete a tournament."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     db  = get_db()
@@ -217,7 +217,7 @@ def set_room_info(request, tournament_id):
     """
     Admin: set Room ID & Password, auto-notify all approved players.
     """
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     room_id  = request.data.get("room_id", "")
@@ -353,7 +353,7 @@ def tournament_results(request, tournament_id):
 @permission_classes([IsAuthenticated])
 def submit_results(request, tournament_id):
     """Admin: bulk-submit kills and rankings."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     entries = request.data.get("results", [])  # [{user_id, kills, rank, prize_won}]
@@ -418,7 +418,7 @@ def submit_results(request, tournament_id):
 @permission_classes([IsAuthenticated])
 def admin_dashboard_stats(request):
     """Admin: global stats for the dashboard."""
-    if not request.user.is_admin_user:
+    if request.user.email != settings.ADMIN_EMAIL:
         return Response({"error": "Admin access required."}, status=403)
 
     db = get_db()

@@ -23,7 +23,6 @@ export default function AuthPage() {
   const [params] = useSearchParams()
   const [tab, setTab] = useState(params.get('tab') === 'register' ? 'register' : 'login')
   const [loading, setLoading] = useState(false)
-  const [otpSent, setOtpSent] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const navigate = useNavigate()
   const { login } = useAuthStore()
@@ -34,7 +33,6 @@ export default function AuthPage() {
   const [phone, setPhone] = useState('')
   const [uid, setUid] = useState('')
   const [pass, setPass] = useState('')
-  const [otp, setOtp] = useState('')
 
   const handleLogin = async (e) => {
     e.preventDefault(); setLoading(true)
@@ -45,22 +43,11 @@ export default function AuthPage() {
     finally { setLoading(false) }
   }
 
-  const handleSendOTP = async () => {
-    if (!email) return toast.error('Enter your email first.')
-    setLoading(true)
-    try {
-      const { data } = await api.post('/auth/otp/', { email })
-      setOtpSent(true); toast.success(`OTP sent! (Dev: ${data.dev_otp})`)
-    } catch (err) { toast.error(err.response?.data?.error || 'Failed to send OTP.') }
-    finally { setLoading(false) }
-  }
-
   const handleRegister = async (e) => {
     e.preventDefault()
-    if (!otpSent) return toast.error('Please verify OTP first.')
     setLoading(true)
     try {
-      const { data } = await api.post('/auth/register/', { name, email, phone, uid, password: pass, otp })
+      const { data } = await api.post('/auth/register/', { name, email, phone, uid, password: pass })
       localStorage.setItem('access_token', data.access)
       localStorage.setItem('refresh_token', data.refresh)
       toast.success('Account created! Welcome 🔥'); navigate('/dashboard')
@@ -108,19 +95,7 @@ export default function AuthPage() {
               <motion.form key="register" initial={{opacity:0,x:20}} animate={{opacity:1,x:0}} exit={{opacity:0,x:-20}}
                 onSubmit={handleRegister} className="space-y-3">
                 <InputField icon={FiUser} placeholder="Full Name" value={name} onChange={setName} />
-                <div className="flex gap-2">
-                  <div className="flex-1"><InputField icon={FiMail} type="email" placeholder="Email" value={email} onChange={setEmail} /></div>
-                  <button type="button" onClick={handleSendOTP} disabled={loading||otpSent}
-                    className={`text-xs font-bold px-3 rounded-lg border transition whitespace-nowrap ${otpSent ? 'border-green-500/30 text-green-400 bg-green-500/10' : 'border-[#F97316]/30 text-[#F97316] bg-[#F97316]/10 hover:bg-[#F97316]/20'}`}>
-                    {otpSent ? '✓ Sent' : 'Send OTP'}
-                  </button>
-                </div>
-                {otpSent && (
-                  <motion.div initial={{opacity:0,height:0}} animate={{opacity:1,height:'auto'}}>
-                    <input placeholder="Enter 6-digit OTP" value={otp} onChange={e=>setOtp(e.target.value)}
-                      maxLength={6} className="input-dark text-center tracking-[0.5em] font-mono text-lg" />
-                  </motion.div>
-                )}
+                <InputField icon={FiMail} type="email" placeholder="Email" value={email} onChange={setEmail} />
                 <InputField icon={FiPhone} placeholder="Phone Number" value={phone} onChange={setPhone} />
                 <InputField icon={GiCrossedSwords} placeholder="Free Fire UID" value={uid} onChange={setUid} />
                 <InputField icon={FiLock} type={showPass?'text':'password'} placeholder="Password (min 6)" value={pass} onChange={setPass} right={eyeBtn} />

@@ -14,7 +14,6 @@ class RegisterSerializer(serializers.Serializer):
     phone      = serializers.CharField(max_length=15)
     password   = serializers.CharField(min_length=6, write_only=True)
     uid        = serializers.CharField(max_length=20)   # Free Fire UID
-    otp        = serializers.CharField(max_length=6)    # OTP verification
 
 
 class LoginSerializer(serializers.Serializer):
