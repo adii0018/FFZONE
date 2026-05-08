@@ -8,6 +8,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenRefreshView
 
+from django.views.static import serve
+import re
+
 urlpatterns = [
     # Django admin (for superuser management)
     path("django-admin/", admin.site.urls),
@@ -19,4 +22,7 @@ urlpatterns = [
     path("api/auth/", include("users.urls")),
     path("api/tournaments/", include("tournaments.urls")),
     path("api/payments/", include("payments.urls")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    # Serve media files even in production
+    path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
+]

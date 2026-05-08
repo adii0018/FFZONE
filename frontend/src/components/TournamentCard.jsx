@@ -37,7 +37,26 @@ export default function TournamentCard({ tournament }) {
       {/* Banner */}
       <div className="relative h-40 overflow-hidden bg-[#05070A]">
         {banner ? (
-          <img src={getImageUrl(banner)} alt={title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70" />
+          <img
+            src={getImageUrl(banner)}
+            alt={title}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.style.display = 'none';
+              e.target.parentNode.innerHTML = `
+                <div class="absolute inset-0 flex items-center justify-center bg-[#05070A] opacity-20">
+                  <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="80" width="80" xmlns="http://www.w3.org/2000/svg" style="color: #FF007F">
+                    <path d="M7 2h10l4 12H3L7 2z"></path>
+                    <path d="M12 2v12"></path>
+                    <path d="M12 18v4"></path>
+                    <path d="M8 18l1 4"></path>
+                    <path d="M16 18l-1 4"></path>
+                  </svg>
+                </div>
+              `;
+            }}
+          />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center opacity-10">
             <GiCrossedSwords size={80} color="#FF007F" />

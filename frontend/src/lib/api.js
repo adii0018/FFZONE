@@ -57,8 +57,12 @@ export const getImageUrl = (path) => {
   if (path.startsWith('http') || path.startsWith('blob:') || path.startsWith('data:')) {
     return path
   }
-  const baseUrl = import.meta.env.VITE_API_URL || ''
-  return `${baseUrl}${path}`
+  let baseUrl = import.meta.env.VITE_API_URL || ''
+  if (baseUrl.endsWith('/')) {
+    baseUrl = baseUrl.slice(0, -1)
+  }
+  const cleanPath = path.startsWith('/') ? path : `/${path}`
+  return `${baseUrl}${cleanPath}`
 }
 
 export const getAvatarUrl = (seed) => {
