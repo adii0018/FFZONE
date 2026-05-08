@@ -10,6 +10,7 @@ import { MdPeople, MdLeaderboard } from 'react-icons/md'
 import { HiSparkles } from 'react-icons/hi'
 import useAuthStore from '../store/authStore'
 import toast from 'react-hot-toast'
+import { getAvatarUrl } from '../lib/api'
 
 // ─── Help Dropdown items ─────────────────────────────────────
 const HELP_LINKS = [
@@ -180,9 +181,13 @@ export default function Navbar() {
               )}
               <div className="h-8 w-px bg-white/10"></div>
               <Link to="/profile" className="flex items-center gap-2 group hover:bg-white/5 pr-3 py-1 pl-1 rounded-full transition-all border border-transparent hover:border-white/10">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF007F] to-[#D4006A] p-[1.5px] group-hover:shadow-[0_0_15px_rgba(255,0,127,0.4)] transition-shadow">
-                  <div className="w-full h-full rounded-full bg-[#0E121A] flex items-center justify-center">
-                    <FiUser size={13} className="text-white group-hover:text-[#FF007F] transition-colors" />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF007F] to-[#D4006A] p-[1.5px] group-hover:shadow-[0_0_15px_rgba(255,0,127,0.4)] transition-shadow overflow-hidden">
+                  <div className="w-full h-full rounded-full bg-[#0E121A] flex items-center justify-center overflow-hidden">
+                    <img 
+                      src={getAvatarUrl(user?.email || user?.name)} 
+                      alt="avatar" 
+                      className="w-full h-full object-cover" 
+                    />
                   </div>
                 </div>
                 <span className="text-sm font-semibold text-white/90 group-hover:text-white transition-colors">
@@ -281,7 +286,10 @@ export default function Navbar() {
                 </Link>
               )}
               <Link to="/profile" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/5 text-white font-bold border border-white/10">
-                <FiUser /> My Profile
+                <div className="w-6 h-6 rounded-full overflow-hidden">
+                  <img src={getAvatarUrl(user?.email || user?.name)} alt="avatar" className="w-full h-full object-cover" />
+                </div>
+                My Profile
               </Link>
               <button onClick={() => { handleLogout(); setOpen(false) }} className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-red-500/10 text-red-400 font-bold border border-red-500/20">
                 <FiLogOut /> Logout

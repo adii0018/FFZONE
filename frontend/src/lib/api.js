@@ -61,4 +61,8 @@ export const getImageUrl = (path) => {
   return `${baseUrl}${path}`
 }
 
+export const getAvatarUrl = (seed) => {
+  return `https://api.dicebear.com/9.x/toon-head/svg?seed=${encodeURIComponent(seed || 'FFZone')}`
+}
+
 export default api
