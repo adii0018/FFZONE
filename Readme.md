@@ -1,9 +1,9 @@
-# <p align="center"><img src="assets/banner.png" alt="FFZONE Banner" width="100%"></p>
+# <p align="center"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2I1Z2R4Z2R4Z2R4Z2R4Z2R4Z2R4Z2R4Z2R4Z2R4Z2R4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/vBr86p5UuK3E4/giphy.gif" alt="FFZONE Banner" width="100%"></p>
 
 <h1 align="center">🎮 FFZONE: The Ultimate Esports Hub 🚀</h1>
 
 <p align="center">
-  <strong>Elite Tournament Platform for Tactical Gamers</strong>
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=FF00FF&center=true&vCenter=true&width=435&lines=Elite+Tournament+Platform;Cyber-Neon+Gaming+Experience;Tactical+Precision+System" alt="Typing SVG" />
 </p>
 
 <p align="center">
@@ -16,7 +16,9 @@
   <img src="https://img.shields.io/github/stars/adii0018/FFZONE?style=social" alt="Stars">
 </p>
 
----
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa273-3913-4ede-8905-1a2ff4f1ce2b.gif" width="100%">
+</p>
 
 ## 🌌 Overview
 
@@ -25,7 +27,9 @@
 > [!IMPORTANT]
 > This project follows the **Tactical Kineticism** design system—where speed meets precision.
 
----
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa273-3913-4ede-8905-1a2ff4f1ce2b.gif" width="100%">
+</p>
 
 ## ✨ Key Features
 
@@ -60,7 +64,9 @@
   </tr>
 </table>
 
----
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa273-3913-4ede-8905-1a2ff4f1ce2b.gif" width="100%">
+</p>
 
 ## 🛠️ Tech Stack
 
@@ -74,7 +80,9 @@
   <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="Postgres">
 </p>
 
----
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa273-3913-4ede-8905-1a2ff4f1ce2b.gif" width="100%">
+</p>
 
 ## 🚀 Quick Start
 
@@ -92,25 +100,6 @@ We've made it simple with automation scripts:
 | **Daily Start** | Double-click `start_servers.bat` |
 | **Safe Stop** | Double-click `stop_servers.bat` |
 
-### 🛠️ Manual Installation
-
-#### 1. Backend Setup
-```bash
-cd backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
-```
-
-#### 2. Frontend Setup
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
 ---
 
 ## 🔌 Access Points
@@ -125,12 +114,16 @@ npm run dev
 - **⚙️ Backend API**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 - **💎 Admin Panel**: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
 
----
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa273-3913-4ede-8905-1a2ff4f1ce2b.gif" width="100%">
+</p>
 
 ## 📸 Screenshots
 
 <p align="center">
-  <i>(Add your own high-quality screenshots here to wow your users!)</i>
+  <img src="assets/banner.png" alt="FFZONE Banner" width="80%">
+  <br>
+  <i>(Add more high-quality screenshots here to showcase your UI!)</i>
 </p>
 
 ---
@@ -145,7 +138,9 @@ Contributions are what make the open-source community such an amazing place to l
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
----
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa273-3913-4ede-8905-1a2ff4f1ce2b.gif" width="100%">
+</p>
 
 <p align="center">
   Made with ❤️ by <b>FFZONE Team</b>
