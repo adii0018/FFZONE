@@ -184,7 +184,7 @@ export default function Navbar() {
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF007F] to-[#D4006A] p-[1.5px] group-hover:shadow-[0_0_15px_rgba(255,0,127,0.4)] transition-shadow overflow-hidden">
                   <div className="w-full h-full rounded-full bg-[#0E121A] flex items-center justify-center overflow-hidden">
                     <img 
-                      src={getAvatarUrl(user?.email || user?.name)} 
+                      src={getAvatarUrl(user?.email)} 
                       alt="avatar" 
                       className="w-full h-full object-cover" 
                     />
@@ -287,7 +287,7 @@ export default function Navbar() {
               )}
               <Link to="/profile" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/5 text-white font-bold border border-white/10">
                 <div className="w-6 h-6 rounded-full overflow-hidden">
-                  <img src={getAvatarUrl(user?.email || user?.name)} alt="avatar" className="w-full h-full object-cover" />
+                  <img src={getAvatarUrl(user?.email)} alt="avatar" className="w-full h-full object-cover" />
                 </div>
                 My Profile
               </Link>

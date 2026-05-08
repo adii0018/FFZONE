@@ -2,10 +2,10 @@
  * FFZone – Player Profile Page
  * Stats, badges, rank, match history, avatar upload.
  */
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
-import { FiEdit2, FiCamera, FiSave, FiX, FiClipboard } from 'react-icons/fi'
+import { FiEdit2, FiSave, FiX, FiClipboard } from 'react-icons/fi'
 import { FaUser, FaMedal, FaGem, FaCrown } from 'react-icons/fa'
 import { GiFlame, GiTrophy, GiTargetShot } from 'react-icons/gi'
 import toast from 'react-hot-toast'
@@ -44,7 +44,6 @@ export default function ProfilePage() {
   const [editing, setEditing] = useState(false)
   const [name, setName]       = useState(user?.name || '')
   const [uid,  setUid]        = useState(user?.uid  || '')
-  const fileRef = useRef()
 
   const { data: profile, isLoading } = useQuery({
     queryKey: ['my-profile'],
@@ -73,13 +72,7 @@ export default function ProfilePage() {
     updateMut.mutate(fd)
   }
 
-  const handleAvatar = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const fd = new FormData()
-    fd.append('avatar', file)
-    updateMut.mutate(fd)
-  }
+
 
   const p     = profile || {}
   const rank  = p.rank || user?.rank || 'Bronze'
@@ -97,21 +90,15 @@ export default function ProfilePage() {
         {/* Profile card */}
         <div className="card p-6 mb-6">
           <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5">
-            {/* Avatar */}
             <div className="relative shrink-0">
               <div className="w-20 h-20 rounded-full border-2 overflow-hidden flex items-center justify-center"
                 style={{ borderColor: color, background: `${color}20` }}>
                 <img 
-                  src={p.avatar_url ? getImageUrl(p.avatar_url) : getAvatarUrl(p.email || p.name)} 
+                  src={getAvatarUrl(p.email || user?.email)} 
                   alt="avatar" 
                   className="w-full h-full object-cover" 
                 />
               </div>
-              <button onClick={() => fileRef.current?.click()}
-                className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[#F97316] flex items-center justify-center hover:bg-[#ea580c] transition">
-                <FiCamera size={13} className="text-white" />
-              </button>
-              <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatar} />
             </div>
 
             {/* Info */}
