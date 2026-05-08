@@ -46,11 +46,11 @@ const NotFoundPage = () => {
         </div>
 
         <h1 className="text-3xl md:text-5xl font-black text-white mb-3 tracking-tighter uppercase drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
-          ZONE NOT FOUND
+          ZONE COMPROMISED
         </h1>
         
         <p className="text-white/80 text-base md:text-lg max-w-md mx-auto mb-8 font-medium tracking-tight drop-shadow-[0_2_5px_rgba(0,0,0,1)]">
-          Looks like this chicken crossed the road to a page that doesn't exist! 
+          You've drifted outside the safe zone! This sector hasn't been mapped. Retreat to base immediately.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
