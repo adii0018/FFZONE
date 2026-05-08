@@ -39,6 +39,7 @@ import AdminPlayers       from './pages/admin/AdminPlayers'
 import AdminRoom          from './pages/admin/AdminRoom'
 import AdminResults       from './pages/admin/AdminResults'
 import AdminEditTournament from './pages/admin/AdminEditTournament'
+import NotFoundPage      from './pages/NotFoundPage'
 
 const qc = new QueryClient()
 
@@ -124,7 +125,7 @@ export default function App() {
           <Route path="/faq"     element={<><Navbar /><FAQPage /><Footer /></>} />
 
           {/* ── Catch-all ─────────────────────────────────── */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
