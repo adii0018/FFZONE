@@ -7,60 +7,56 @@ import FuzzyText from '../components/FuzzyText';
 const NotFoundPage = () => {
   return (
     <div className="min-h-screen bg-[#05070A] flex flex-col items-center justify-center relative overflow-hidden px-4">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
+        style={{ backgroundImage: "url('/404-bg.png')" }}
+      />
+      
+      {/* Gradient Overlay for Readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#05070A]/80 via-transparent to-[#05070A]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#05070A] via-transparent to-transparent" />
+
       {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+      <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#FF007F] rounded-full filter blur-[150px] animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00D2FF] rounded-full filter blur-[150px] animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
       {/* Grid Pattern */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none" />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10 text-center"
+        className="relative z-10 text-center backdrop-blur-[2px] p-8 rounded-3xl border border-white/5 bg-black/20"
       >
-        <div className="flex justify-center mb-4">
-          <motion.div
-            animate={{ 
-              rotate: [0, -10, 10, -10, 0],
-              scale: [1, 1.1, 1]
-            }}
-            transition={{ duration: 4, repeat: Infinity }}
-            className="text-[#FF007F] drop-shadow-[0_0_15px_rgba(255,0,127,0.5)]"
-          >
-            <FiAlertTriangle size={60} />
-          </motion.div>
-        </div>
-
         <div className="flex justify-center mb-2">
           <FuzzyText 
             baseIntensity={0.2}
-            hoverIntensity={0.5}
+            hoverIntensity={0.6}
             enableHover
             color="#FF007F"
-            fontSize="clamp(6rem, 20vw, 15rem)"
+            fontSize="clamp(5rem, 15vw, 12rem)"
             fontWeight={900}
           >
             404
           </FuzzyText>
         </div>
 
-        <h1 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tighter uppercase">
+        <h1 className="text-3xl md:text-5xl font-black text-white mb-3 tracking-tighter uppercase drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
           ZONE NOT FOUND
         </h1>
         
-        <p className="text-white/60 text-lg md:text-xl max-w-md mx-auto mb-10 font-medium tracking-tight">
-          Oops! It seems you've wandered into an uncharted territory. This map hasn't been rendered yet.
+        <p className="text-white/80 text-base md:text-lg max-w-md mx-auto mb-8 font-medium tracking-tight drop-shadow-[0_2_5px_rgba(0,0,0,1)]">
+          Looks like this chicken crossed the road to a page that doesn't exist! 
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link 
             to="/" 
-            className="btn-fire px-8 py-3 flex items-center gap-2 text-base font-bold uppercase tracking-wider group w-full sm:w-auto justify-center"
+            className="btn-fire px-10 py-3.5 flex items-center gap-2 text-base font-bold uppercase tracking-wider group w-full sm:w-auto justify-center glow-fire"
           >
             <FiHome size={20} />
             Back to Base
@@ -68,7 +64,7 @@ const NotFoundPage = () => {
           
           <button 
             onClick={() => window.history.back()}
-            className="px-8 py-3 border border-white/10 hover:border-[#00D2FF] hover:bg-[#00D2FF]/5 text-white/70 hover:text-[#00D2FF] transition-all duration-300 rounded-xl flex items-center gap-2 font-bold uppercase tracking-wider w-full sm:w-auto justify-center"
+            className="px-10 py-3.5 border border-white/20 bg-white/5 backdrop-blur-md hover:border-[#00D2FF] hover:bg-[#00D2FF]/10 text-white transition-all duration-300 rounded-xl flex items-center gap-2 font-bold uppercase tracking-wider w-full sm:w-auto justify-center"
           >
             <FiArrowLeft size={20} />
             Go Back
@@ -78,7 +74,6 @@ const NotFoundPage = () => {
 
       {/* Decorative Lines */}
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FF007F] to-transparent opacity-50" />
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00D2FF] to-transparent opacity-50" />
     </div>
   );
 };
