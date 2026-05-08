@@ -5,8 +5,17 @@
 
 import axios from 'axios'
 
+const getBaseURL = () => {
+  let url = import.meta.env.VITE_API_URL || '/api';
+  // Ensure it starts with http/https if it's an external domain
+  if (url.includes('onrender.com') && !url.startsWith('http')) {
+    url = `https://${url}`;
+  }
+  return url;
+};
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: getBaseURL(),
   timeout: 15000,
 })
 
