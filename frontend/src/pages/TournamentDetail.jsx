@@ -13,6 +13,8 @@ import api, { getImageUrl } from '../lib/api'
 import useAuthStore from '../store/authStore'
 import CountdownTimer from '../components/CountdownTimer'
 
+import PageLoader from '../components/PageLoader'
+
 const MAP_COLORS = { Bermuda: '#22D3EE', Purgatory: '#7C3AED', Kalahari: '#F97316' }
 const MODE_ICONS = { Solo: <FiTarget />, Duo: <FiUsers />, Squad: <GiCrossedSwords /> }
 
@@ -26,11 +28,8 @@ export default function TournamentDetail() {
     queryFn: () => api.get(`/tournaments/${id}/`).then(r => r.data),
   })
 
-  if (isLoading) return (
-    <div className="min-h-screen bg-[#0B0F1A] flex items-center justify-center">
-      <div className="w-10 h-10 border-2 border-[#F97316]/30 border-t-[#F97316] rounded-full animate-spin" />
-    </div>
-  )
+  if (isLoading) return <PageLoader />
+
 
   if (error || !t) return (
     <div className="min-h-screen bg-[#0B0F1A] flex items-center justify-center text-white/50">

@@ -12,6 +12,8 @@ import toast from 'react-hot-toast'
 import api, { getImageUrl } from '../lib/api'
 import useAuthStore from '../store/authStore'
 
+import PageLoader from '../components/PageLoader'
+
 const RANKS = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']
 const RANK_COLORS = { Bronze:'#cd7f32', Silver:'#c0c0c0', Gold:'#ffd700', Platinum:'#22D3EE', Diamond:'#b9f2ff' }
 const RANK_ICONS  = { Bronze:<FaMedal />, Silver:<FaMedal />, Gold:<FaMedal />, Platinum:<FaGem />, Diamond:<FaCrown /> }
@@ -84,11 +86,8 @@ export default function ProfilePage() {
   const color = RANK_COLORS[rank] || '#F97316'
   const history = (regsData || []).filter(r => r.tournament?.status === 'completed').slice(0, 5)
 
-  if (isLoading) return (
-    <div className="min-h-screen bg-[#0B0F1A] flex items-center justify-center">
-      <div className="w-10 h-10 border-2 border-[#F97316]/30 border-t-[#F97316] rounded-full animate-spin" />
-    </div>
-  )
+  if (isLoading) return <PageLoader />
+
 
   return (
     <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">

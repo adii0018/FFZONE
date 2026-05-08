@@ -9,6 +9,7 @@ import { GiCrossedSwords } from 'react-icons/gi'
 import api from '../lib/api'
 import { FaGamepad } from 'react-icons/fa'
 import TournamentCard from '../components/TournamentCard'
+import PageLoader from '../components/PageLoader'
 
 const MODES   = ['All', 'Solo', 'Duo', 'Squad']
 const STATUSES= ['All', 'upcoming', 'live', 'completed']
@@ -35,6 +36,8 @@ export default function TournamentsPage() {
   const tournaments = data?.tournaments || []
   const total       = data?.total || 0
   const totalPages  = Math.ceil(total / 12)
+
+  if (isLoading && !data) return <PageLoader />
 
   return (
     <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
@@ -94,20 +97,7 @@ export default function TournamentsPage() {
         </div>
 
         {/* Grid */}
-        {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="card h-72 animate-pulse">
-                <div className="h-36 bg-white/5 rounded-t-xl" />
-                <div className="p-4 space-y-3">
-                  <div className="h-4 bg-white/5 rounded w-3/4" />
-                  <div className="h-3 bg-white/5 rounded w-1/2" />
-                  <div className="h-8 bg-white/5 rounded" />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : tournaments.length > 0 ? (
+        {tournaments.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {tournaments.map(t => <TournamentCard key={t._id} tournament={t} />)}
           </div>

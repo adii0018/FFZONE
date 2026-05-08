@@ -10,6 +10,8 @@ import { FaTrophy } from 'react-icons/fa'
 import { format } from 'date-fns'
 import api from '../lib/api'
 
+import PageLoader from '../components/PageLoader'
+
 const STATUS_BADGE = {
   pending:  { label: 'Pending',  cls: 'badge-open',      icon: <FiClock /> },
   approved: { label: 'Approved', cls: 'badge-upcoming',  icon: <FiCheck /> },
@@ -52,11 +54,8 @@ export default function MatchesPage() {
     queryFn:  () => api.get('/tournaments/my-registrations/').then(r => r.data),
   })
 
-  if (isLoading) return (
-    <div className="min-h-screen bg-[#0B0F1A] flex items-center justify-center">
-      <div className="w-10 h-10 border-2 border-[#F97316]/30 border-t-[#F97316] rounded-full animate-spin" />
-    </div>
-  )
+  if (isLoading) return <PageLoader />
+
 
   return (
     <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
