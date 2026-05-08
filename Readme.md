@@ -10,6 +10,9 @@
   <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="Maintained">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License">
   <img src="https://img.shields.io/badge/Theme-Cyber--Neon-ff69b4.svg" alt="Theme">
+  <br>
+  <img src="https://img.shields.io/badge/Vercel-Deployed-000000?style=flat&logo=vercel&logoColor=white" alt="Vercel">
+  <img src="https://img.shields.io/badge/Render-Deployed-46E3B7?style=flat&logo=render&logoColor=white" alt="Render">
   <img src="https://img.shields.io/github/stars/adii0018/FFZONE?style=social" alt="Stars">
 </p>
 
@@ -112,6 +115,12 @@ npm run dev
 
 ## 🔌 Access Points
 
+### 🌐 Production (Live)
+- **🌍 Frontend**: [https://ffzone.vercel.app/](https://ffzone.vercel.app/)
+- **⚙️ Backend API**: [https://ffzone.onrender.com](https://ffzone.onrender.com)
+- **💎 Admin Panel**: [https://ffzone.onrender.com/admin](https://ffzone.onrender.com/admin)
+
+### 💻 Local Development
 - **🌍 Frontend**: [http://localhost:5173](http://localhost:5173)
 - **⚙️ Backend API**: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 - **💎 Admin Panel**: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
