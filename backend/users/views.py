@@ -82,23 +82,29 @@ def register(request):
     )
 
     # Store extended profile in MongoDB
-    db = get_db()
-    db.users.insert_one({
-        "django_id": user.id,
-        "name":      data["name"],
-        "email":     email,
-        "phone":     data["phone"],
-        "uid":       data["uid"],
-        "rank":      "Bronze",
-        "badges":    [],
-        "kills":     0,
-        "wins":      0,
-        "matches":   0,
-        "avatar_url": "",
-        "is_banned":  False,
-        "is_admin":   False,
-        "created_at": datetime.utcnow(),
-    })
+    try:
+        db = get_db()
+        db.users.insert_one({
+            "django_id": user.id,
+            "name":      data["name"],
+            "email":     email,
+            "phone":     data["phone"],
+            "uid":       data["uid"],
+            "rank":      "Bronze",
+            "badges":    [],
+            "kills":     0,
+            "wins":      0,
+            "matches":   0,
+            "avatar_url": "",
+            "is_banned":  False,
+            "is_admin":   False,
+            "created_at": datetime.utcnow(),
+        })
+    except Exception as e:
+        # If MongoDB fails, we should probably delete the Django user to allow retry
+        user.delete()
+        return Response({"error": str(e)}, status=500)
+
     tokens = _tokens_for_user(user)
     return Response({"message": "Registration successful.", **tokens}, status=201)
 
@@ -124,8 +130,11 @@ def login(request):
     if user.is_banned:
         return Response({"error": "Your account has been banned."}, status=403)
 
-    db = get_db()
-    profile = db.users.find_one({"django_id": user.id}, {"_id": 0})
+    try:
+        db = get_db()
+        profile = db.users.find_one({"django_id": user.id}, {"_id": 0})
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
 
     tokens = _tokens_for_user(user)
     return Response({

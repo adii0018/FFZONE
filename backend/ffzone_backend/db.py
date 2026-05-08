@@ -17,17 +17,22 @@ def get_db():
     global _client, _db
     if _db is None:
         try:
+            if not settings.MONGO_URI:
+                raise ValueError("MONGO_URI is not set in environment variables!")
+            
             _client = MongoClient(settings.MONGO_URI, serverSelectionTimeoutMS=5000)
-            _db = _client[settings.MONGO_DB_NAME]
-            # Trigger a simple command to check connection
+            # Ensure connection is valid
             _client.admin.command('ping')
+            
+            _db = _client[settings.MONGO_DB_NAME]
             _ensure_indexes(_db)
             print("Successfully connected to MongoDB Atlas")
         except Exception as e:
             print(f"CRITICAL: Failed to connect to MongoDB! Error: {e}")
-            print(f"Used MONGO_URI starting with: {settings.MONGO_URI[:15]}...")
+            print(f"Used MONGO_URI starting with: {settings.MONGO_URI[:25]}...")
             _db = None
-            raise e
+            # We raise a custom exception that can be caught in views
+            raise ConnectionError(f"Database connection failed. Please check if your IP is whitelisted in MongoDB Atlas. Error: {str(e)}")
     return _db
 
 
