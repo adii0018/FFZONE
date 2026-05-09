@@ -17,13 +17,13 @@ const FAKE_RANKS = [
 
 export default function LeaderboardPage() {
   return (
-    <div className="min-h-screen bg-[#0B0F1A] relative overflow-hidden">
+    <div className="min-h-screen bg-[#050d1a] relative overflow-hidden">
 
       {/* Animated background */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#F97316]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#00f5ff]/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#7C3AED]/5 blur-[120px] pointer-events-none" />
-      <div className="absolute top-20 right-10 w-32 h-32 rounded-full border border-[#F97316]/10 animate-spin-slow pointer-events-none" />
+      <div className="absolute top-20 right-10 w-32 h-32 rounded-full border border-[#00f5ff]/10 animate-spin-slow pointer-events-none" />
       <div className="absolute bottom-20 left-10 w-20 h-20 rounded-full border border-[#7C3AED]/15 animate-spin-slow pointer-events-none" style={{ animationDuration: '15s' }} />
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 py-20 flex flex-col items-center text-center">
@@ -35,12 +35,12 @@ export default function LeaderboardPage() {
           transition={{ type: 'spring', stiffness: 120, damping: 12 }}
           className="mb-8 relative"
         >
-          <div className="w-28 h-28 rounded-full bg-gradient-to-br from-[#F97316]/20 to-[#7C3AED]/20 border border-[#F97316]/30 flex items-center justify-center glow-fire mx-auto">
-            <GiPodium size={56} className="text-[#F97316]" />
+          <div className="w-28 h-28 rounded-full bg-gradient-to-br from-[#00f5ff]/20 to-[#7C3AED]/20 border border-[#00f5ff]/30 flex items-center justify-center glow-fire mx-auto">
+            <GiPodium size={56} className="text-[#00f5ff]" />
           </div>
           {/* Orbiting dot */}
           <div className="absolute inset-0 animate-spin-slow">
-            <div className="w-3 h-3 rounded-full bg-[#F97316] absolute -top-1 left-1/2 -translate-x-1/2 shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
+            <div className="w-3 h-3 rounded-full bg-[#00f5ff] absolute -top-1 left-1/2 -translate-x-1/2 shadow-[0_0_10px_rgba(249,115,22,0.8)]" />
           </div>
         </motion.div>
 
@@ -50,12 +50,12 @@ export default function LeaderboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
         >
-          <span className="inline-flex items-center gap-2 bg-[#F97316]/10 border border-[#F97316]/30 rounded-full px-4 py-1.5 text-xs text-[#F97316] font-bold mb-5 uppercase tracking-widest">
+          <span className="inline-flex items-center gap-2 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-full px-4 py-1.5 text-xs text-[#00f5ff] font-bold mb-5 uppercase tracking-widest">
             <FiClock size={12} className="animate-pulse" /> Coming Soon
           </span>
           <h1 className="text-4xl md:text-6xl font-black text-white mb-4 leading-tight">
             Global{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F97316] to-[#ea580c] text-glow-fire">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] to-[#ea580c] text-glow-fire">
               Leaderboard
             </span>
           </h1>
@@ -73,8 +73,8 @@ export default function LeaderboardPage() {
           className="w-full mt-12 relative"
         >
           {/* Blur overlay */}
-          <div className="absolute inset-0 z-10 backdrop-blur-[6px] bg-[#0B0F1A]/40 rounded-2xl flex flex-col items-center justify-center gap-3 border border-white/5">
-            <GiTrophy size={36} className="text-[#F97316] animate-pulse-glow" />
+          <div className="absolute inset-0 z-10 backdrop-blur-[6px] bg-[#050d1a]/40 rounded-2xl flex flex-col items-center justify-center gap-3 border border-white/5">
+            <GiTrophy size={36} className="text-[#00f5ff] animate-pulse-glow" />
             <p className="text-white font-black text-lg">Unlocks Soon</p>
             <p className="text-white/40 text-sm">Be ready to claim your rank 🔥</p>
           </div>

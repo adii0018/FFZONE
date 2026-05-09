@@ -15,7 +15,7 @@ import CountdownTimer from '../components/CountdownTimer'
 
 import PageLoader from '../components/PageLoader'
 
-const MAP_COLORS = { Bermuda: '#22D3EE', Purgatory: '#7C3AED', Kalahari: '#F97316' }
+const MAP_COLORS = { Bermuda: '#0066ff', Purgatory: '#7C3AED', Kalahari: '#00f5ff' }
 const MODE_ICONS = { Solo: <FiTarget />, Duo: <FiUsers />, Squad: <GiCrossedSwords /> }
 
 export default function TournamentDetail() {
@@ -32,19 +32,19 @@ export default function TournamentDetail() {
 
 
   if (error || !t) return (
-    <div className="min-h-screen bg-[#0B0F1A] flex items-center justify-center text-white/50">
+    <div className="min-h-screen bg-[#050d1a] flex items-center justify-center text-white/50">
       Tournament not found.
     </div>
   )
 
-  const mapColor  = MAP_COLORS[t.map] || '#F97316'
+  const mapColor  = MAP_COLORS[t.map] || '#00f5ff'
   const fillPct   = Math.min(100, Math.round(((t.filled_slots || 0) / t.max_slots) * 100))
   const shareUrl  = window.location.href
   const isFull    = (t.filled_slots || 0) >= t.max_slots
   const isClosed  = t.status === 'completed' || t.status === 'cancelled'
 
   return (
-    <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
+    <div className="min-h-screen bg-[#050d1a] py-8 px-4">
       <div className="max-w-4xl mx-auto">
 
         {/* Back */}
@@ -57,11 +57,11 @@ export default function TournamentDetail() {
           {t.banner ? (
             <img src={getImageUrl(t.banner)} alt={t.title} className="w-full h-full object-cover opacity-60" />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-[#1a1f2e] to-[#0B0F1A] flex items-center justify-center">
-              <GiCrossedSwords size={80} color="#F97316" className="opacity-20" />
+            <div className="w-full h-full bg-gradient-to-br from-[#071428] to-[#050d1a] flex items-center justify-center">
+              <GiCrossedSwords size={80} color="#00f5ff" className="opacity-20" />
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F1A] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050d1a] via-transparent to-transparent" />
           <div className="absolute bottom-6 left-6">
             <span className={`badge ${t.status === 'live' ? 'badge-live' : t.status === 'upcoming' ? 'badge-upcoming' : 'badge-completed'} mb-2`}>
               {t.status?.toUpperCase()}
@@ -78,8 +78,8 @@ export default function TournamentDetail() {
             {/* Stats row */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {[
-                { label: 'Prize Pool', value: `₹${t.prize_pool?.toLocaleString()}`, color: '#F97316', icon: GiTrophy },
-                { label: 'Entry Fee',  value: `₹${t.entry_fee}`,  color: '#22D3EE', icon: GiTargetShot },
+                { label: 'Prize Pool', value: `₹${t.prize_pool?.toLocaleString()}`, color: '#00f5ff', icon: GiTrophy },
+                { label: 'Entry Fee',  value: `₹${t.entry_fee}`,  color: '#0066ff', icon: GiTargetShot },
                 { label: 'Mode',       value: <span className="flex items-center justify-center gap-1">{MODE_ICONS[t.mode]} {t.mode}</span>, color: '#7C3AED', icon: GiCrossedSwords },
                 { label: 'Map',        value: t.map,              color: mapColor,   icon: FiMapPin },
               ].map(({ label, value, color, icon: Icon }) => (
@@ -128,15 +128,15 @@ export default function TournamentDetail() {
             {/* Room info (approved players only) */}
             {t.room_id && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                className="card p-5 border-[#22D3EE]/30 glow-cyan">
-                <h3 className="text-[#22D3EE] font-bold mb-3 flex items-center gap-2"><FaGamepad /> Room Details</h3>
+                className="card p-5 border-[#0066ff]/30 glow-cyan">
+                <h3 className="text-[#0066ff] font-bold mb-3 flex items-center gap-2"><FaGamepad /> Room Details</h3>
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-[#22D3EE]/10 rounded-lg p-3 text-center">
-                    <div className="text-[#22D3EE] font-mono font-black text-lg">{t.room_id}</div>
+                  <div className="bg-[#0066ff]/10 rounded-lg p-3 text-center">
+                    <div className="text-[#0066ff] font-mono font-black text-lg">{t.room_id}</div>
                     <div className="text-white/40 text-xs">Room ID</div>
                   </div>
-                  <div className="bg-[#22D3EE]/10 rounded-lg p-3 text-center">
-                    <div className="text-[#22D3EE] font-mono font-black text-lg">{t.room_password}</div>
+                  <div className="bg-[#0066ff]/10 rounded-lg p-3 text-center">
+                    <div className="text-[#0066ff] font-mono font-black text-lg">{t.room_password}</div>
                     <div className="text-white/40 text-xs">Password</div>
                   </div>
                 </div>
@@ -148,7 +148,7 @@ export default function TournamentDetail() {
           <div className="space-y-4">
             <div className="card p-5 sticky top-20">
               <div className="text-center mb-4">
-                <div className="text-2xl font-black text-[#F97316]">₹{t.prize_pool?.toLocaleString()}</div>
+                <div className="text-2xl font-black text-[#00f5ff]">₹{t.prize_pool?.toLocaleString()}</div>
                 <div className="text-white/40 text-xs">Total Prize Pool</div>
               </div>
 

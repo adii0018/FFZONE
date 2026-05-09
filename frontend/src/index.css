@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg:       #05070A;
-  --color-surface:  #0E121A;
-  --color-neon:     #FF007F;
+  --color-bg:       #050d1a;
+  --color-surface:  #071428;
+  --color-neon:     #00f5ff;
   --color-cyber:    #00FF9C;
-  --color-accent:   #00D2FF;
-  --color-border:   rgba(255,0,127,0.2);
+  --color-accent:   #0066ff;
+  --color-border:   rgba(0,245,255,0.2);
   --font-sans: 'Outfit', 'Inter', system-ui, sans-serif;
 }
 
@@ -20,7 +20,7 @@
   }
 
   body {
-    background-color: #05070A;
+    background-color: #050d1a;
     color: #ffffff;
     font-family: 'Outfit', 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -52,21 +52,21 @@
   }
 
   ::-webkit-scrollbar        { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track  { background: #05070A; }
-  ::-webkit-scrollbar-thumb  { background: #FF007F; border-radius: 3px; }
+  ::-webkit-scrollbar-track  { background: #050d1a; }
+  ::-webkit-scrollbar-thumb  { background: #00f5ff; border-radius: 3px; }
 
-  ::selection { background: rgba(255,0,127,0.3); }
+  ::selection { background: rgba(0,245,255,0.3); }
 }
 
 @layer components {
   /* ─── Glow utilities ─────────────────────────────────── */
-  .glow-fire   { box-shadow: 0 0 20px rgba(255,0,127,0.4), 0 0 60px rgba(255,0,127,0.15); }
+  .glow-fire   { box-shadow: 0 0 20px rgba(0,245,255,0.4), 0 0 60px rgba(0,245,255,0.15); }
   .glow-purple { box-shadow: 0 0 20px rgba(0,255,156,0.4), 0 0 60px rgba(0,255,156,0.15); }
-  .glow-cyan   { box-shadow: 0 0 20px rgba(0,210,255,0.4), 0 0 60px rgba(0,210,255,0.15); }
+  .glow-cyan   { box-shadow: 0 0 20px rgba(0,102,255,0.4), 0 0 60px rgba(0,102,255,0.15); }
 
-  .text-glow-fire   { text-shadow: 0 0 20px rgba(255,0,127,0.8); }
+  .text-glow-fire   { text-shadow: 0 0 20px rgba(0,245,255,0.8); }
   .text-glow-purple { text-shadow: 0 0 20px rgba(0,255,156,0.8); }
-  .text-glow-cyan   { text-shadow: 0 0 20px rgba(0,210,255,0.8); }
+  .text-glow-cyan   { text-shadow: 0 0 20px rgba(0,102,255,0.8); }
 
   /* ─── Touch utilities ────────────────────────────────── */
   .touch-manipulation { 
@@ -84,21 +84,21 @@
 
   /* ─── Card ───────────────────────────────────────────── */
   .card {
-    background: #0E121A;
-    border: 1px solid rgba(255,0,127,0.15);
+    background: #071428;
+    border: 1px solid rgba(0,245,255,0.15);
     border-radius: 1rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .card:hover {
-    border-color: rgba(255,0,127,0.5);
-    box-shadow: 0 0 30px rgba(255,0,127,0.15);
+    border-color: rgba(0,245,255,0.5);
+    box-shadow: 0 0 30px rgba(0,245,255,0.15);
     transform: translateY(-2px);
   }
 
   /* ─── Buttons ────────────────────────────────────────── */
   .btn-fire {
-    background: linear-gradient(135deg, #FF007F, #D4006A);
-    color: #fff;
+    background: linear-gradient(135deg, #00f5ff, #0066ff);
+    color: #050d1a;
     font-weight: 700;
     padding: 0.625rem 1.5rem;
     border-radius: 0.5rem;
@@ -109,32 +109,32 @@
     text-transform: uppercase;
   }
   .btn-fire:hover {
-    background: linear-gradient(135deg, #FF2E97, #FF007F);
-    box-shadow: 0 0 25px rgba(255,0,127,0.6);
+    background: linear-gradient(135deg, #33f7ff, #00f5ff);
+    box-shadow: 0 0 25px rgba(0,245,255,0.6);
     transform: translateY(-1px);
   }
   .btn-fire:active { transform: translateY(0); }
 
   .btn-ghost {
     background: transparent;
-    color: #FF007F;
+    color: #00f5ff;
     font-weight: 700;
     padding: 0.625rem 1.5rem;
     border-radius: 0.5rem;
-    border: 1px solid rgba(255,0,127,0.4);
+    border: 1px solid rgba(0,245,255,0.4);
     cursor: pointer;
     transition: all 0.2s;
     text-transform: uppercase;
   }
   .btn-ghost:hover {
-    background: rgba(255,0,127,0.05);
-    border-color: #FF007F;
-    box-shadow: 0 0 20px rgba(255,0,127,0.3);
+    background: rgba(0,245,255,0.05);
+    border-color: #00f5ff;
+    box-shadow: 0 0 20px rgba(0,245,255,0.3);
   }
 
   .btn-cyan {
-    background: linear-gradient(135deg, #00FF9C, #00D2FF);
-    color: #05070A;
+    background: linear-gradient(135deg, #00FF9C, #00f5ff);
+    color: #050d1a;
     font-weight: 700;
     padding: 0.625rem 1.5rem;
     border-radius: 0.5rem;
@@ -149,8 +149,8 @@
   }
 
   /* ─── Status badges ──────────────────────────────────── */
-  .badge-live     { background: rgba(255,0,127,0.15); color: #FF007F; border: 1px solid rgba(255,0,127,0.4); }
-  .badge-upcoming { background: rgba(0,210,255,0.1); color: #00D2FF; border: 1px solid rgba(0,210,255,0.4); }
+  .badge-live     { background: rgba(0,245,255,0.15); color: #00f5ff; border: 1px solid rgba(0,245,255,0.4); }
+  .badge-upcoming { background: rgba(0,102,255,0.1); color: #0066ff; border: 1px solid rgba(0,102,255,0.4); }
   .badge-open     { background: rgba(0,255,156,0.1); color: #00FF9C; border: 1px solid rgba(0,255,156,0.4); }
   .badge-completed{ background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); }
 
@@ -169,7 +169,7 @@
   /* ─── Input ──────────────────────────────────────────── */
   .input-dark {
     background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,0,127,0.2);
+    border: 1px solid rgba(0,245,255,0.2);
     border-radius: 0.5rem;
     color: #fff;
     padding: 0.625rem 1rem;
@@ -178,9 +178,9 @@
     outline: none;
   }
   .input-dark:focus {
-    border-color: #FF007F;
-    box-shadow: 0 0 0 2px rgba(255,0,127,0.1), 0 0 15px rgba(255,0,127,0.1);
-    background: rgba(255,0,127,0.02);
+    border-color: #00f5ff;
+    box-shadow: 0 0 0 2px rgba(0,245,255,0.1), 0 0 15px rgba(0,245,255,0.1);
+    background: rgba(0,245,255,0.02);
   }
   .input-dark::placeholder { color: rgba(255,255,255,0.2); }
 
@@ -192,7 +192,7 @@
     overflow: hidden;
   }
   .slot-bar-fill {
-    background: linear-gradient(90deg, #FF007F, #00FF9C);
+    background: linear-gradient(90deg, #00f5ff, #00FF9C);
     height: 100%;
     border-radius: 2px;
     transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -201,8 +201,8 @@
   /* ─── Animated grid background ───────────────────────── */
   .grid-bg {
     background-image:
-      linear-gradient(rgba(255,0,127,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,0,127,0.05) 1px, transparent 1px);
+      linear-gradient(rgba(0,245,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.05) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 

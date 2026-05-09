@@ -28,8 +28,8 @@ function KillLeaderboard({ tournamentId }) {
 
   const top5 = data.slice(0, 5)
   return (
-    <div className="mt-3 bg-[#0B0F1A] rounded-xl p-3 border border-white/5">
-      <h4 className="text-white/60 text-xs font-bold uppercase mb-2 flex items-center gap-1"><FaTrophy className="text-[#F97316]" /> Leaderboard</h4>
+    <div className="mt-3 bg-[#050d1a] rounded-xl p-3 border border-white/5">
+      <h4 className="text-white/60 text-xs font-bold uppercase mb-2 flex items-center gap-1"><FaTrophy className="text-[#00f5ff]" /> Leaderboard</h4>
       {top5.map((r, i) => (
         <div key={r._id} className="flex items-center justify-between py-1 border-b border-white/5 last:border-0">
           <div className="flex items-center gap-2">
@@ -39,7 +39,7 @@ function KillLeaderboard({ tournamentId }) {
             <span className="text-white/80 text-xs">{r.user_name || `Player ${r.user_id}`}</span>
           </div>
           <div className="flex items-center gap-3 text-xs">
-            <span className="text-[#F97316]">{r.kills} kills</span>
+            <span className="text-[#00f5ff]">{r.kills} kills</span>
             {r.prize_won > 0 && <span className="text-yellow-400">₹{r.prize_won}</span>}
           </div>
         </div>
@@ -58,9 +58,9 @@ export default function MatchesPage() {
 
 
   return (
-    <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
+    <div className="min-h-screen bg-[#050d1a] py-8 px-4">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-black text-white mb-2 flex items-center gap-2"><GiCrossedSwords className="text-[#F97316]" /> My Matches</h1>
+        <h1 className="text-3xl font-black text-white mb-2 flex items-center gap-2"><GiCrossedSwords className="text-[#00f5ff]" /> My Matches</h1>
         <p className="text-white/50 text-sm mb-8">All tournaments you've joined</p>
 
         {!regs?.length ? (
@@ -94,17 +94,17 @@ export default function MatchesPage() {
 
                   {/* Room info */}
                   {reg.status === 'approved' && t.room_id ? (
-                    <div className="bg-[#22D3EE]/10 border border-[#22D3EE]/20 rounded-xl p-4 mb-3">
-                      <div className="flex items-center gap-2 text-[#22D3EE] text-xs font-bold mb-2">
+                    <div className="bg-[#0066ff]/10 border border-[#0066ff]/20 rounded-xl p-4 mb-3">
+                      <div className="flex items-center gap-2 text-[#0066ff] text-xs font-bold mb-2">
                         <FiUnlock size={12} /> Room Access Granted
                       </div>
                       <div className="grid grid-cols-2 gap-3 text-center">
                         <div>
-                          <div className="text-[#22D3EE] font-mono font-black">{t.room_id}</div>
+                          <div className="text-[#0066ff] font-mono font-black">{t.room_id}</div>
                           <div className="text-white/40 text-[10px]">Room ID</div>
                         </div>
                         <div>
-                          <div className="text-[#22D3EE] font-mono font-black">{t.room_password}</div>
+                          <div className="text-[#0066ff] font-mono font-black">{t.room_password}</div>
                           <div className="text-white/40 text-[10px]">Password</div>
                         </div>
                       </div>
@@ -117,7 +117,7 @@ export default function MatchesPage() {
 
                   {/* Prize pool */}
                   <div className="flex items-center justify-between">
-                    <span className="text-[#F97316] text-sm font-bold">₹{t.prize_pool?.toLocaleString()} Prize Pool</span>
+                    <span className="text-[#00f5ff] text-sm font-bold">₹{t.prize_pool?.toLocaleString()} Prize Pool</span>
                     <Link to={`/tournament/${t.id}`} className="text-white/40 hover:text-white text-xs transition">
                       View Details →
                     </Link>

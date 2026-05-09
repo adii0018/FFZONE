@@ -39,7 +39,7 @@ export default function AdminTournaments() {
     <AdminLayout>
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-black text-white flex items-center gap-2"><FaTrophy className="text-[#FF007F]" /> Tournaments</h1>
+          <h1 className="text-2xl font-black text-white flex items-center gap-2"><FaTrophy className="text-[#00f5ff]" /> Tournaments</h1>
           <Link to="/admin/tournaments/create" className="btn-fire text-sm">+ Create New</Link>
         </div>
 
@@ -69,7 +69,7 @@ export default function AdminTournaments() {
                   <select
                     value={t.status}
                     onChange={e => statusMut.mutate({ id: t._id, status: e.target.value })}
-                    className="bg-[#0B0F1A] border border-white/10 text-white/70 text-xs rounded-lg px-2 py-1.5 outline-none focus:border-[#FF007F] w-full md:w-auto"
+                    className="bg-[#071428] border border-white/10 text-white/70 text-xs rounded-lg px-2 py-1.5 outline-none focus:border-[#00f5ff] w-full md:w-auto"
                   >
                     {STATUS_OPTS.map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase()+s.slice(1)}</option>)}
                   </select>
@@ -77,11 +77,11 @@ export default function AdminTournaments() {
                   {/* Actions */}
                   <div className="flex items-center gap-2 shrink-0">
                     <Link to={`/admin/tournaments/edit/${t._id}`} title="Edit Tournament"
-                      className="w-8 h-8 rounded-lg bg-[#FF007F]/10 border border-[#FF007F]/20 text-[#FF007F] flex items-center justify-center hover:bg-[#FF007F]/20 transition">
+                      className="w-8 h-8 rounded-lg bg-[#00f5ff]/10 border border-[#00f5ff]/20 text-[#00f5ff] flex items-center justify-center hover:bg-[#00f5ff]/20 transition">
                       <FiEdit2 size={13} />
                     </Link>
                     <Link to={`/admin/room/${t._id}`} title="Set Room Info"
-                      className="w-8 h-8 rounded-lg bg-[#22D3EE]/10 border border-[#22D3EE]/20 text-[#22D3EE] flex items-center justify-center hover:bg-[#22D3EE]/20 transition">
+                      className="w-8 h-8 rounded-lg bg-[#0066ff]/10 border border-[#0066ff]/20 text-[#0066ff] flex items-center justify-center hover:bg-[#0066ff]/20 transition">
                       <FiKey size={13} />
                     </Link>
                     <Link to={`/admin/results/${t._id}`} title="Enter Results"

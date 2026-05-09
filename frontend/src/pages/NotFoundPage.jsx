@@ -6,7 +6,7 @@ import FuzzyText from '../components/FuzzyText';
 
 const NotFoundPage = () => {
   return (
-    <div className="min-h-screen bg-[#05070A] flex flex-col items-center justify-center relative overflow-hidden px-4">
+    <div className="min-h-screen bg-[#050d1a] flex flex-col items-center justify-center relative overflow-hidden px-4">
       {/* Background Image with Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
@@ -14,13 +14,13 @@ const NotFoundPage = () => {
       />
       
       {/* Gradient Overlay for Readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#05070A]/80 via-transparent to-[#05070A]" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#05070A] via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050d1a]/80 via-transparent to-[#050d1a]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#050d1a] via-transparent to-transparent" />
 
       {/* Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#FF007F] rounded-full filter blur-[150px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00D2FF] rounded-full filter blur-[150px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#00f5ff] rounded-full filter blur-[150px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#0066ff] rounded-full filter blur-[150px] animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
 
       {/* Grid Pattern */}
@@ -37,7 +37,7 @@ const NotFoundPage = () => {
             baseIntensity={0.2}
             hoverIntensity={0.6}
             enableHover
-            color="#FF007F"
+            color="#00f5ff"
             fontSize="clamp(5rem, 15vw, 12rem)"
             fontWeight={900}
           >
@@ -73,7 +73,7 @@ const NotFoundPage = () => {
       </motion.div>
 
       {/* Decorative Lines */}
-      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#FF007F] to-transparent opacity-50" />
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00f5ff] to-transparent opacity-50" />
     </div>
   );
 };

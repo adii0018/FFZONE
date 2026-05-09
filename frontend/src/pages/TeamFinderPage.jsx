@@ -22,7 +22,7 @@ function PostCard({ post, onFill, isOwn }) {
       <div className="flex items-start justify-between gap-2 mb-3">
         <div>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-[#F97316]/20 border border-[#F97316]/30 flex items-center justify-center text-[#F97316] font-bold text-sm">
+            <div className="w-8 h-8 rounded-full bg-[#00f5ff]/20 border border-[#00f5ff]/30 flex items-center justify-center text-[#00f5ff] font-bold text-sm">
               {post.user_name?.[0]?.toUpperCase() || '?'}
             </div>
             <span className="text-white font-semibold">{post.user_name}</span>
@@ -87,7 +87,7 @@ export default function TeamFinderPage() {
   })
 
   return (
-    <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
+    <div className="min-h-screen bg-[#050d1a] py-8 px-4">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -111,7 +111,7 @@ export default function TeamFinderPage() {
                 {['Duo', 'Squad'].map(m => (
                   <button key={m} onClick={() => setFormMode(m)}
                     className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all border ${
-                      formMode === m ? 'bg-[#F97316] text-white border-[#F97316]' : 'text-white/50 border-white/10 hover:text-white'
+                      formMode === m ? 'bg-[#00f5ff] text-white border-[#00f5ff]' : 'text-white/50 border-white/10 hover:text-white'
                     }`}>
                     {m}
                   </button>
@@ -141,7 +141,7 @@ export default function TeamFinderPage() {
           {MODES.map(m => (
             <button key={m} onClick={() => setMode(m)}
               className={`px-4 py-1.5 rounded-full text-sm font-bold transition-all ${
-                mode === m ? 'bg-[#F97316] text-white' : 'text-white/50 border border-white/10 hover:text-white'
+                mode === m ? 'bg-[#00f5ff] text-white' : 'text-white/50 border border-white/10 hover:text-white'
               }`}>
               {m}
             </button>

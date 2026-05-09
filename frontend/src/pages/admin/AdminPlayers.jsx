@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 import api from '../../lib/api'
 import AdminLayout from './AdminLayout'
 
-const RANK_COLORS = { Bronze:'#cd7f32', Silver:'#c0c0c0', Gold:'#ffd700', Platinum:'#22D3EE', Diamond:'#b9f2ff' }
+const RANK_COLORS = { Bronze:'#cd7f32', Silver:'#c0c0c0', Gold:'#ffd700', Platinum:'#0066ff', Diamond:'#b9f2ff' }
 
 export default function AdminPlayers() {
   const qc = useQueryClient()
@@ -59,7 +59,7 @@ export default function AdminPlayers() {
         ) : (
           <div className="space-y-2">
             {filtered.map(p => {
-              const rankColor = RANK_COLORS[p.rank] || '#F97316'
+              const rankColor = RANK_COLORS[p.rank] || '#00f5ff'
               return (
                 <div key={p._id} className={`card p-4 flex items-center gap-4 ${p.is_banned ? 'opacity-50' : ''}`}>
                   <div className="w-10 h-10 rounded-full border flex items-center justify-center font-black shrink-0"

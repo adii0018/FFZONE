@@ -43,20 +43,20 @@ export default function TournamentsPage() {
   if (isLoading && !data) return <PageLoader />
 
   return (
-    <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
+    <div className="min-h-screen bg-[#050d1a] py-8 px-4">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-black text-white mb-1 flex items-center gap-2">
-            <FaGamepad className="text-[#F97316]" /> Tournaments
+            <FaGamepad className="text-[#00f5ff]" /> Tournaments
           </h1>
           <p className="text-white/50 text-sm">{total} tournaments available</p>
         </div>
 
         {/* Filters */}
         <div className="card p-4 sm:p-5 mb-8 flex flex-col sm:flex-row flex-wrap gap-4 items-start sm:items-center">
-          <div className="flex items-center gap-2 text-[#F97316] font-bold text-sm w-full sm:w-auto">
+          <div className="flex items-center gap-2 text-[#00f5ff] font-bold text-sm w-full sm:w-auto">
             <FiFilter size={18} />
             <span className="sm:hidden">Filters</span>
           </div>
@@ -66,7 +66,7 @@ export default function TournamentsPage() {
             {STATUSES.map(s => (
               <button key={s} onClick={() => { setStatus(s); setPage(1) }}
                 className={`px-4 py-2.5 rounded-full text-xs font-bold transition-all touch-manipulation min-h-[44px] ${
-                  status===s ? 'bg-[#F97316] text-white' : 'text-white/50 hover:text-white border border-white/10 hover:border-white/30'
+                  status===s ? 'bg-[#00f5ff] text-white' : 'text-white/50 hover:text-white border border-white/10 hover:border-white/30'
                 }`}
                 style={{ WebkitTapHighlightColor: 'transparent' }}
               >
@@ -98,7 +98,7 @@ export default function TournamentsPage() {
             {MAPS.map(mp => (
               <button key={mp} onClick={() => { setMap(mp); setPage(1) }}
                 className={`px-4 py-2.5 rounded-full text-xs font-bold transition-all touch-manipulation min-h-[44px] ${
-                  map===mp ? 'bg-[#22D3EE] text-[#0B0F1A]' : 'text-white/50 hover:text-white border border-white/10 hover:border-white/30'
+                  map===mp ? 'bg-[#0066ff] text-[#050d1a]' : 'text-white/50 hover:text-white border border-white/10 hover:border-white/30'
                 }`}
                 style={{ WebkitTapHighlightColor: 'transparent' }}
               >
@@ -133,7 +133,7 @@ export default function TournamentsPage() {
             {[...Array(totalPages)].map((_, i) => (
               <button key={i} onClick={() => setPage(i+1)}
                 className={`w-12 h-12 sm:w-10 sm:h-10 rounded-lg text-sm font-bold transition-all touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center ${
-                  page===i+1 ? 'bg-[#F97316] text-white' : 'card text-white/50 hover:text-white'
+                  page===i+1 ? 'bg-[#00f5ff] text-white' : 'card text-white/50 hover:text-white'
                 }`}
                 style={{ WebkitTapHighlightColor: 'transparent' }}
                 aria-label={`Page ${i+1}`}

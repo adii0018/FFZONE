@@ -81,7 +81,7 @@ export default function PaymentPage() {
             toast.success('Payment verified! You are registered 🔥')
           } catch { toast.error('Verification failed. Contact support.') }
         },
-        theme: { color: '#F97316' },
+        theme: { color: '#00f5ff' },
       })
       rzp.open()
     } catch (err) {
@@ -90,7 +90,7 @@ export default function PaymentPage() {
   }
 
   if (done) return (
-    <div className="min-h-screen bg-[#0B0F1A] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#050d1a] flex items-center justify-center px-4">
       <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
         className="card p-10 text-center max-w-md">
         <FiCheckCircle size={60} className="text-green-400 mx-auto mb-4" />
@@ -110,7 +110,7 @@ export default function PaymentPage() {
   )
 
   return (
-    <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
+    <div className="min-h-screen bg-[#050d1a] py-8 px-4">
       <div className="max-w-lg mx-auto">
         <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white/50 hover:text-white mb-6 transition">
           <FiArrowLeft /> Back
@@ -119,8 +119,8 @@ export default function PaymentPage() {
         {/* Tournament info */}
         {t && (
           <div className="card p-4 mb-6 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-[#F97316]/10 border border-[#F97316]/20 flex items-center justify-center">
-              <GiFlame className="text-[#F97316] text-xl" />
+            <div className="w-12 h-12 rounded-xl bg-[#00f5ff]/10 border border-[#00f5ff]/20 flex items-center justify-center">
+              <GiFlame className="text-[#00f5ff] text-xl" />
             </div>
             <div>
               <h2 className="text-white font-bold">{t.title}</h2>
@@ -133,7 +133,7 @@ export default function PaymentPage() {
         <div className="flex bg-[#111827] rounded-xl p-1 mb-6 border border-[rgba(249,115,22,0.15)]">
           {[['qr','📱 QR / UPI'],['razorpay','💳 Razorpay']].map(([m, label]) => (
             <button key={m} onClick={() => setMethod(m)}
-              className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all ${method===m ? 'bg-[#F97316] text-white' : 'text-white/50 hover:text-white'}`}>
+              className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all ${method===m ? 'bg-[#00f5ff] text-white' : 'text-white/50 hover:text-white'}`}>
               {label}
             </button>
           ))}
@@ -144,10 +144,10 @@ export default function PaymentPage() {
             {/* QR Code display */}
             <div className="text-center mb-6">
               <p className="text-white/60 text-sm mb-3">Scan to pay ₹{t?.entry_fee || '—'}</p>
-              <div className="w-48 h-48 mx-auto rounded-xl border-2 border-[#F97316]/30 bg-white flex items-center justify-center">
+              <div className="w-48 h-48 mx-auto rounded-xl border-2 border-[#00f5ff]/30 bg-white flex items-center justify-center">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=ffzone@upi&pn=FFZone&am=100" alt="QR Code" className="w-44 h-44 rounded" />
               </div>
-              <p className="text-[#F97316] font-mono text-sm mt-2">ffzone@upi</p>
+              <p className="text-[#00f5ff] font-mono text-sm mt-2">ffzone@upi</p>
               <p className="text-white/40 text-xs mt-1">PhonePe / GPay / Paytm</p>
             </div>
 
@@ -161,7 +161,7 @@ export default function PaymentPage() {
               <div>
                 <label className="text-white/60 text-xs font-semibold uppercase block mb-1">Payment Screenshot *</label>
                 <div {...getRootProps()} className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
-                  isDragActive ? 'border-[#F97316] bg-[#F97316]/5' : 'border-white/15 hover:border-[#F97316]/40'
+                  isDragActive ? 'border-[#00f5ff] bg-[#00f5ff]/5' : 'border-white/15 hover:border-[#00f5ff]/40'
                 }`}>
                   <input {...getInputProps()} />
                   {screenshot ? (
@@ -188,7 +188,7 @@ export default function PaymentPage() {
             <div className="text-5xl mb-4">💳</div>
             <h3 className="text-white font-bold text-lg mb-2">Pay with Razorpay</h3>
             <p className="text-white/50 text-sm mb-2">Secure payment via Card, UPI, or Netbanking</p>
-            <div className="text-[#F97316] text-3xl font-black mb-6">₹{t?.entry_fee}</div>
+            <div className="text-[#00f5ff] text-3xl font-black mb-6">₹{t?.entry_fee}</div>
             <button onClick={handleRazorpay} disabled={loading}
               className="btn-fire w-full py-3 flex items-center justify-center gap-2">
               {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : '⚡ Pay Now'}

@@ -18,8 +18,8 @@ export default function Footer() {
       {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#050810]/90 via-[#050810]/80 to-[#050810]/95" />
       {/* Extra orange tint glow */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#F97316]/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#F97316]/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#00f5ff]/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00f5ff]/10 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
@@ -30,11 +30,11 @@ export default function Footer() {
           <div className="flex flex-col gap-6">
             <Link to="/" className="flex items-center gap-2 group w-fit">
               <div className="relative">
-                <div className="absolute inset-0 bg-[#F97316] blur-md opacity-40 group-hover:opacity-80 transition-opacity rounded-full"></div>
-                <GiFlame className="text-[#F97316] text-3xl relative z-10" />
+                <div className="absolute inset-0 bg-[#00f5ff] blur-md opacity-40 group-hover:opacity-80 transition-opacity rounded-full"></div>
+                <GiFlame className="text-[#00f5ff] text-3xl relative z-10" />
               </div>
-              <span className="text-2xl font-black tracking-tight text-white group-hover:text-[#F97316] transition-colors">
-                FF<span className="text-[#F97316]">ZONE</span>
+              <span className="text-2xl font-black tracking-tight text-white group-hover:text-[#00f5ff] transition-colors">
+                FF<span className="text-[#00f5ff]">ZONE</span>
               </span>
             </Link>
             <p className="text-white/60 text-sm leading-relaxed">
@@ -43,7 +43,7 @@ export default function Footer() {
             <div className="flex gap-3 sm:gap-4 items-center mt-2 flex-wrap">
               <a 
                 href="#" 
-                className="w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#F97316] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(249,115,22,0.5)] transition-all duration-300 touch-manipulation min-w-[44px] min-h-[44px]"
+                className="w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#00f5ff] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(249,115,22,0.5)] transition-all duration-300 touch-manipulation min-w-[44px] min-h-[44px]"
                 style={{ WebkitTapHighlightColor: 'transparent' }}
                 aria-label="Instagram"
               >
@@ -79,7 +79,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div>
             <h4 className="text-white font-bold mb-6 text-lg flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#F97316]"></span> Navigation
+              <span className="w-2 h-2 rounded-full bg-[#00f5ff]"></span> Navigation
             </h4>
             <ul className="space-y-3">
               {[
@@ -90,7 +90,7 @@ export default function Footer() {
                 { path: '/dashboard', label: 'Dashboard' }
               ].map((link, idx) => (
                 <li key={idx}>
-                  <Link to={link.path} className="text-white/60 hover:text-[#F97316] hover:translate-x-1 inline-block text-sm transition-all duration-300">
+                  <Link to={link.path} className="text-white/60 hover:text-[#00f5ff] hover:translate-x-1 inline-block text-sm transition-all duration-300">
                     {link.label}
                   </Link>
                 </li>
@@ -101,7 +101,7 @@ export default function Footer() {
           {/* Legal & Support */}
           <div>
             <h4 className="text-white font-bold mb-6 text-lg flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#F97316]"></span> Support
+              <span className="w-2 h-2 rounded-full bg-[#00f5ff]"></span> Support
             </h4>
             <ul className="space-y-3">
               {[
@@ -112,7 +112,7 @@ export default function Footer() {
                 { path: '/faq',     label: 'FAQ' },
               ].map((link, idx) => (
                 <li key={idx}>
-                  <Link to={link.path} className="text-white/60 hover:text-[#F97316] hover:translate-x-1 inline-block text-sm transition-all duration-300">
+                  <Link to={link.path} className="text-white/60 hover:text-[#00f5ff] hover:translate-x-1 inline-block text-sm transition-all duration-300">
                     {link.label}
                   </Link>
                 </li>
@@ -123,7 +123,7 @@ export default function Footer() {
           {/* Newsletter */}
           <div>
             <h4 className="text-white font-bold mb-6 text-lg flex items-center gap-2">
-              <MdOutlineMail className="text-[#F97316]" /> Stay Updated
+              <MdOutlineMail className="text-[#00f5ff]" /> Stay Updated
             </h4>
             <p className="text-white/60 text-sm mb-4 leading-relaxed">
               Subscribe to our newsletter for the latest tournament updates, news, and exclusive drops.
@@ -133,12 +133,12 @@ export default function Footer() {
                 <input 
                   type="email" 
                   placeholder="Enter your email" 
-                  className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#F97316] focus:ring-1 focus:ring-[#F97316] transition-all"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-[#00f5ff] focus:ring-1 focus:ring-[#00f5ff] transition-all"
                 />
               </div>
               <button 
                 type="submit" 
-                className="w-full bg-[#F97316] hover:bg-[#ea580c] text-white font-bold py-3.5 sm:py-3 px-4 rounded-lg text-sm transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] min-h-[48px] touch-manipulation"
+                className="w-full bg-[#00f5ff] hover:bg-[#ea580c] text-white font-bold py-3.5 sm:py-3 px-4 rounded-lg text-sm transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] min-h-[48px] touch-manipulation"
                 style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 SUBSCRIBE NOW
@@ -154,7 +154,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <p className="text-white/40 text-sm flex items-center justify-center md:justify-start gap-1">
-            © {new Date().getFullYear()} FFZone. Made with <FaFire className="text-[#F97316] animate-pulse" /> for the community.
+            © {new Date().getFullYear()} FFZone. Made with <FaFire className="text-[#00f5ff] animate-pulse" /> for the community.
           </p>
           <p className="text-white/30 text-xs">
             Not affiliated with Garena Free Fire. All trademarks belong to their respective owners.

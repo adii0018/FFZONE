@@ -45,7 +45,7 @@ function NotificationsList() {
         <button 
           onClick={() => refetch()} 
           disabled={isRefetching}
-          className="text-[#FF007F] text-xs font-bold hover:text-[#FF007F]/80 transition-colors disabled:opacity-50 flex items-center gap-1"
+          className="text-[#00f5ff] text-xs font-bold hover:text-[#00f5ff]/80 transition-colors disabled:opacity-50 flex items-center gap-1"
           aria-label="Refresh notifications"
         >
           <svg 
@@ -63,7 +63,7 @@ function NotificationsList() {
       {notifs.length > 0 ? (
         <div className="space-y-2">
           {notifs.map(n => (
-            <div key={n._id} className={`card p-3 text-sm border-l-2 ${n.read ? 'border-white/10' : 'border-[#FF007F]'}`}>
+            <div key={n._id} className={`card p-3 text-sm border-l-2 ${n.read ? 'border-white/10' : 'border-[#00f5ff]'}`}>
               <p className="text-white/80">{n.message}</p>
               <p className="text-white/30 text-xs mt-1">{n.created_at ? format(new Date(n.created_at), 'dd MMM, hh:mm a') : ''}</p>
             </div>
@@ -110,19 +110,19 @@ export default function DashboardPage() {
   const p        = profile || {}
 
   return (
-    <div className="min-h-screen bg-[#05070A] py-12 px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[#050d1a] py-12 px-4 relative overflow-hidden">
       <StarField />
       
       {/* Decorative Orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#FF007F]/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-[#00D2FF]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#00f5ff]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-[#0066ff]/5 blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
           <div className="flex items-center gap-3 mb-1">
-            <GiFlame className="text-[#FF007F] text-3xl animate-pulse" />
+            <GiFlame className="text-[#00f5ff] text-3xl animate-pulse" />
             <h1 className="text-3xl md:text-4xl font-black text-white tracking-tighter uppercase">
-              Welcome back, <span className="text-[#FF007F] text-glow-fire">{user?.name?.split(' ')[0]}</span>!
+              Welcome back, <span className="text-[#00f5ff] text-glow-fire">{user?.name?.split(' ')[0]}</span>!
             </h1>
           </div>
           <p className="text-white/50 text-base ml-11 font-medium">Ready to dominate today?</p>
@@ -132,7 +132,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-10">
           {[
             { label: 'Rank',    value: rank, icon: rankCfg.icon, color: rankCfg.color },
-            { label: 'Kills',   value: p.kills   || 0,  color: '#FF007F' },
+            { label: 'Kills',   value: p.kills   || 0,  color: '#00f5ff' },
             { label: 'Matches', value: p.matches  || 0,  color: '#00D2FF' },
             { label: 'Wins',    value: p.wins     || 0,  color: '#00FF9C' },
           ].map(({ label, value, icon, color }) => (
@@ -151,19 +151,19 @@ export default function DashboardPage() {
           <div className="md:col-span-2 space-y-6">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-black text-white flex items-center gap-2 uppercase tracking-tight"><GiCrossedSwords className="text-[#FF007F]" /> Active Tournaments</h2>
-                <Link to="/matches" className="text-[#FF007F] text-sm font-bold hover:underline">View All</Link>
+                <h2 className="text-xl font-black text-white flex items-center gap-2 uppercase tracking-tight"><GiCrossedSwords className="text-[#00f5ff]" /> Active Tournaments</h2>
+                <Link to="/matches" className="text-[#00f5ff] text-sm font-bold hover:underline">View All</Link>
               </div>
               <div className="space-y-3">
                 {regs.length > 0 ? regs.map(reg => {
                   const t = reg.tournament || {}
                   return (
                     <div key={reg._id} className="card p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 group">
-                      <div className="w-12 h-12 rounded-xl bg-[#FF007F]/10 border border-[#FF007F]/20 flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
-                        <GiTrophy className="text-[#FF007F] text-xl" />
+                      <div className="w-12 h-12 rounded-xl bg-[#00f5ff]/10 border border-[#00f5ff]/20 flex items-center justify-center shrink-0 transition-transform group-hover:scale-110">
+                        <GiTrophy className="text-[#00f5ff] text-xl" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-white font-black text-base truncate group-hover:text-[#FF007F] transition-colors">{t.title}</h3>
+                        <h3 className="text-white font-black text-base truncate group-hover:text-[#00f5ff] transition-colors">{t.title}</h3>
                         <p className="text-white/40 text-sm font-medium">{t.mode} • {t.start_time ? format(new Date(t.start_time), 'dd MMM') : '—'}</p>
                       </div>
                       <div className="w-full sm:w-auto flex justify-end">
@@ -204,7 +204,7 @@ export default function DashboardPage() {
 
             {p.badges?.length > 0 && (
               <div className="card p-5">
-                <h3 className="text-white/40 text-xs font-black uppercase tracking-[0.2em] mb-4 flex items-center gap-2"><FaMedal className="text-[#FF007F]" /> Achieved Badges</h3>
+                <h3 className="text-white/40 text-xs font-black uppercase tracking-[0.2em] mb-4 flex items-center gap-2"><FaMedal className="text-[#00f5ff]" /> Achieved Badges</h3>
                 <div className="flex flex-wrap gap-2">
                   {p.badges.map((b, i) => <span key={i} className="badge badge-open text-xs py-1.5 px-3">{b}</span>)}
                 </div>
@@ -218,8 +218,8 @@ export default function DashboardPage() {
                 { to: '/team-finder', icon: <FaHandshake />, label: 'Find Team' },
                 { to: '/profile', icon: <FaUser />, label: 'My Profile' }
               ].map(({ to, icon, label }) => (
-                <Link key={to} to={to} className="flex items-center gap-3 text-white/60 hover:text-[#FF007F] text-sm font-bold transition-all py-3 border-b border-white/5 last:border-0 hover:translate-x-1">
-                  <span className="text-[#FF007F] opacity-50">{icon}</span> {label}
+                <Link key={to} to={to} className="flex items-center gap-3 text-white/60 hover:text-[#00f5ff] text-sm font-bold transition-all py-3 border-b border-white/5 last:border-0 hover:translate-x-1">
+                  <span className="text-[#00f5ff] opacity-50">{icon}</span> {label}
                 </Link>
               ))}
             </div>
@@ -230,9 +230,9 @@ export default function DashboardPage() {
           <div className="mt-16">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-black text-white flex items-center gap-3 uppercase tracking-tight">
-                <FaFire className="text-[#FF007F] animate-pulse" /> Recommended <span className="text-[#FF007F]">Tournaments</span>
+                <FaFire className="text-[#00f5ff] animate-pulse" /> Recommended <span className="text-[#00f5ff]">Tournaments</span>
               </h2>
-              <Link to="/tournaments" className="text-[#FF007F] text-sm font-bold hover:underline">See All Arena →</Link>
+              <Link to="/tournaments" className="text-[#00f5ff] text-sm font-bold hover:underline">See All Arena →</Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {featured.map(t => <TournamentCard key={t._id} tournament={t} />)}

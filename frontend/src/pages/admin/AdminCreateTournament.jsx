@@ -51,7 +51,7 @@ export default function AdminCreateTournament() {
         <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white/50 hover:text-white mb-6 transition">
           <FiArrowLeft /> Back
         </button>
-        <h1 className="text-2xl font-black text-white mb-6 flex items-center gap-2"><FaTrophy className="text-[#F97316]" /> Create Tournament</h1>
+        <h1 className="text-2xl font-black text-white mb-6 flex items-center gap-2"><FaTrophy className="text-[#00f5ff]" /> Create Tournament</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Title */}
@@ -117,7 +117,7 @@ export default function AdminCreateTournament() {
           <div className="card p-5">
             <h2 className="text-white font-bold mb-3">Banner Image</h2>
             <div {...getRootProps()} className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
-              isDragActive ? 'border-[#F97316] bg-[#F97316]/5' : 'border-white/15 hover:border-[#F97316]/40'
+              isDragActive ? 'border-[#00f5ff] bg-[#00f5ff]/5' : 'border-white/15 hover:border-[#00f5ff]/40'
             }`}>
               <input {...getInputProps()} />
               {banner ? (
