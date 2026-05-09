@@ -13,7 +13,11 @@
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html { 
+    scroll-behavior: smooth;
+    /* Support for devices with notches */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
 
   body {
     background-color: #05070A;
@@ -21,6 +25,8 @@
     font-family: 'Outfit', 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
   }
 
   ::-webkit-scrollbar        { width: 6px; height: 6px; }
@@ -39,6 +45,11 @@
   .text-glow-fire   { text-shadow: 0 0 20px rgba(255,0,127,0.8); }
   .text-glow-purple { text-shadow: 0 0 20px rgba(0,255,156,0.8); }
   .text-glow-cyan   { text-shadow: 0 0 20px rgba(0,210,255,0.8); }
+
+  /* ─── Touch utilities ────────────────────────────────── */
+  .touch-manipulation { touch-action: manipulation; }
+  .active\:scale-98:active { transform: scale(0.98); }
+  .active\:scale-95:active { transform: scale(0.95); }
 
   /* ─── Card ───────────────────────────────────────────── */
   .card {

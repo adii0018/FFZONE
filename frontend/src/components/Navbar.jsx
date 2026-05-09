@@ -77,17 +77,17 @@ export default function Navbar() {
         ? 'bg-[#05070A]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]'
         : 'bg-[#05070A] border-b border-[rgba(255,0,127,0.05)]'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 md:px-8 h-[72px] flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-[64px] sm:h-[72px] flex items-center justify-between gap-2 sm:gap-4">
 
         {/* ── Logo ────────────────────────────────────────── */}
-        <Link to="/" className="flex items-center gap-2 group relative z-50 flex-shrink-0">
+        <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group relative z-50 flex-shrink-0 min-w-0">
           <div className="absolute -inset-4 bg-gradient-to-r from-[#FF007F]/20 to-transparent blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-          <GiFlame className="text-[#FF007F] text-3xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 drop-shadow-[0_0_8px_rgba(255,0,127,0.6)]" />
-          <span className="text-2xl font-black text-white tracking-wider relative">
+          <GiFlame className="text-[#FF007F] text-2xl sm:text-3xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 drop-shadow-[0_0_8px_rgba(255,0,127,0.6)] flex-shrink-0" />
+          <span className="text-xl sm:text-2xl font-black text-white tracking-wider relative whitespace-nowrap">
             FF<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF007F] to-[#D4006A]">ZONE</span>
           </span>
           {/* Live badge */}
-          <span className="hidden sm:flex items-center gap-1 text-[10px] font-bold text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded-full ml-1">
+          <span className="hidden sm:flex items-center gap-1 text-[10px] font-bold text-green-400 bg-green-400/10 border border-green-400/20 px-2 py-0.5 rounded-full ml-1 flex-shrink-0">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>LIVE
           </span>
         </Link>
@@ -214,93 +214,134 @@ export default function Navbar() {
         </div>
 
         {/* ── Mobile Hamburger ──────────────────────────────── */}
-        <button className="lg:hidden relative z-[70] p-2 text-white/80 hover:text-white transition-colors" onClick={() => setOpen(!open)}>
-          {open ? <FiX size={24} /> : <FiMenu size={24} />}
+        <button 
+          className="lg:hidden relative z-[70] p-2.5 text-white/80 hover:text-white transition-colors flex-shrink-0 touch-manipulation active:scale-95" 
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Close menu" : "Open menu"}
+        >
+          {open ? <FiX size={26} /> : <FiMenu size={26} />}
         </button>
       </div>
 
       {/* ── Mobile Menu ───────────────────────────────────── */}
-      <div className={`fixed inset-0 bg-[#05070A] z-[65] transition-all duration-300 lg:hidden flex flex-col ${
+      <div className={`fixed inset-0 bg-[#05070A] z-[65] transition-all duration-300 lg:hidden flex flex-col overflow-hidden ${
         open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}>
         {/* Sticky mini-header inside menu */}
-        <div className="flex items-center justify-between px-6 h-[72px] border-b border-white/5 flex-shrink-0">
-          <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2">
-            <GiFlame className="text-[#FF007F] text-2xl" />
-            <span className="text-xl font-black text-white">FF<span className="text-[#FF007F]">ZONE</span></span>
+        <div className="flex items-center justify-between px-4 sm:px-6 h-[64px] sm:h-[72px] border-b border-white/5 flex-shrink-0">
+          <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-1.5 sm:gap-2">
+            <GiFlame className="text-[#FF007F] text-xl sm:text-2xl" />
+            <span className="text-lg sm:text-xl font-black text-white">FF<span className="text-[#FF007F]">ZONE</span></span>
           </Link>
-          <button onClick={() => setOpen(false)} className="p-2 text-white/60 hover:text-white transition-colors">
-            <FiX size={24} />
+          <button 
+            onClick={() => setOpen(false)} 
+            className="p-2.5 text-white/60 hover:text-white transition-colors touch-manipulation active:scale-95"
+            aria-label="Close menu"
+          >
+            <FiX size={26} />
           </button>
         </div>
 
         {/* Scrollable content */}
-        <div className={`flex-1 overflow-y-auto px-6 py-6 transition-all duration-500 ${open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-          <div className="flex flex-col gap-2">
+        <div className={`flex-1 overflow-y-auto overscroll-contain px-4 sm:px-6 py-4 sm:py-6 transition-all duration-500 ${open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+          <div className="flex flex-col gap-2 pb-4">
 
           {/* Mobile nav links */}
-          <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-2 ml-1">Navigate</p>
+          <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-2 ml-1 px-1">Navigate</p>
           {allNavLinks.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
               onClick={() => setOpen(false)}
-              className={`flex items-center gap-4 px-5 py-4 rounded-xl font-bold text-lg transition-all ${
+              className={`flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg transition-all touch-manipulation active:scale-98 ${
                 isActive(to)
                   ? 'text-[#FF007F] bg-[#FF007F]/10 border border-[#FF007F]/20'
                   : 'text-white/70 hover:text-white hover:bg-white/5'
               }`}
             >
-              <Icon size={22} className={isActive(to) ? 'text-[#FF007F]' : ''} />
-              {label}
+              <Icon size={20} className={`flex-shrink-0 ${isActive(to) ? 'text-[#FF007F]' : ''}`} />
+              <span className="truncate">{label}</span>
             </Link>
           ))}
 
           {/* Leaderboard - Hide for admins */}
           {!isAdminPage && !isAdmin() && (
-            <Link to="/leaderboard" onClick={() => setOpen(false)} className="flex items-center gap-4 px-5 py-4 rounded-xl font-bold text-lg text-white/70 hover:text-white hover:bg-white/5 transition-all">
-              <GiPodium size={22} /> Leaderboard <span className="text-xs text-[#00D2FF] ml-1 bg-[#00D2FF]/10 px-2 py-0.5 rounded-full">SOON</span>
+            <Link 
+              to="/leaderboard" 
+              onClick={() => setOpen(false)} 
+              className="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg text-white/70 hover:text-white hover:bg-white/5 transition-all touch-manipulation active:scale-98"
+            >
+              <GiPodium size={20} className="flex-shrink-0" /> 
+              <span className="truncate">Leaderboard</span>
+              <span className="text-[10px] sm:text-xs text-[#00D2FF] ml-auto bg-[#00D2FF]/10 px-2 py-0.5 rounded-full flex-shrink-0">SOON</span>
             </Link>
           )}
 
-          <div className="h-px bg-white/5 my-3"></div>
+          <div className="h-px bg-white/5 my-2 sm:my-3"></div>
 
           {/* Support section - Hide for admins */}
           {!isAdminPage && !isAdmin() && (
             <>
-              <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-2 ml-1">Support</p>
+              <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-2 ml-1 px-1">Support</p>
               {HELP_LINKS.map(({ to, icon: Icon, label }) => (
-                <Link key={to} to={to} onClick={() => setOpen(false)} className="flex items-center gap-4 px-5 py-3.5 rounded-xl font-semibold text-base text-white/60 hover:text-white hover:bg-white/5 transition-all">
-                  <Icon size={18} /> {label}
+                <Link 
+                  key={to} 
+                  to={to} 
+                  onClick={() => setOpen(false)} 
+                  className="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base text-white/60 hover:text-white hover:bg-white/5 transition-all touch-manipulation active:scale-98"
+                >
+                  <Icon size={18} className="flex-shrink-0" /> 
+                  <span className="truncate">{label}</span>
                 </Link>
               ))}
-              <div className="h-px bg-white/5 my-3"></div>
+              <div className="h-px bg-white/5 my-2 sm:my-3"></div>
             </>
           )}
 
           {isAuthenticated() ? (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5 sm:gap-3">
               {isAdmin() && (
-                <Link to="/admin/dashboard" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-[#FF007F]/10 text-[#FF007F] font-bold border border-[#FF007F]/20">
-                  <FiShield /> Admin Dashboard
+                <Link 
+                  to="/admin/dashboard" 
+                  onClick={() => setOpen(false)} 
+                  className="flex items-center justify-center gap-2 py-3.5 sm:py-4 rounded-xl bg-[#FF007F]/10 text-[#FF007F] font-bold border border-[#FF007F]/20 touch-manipulation active:scale-98 transition-transform"
+                >
+                  <FiShield className="flex-shrink-0" /> 
+                  <span className="truncate">Admin Dashboard</span>
                 </Link>
               )}
-              <Link to="/profile" onClick={() => setOpen(false)} className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/5 text-white font-bold border border-white/10">
-                <div className="w-6 h-6 rounded-full overflow-hidden">
+              <Link 
+                to="/profile" 
+                onClick={() => setOpen(false)} 
+                className="flex items-center justify-center gap-2 py-3.5 sm:py-4 rounded-xl bg-white/5 text-white font-bold border border-white/10 touch-manipulation active:scale-98 transition-transform"
+              >
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full overflow-hidden flex-shrink-0">
                   <img src={getAvatarUrl(user?.email)} alt="avatar" className="w-full h-full object-cover" />
                 </div>
-                My Profile
+                <span className="truncate">My Profile</span>
               </Link>
-              <button onClick={() => { handleLogout(); setOpen(false) }} className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-red-500/10 text-red-400 font-bold border border-red-500/20">
-                <FiLogOut /> Logout
+              <button 
+                onClick={() => { handleLogout(); setOpen(false) }} 
+                className="flex items-center justify-center gap-2 py-3.5 sm:py-4 rounded-xl bg-red-500/10 text-red-400 font-bold border border-red-500/20 touch-manipulation active:scale-98 transition-transform"
+              >
+                <FiLogOut className="flex-shrink-0" /> 
+                <span className="truncate">Logout</span>
               </button>
             </div>
           ) : (
-            <div className="flex flex-col gap-3">
-              <Link to="/login" onClick={() => setOpen(false)} className="text-center py-3.5 rounded-xl bg-white/5 text-white font-bold border border-white/10">
+            <div className="flex flex-col gap-2.5 sm:gap-3">
+              <Link 
+                to="/login" 
+                onClick={() => setOpen(false)} 
+                className="text-center py-3.5 sm:py-4 rounded-xl bg-white/5 text-white font-bold border border-white/10 touch-manipulation active:scale-98 transition-transform"
+              >
                 Login
               </Link>
-              <Link to="/login?tab=register" onClick={() => setOpen(false)} className="text-center py-3.5 rounded-xl bg-gradient-to-r from-[#FF007F] to-[#D4006A] text-white font-bold shadow-[0_0_30px_rgba(255,0,127,0.3)]">
+              <Link 
+                to="/login?tab=register" 
+                onClick={() => setOpen(false)} 
+                className="text-center py-3.5 sm:py-4 rounded-xl bg-gradient-to-r from-[#FF007F] to-[#D4006A] text-white font-bold shadow-[0_0_30px_rgba(255,0,127,0.3)] touch-manipulation active:scale-98 transition-transform"
+              >
                 Join Free 🔥
               </Link>
             </div>
