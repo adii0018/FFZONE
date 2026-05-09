@@ -29,9 +29,13 @@ export default function TournamentCard({ tournament }) {
   const mapColor   = MAP_COLOR[map] || '#FF007F'
   const startDate  = start_time ? format(new Date(start_time), 'dd MMM, hh:mm a') : '—'
 
+  // Detect if user prefers reduced motion
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
   return (
     <motion.div
-      whileHover={{ y: -10, scale: 1.02 }}
+      whileHover={prefersReducedMotion ? {} : { y: -10, scale: 1.02 }}
+      transition={{ duration: 0.3 }}
       className="card overflow-hidden group cursor-pointer hover:shadow-[0_20px_50px_rgba(255,0,127,0.2)] transition-all duration-500 touch-manipulation"
       style={{ WebkitTapHighlightColor: 'transparent' }}
     >
@@ -41,6 +45,8 @@ export default function TournamentCard({ tournament }) {
           <img
             src={getImageUrl(banner)}
             alt={title}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-70"
             onError={(e) => {
               e.target.onerror = null;
