@@ -136,8 +136,15 @@ export default function LandingPage() {
   const { data } = useQuery({
     queryKey: ['featured-tournaments'],
     queryFn: () => api.get('/tournaments/?status=upcoming&page=1').then(r => r.data),
-    staleTime: 3 * 60 * 1000,        // Fresh for 3 minutes
-    cacheTime: 10 * 60 * 1000,       // Cache for 10 minutes
+    staleTime: 3 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000,
+  })
+
+  const { data: publicStats } = useQuery({
+    queryKey: ['public-stats'],
+    queryFn: () => api.get('/tournaments/public-stats/').then(r => r.data),
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 15 * 60 * 1000,
   })
 
   const featured = data?.tournaments?.slice(0, 3) || []
@@ -249,7 +256,12 @@ export default function LandingPage() {
             className="inline-flex items-center gap-2 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-full px-4 py-2 text-sm text-[#00f5ff] font-bold mb-8 uppercase tracking-widest"
           >
             <GiFlame className="animate-pulse" />
-            India's #1 Free Fire Tournament Platform
+            {publicStats
+              ? publicStats.live_tournaments > 0
+                ? <><span className="text-[#00FF9C]">{publicStats.live_tournaments} Live</span> · {publicStats.total_players.toLocaleString()}+ Players · ₹{(publicStats.total_prizes / 1000).toFixed(0)}K+ Prizes</>
+                : <>{publicStats.total_tournaments}+ Tournaments · {publicStats.total_players.toLocaleString()}+ Players</>
+              : "India's #1 Free Fire Tournament Platform"
+            }
           </motion.div>
 
           {/* Headline */}
@@ -395,8 +407,12 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
           {/* Join Community Card */}
-          <ScrollReveal delay={0.1} className="card p-10 md:p-14 relative overflow-hidden group border border-[#00f5ff]/20">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#00f5ff]/10 to-transparent" />
+          <ScrollReveal delay={0.1} className="card p-10 md:p-14 relative overflow-hidden group border border-[#00f5ff]/20 flex flex-col justify-end" style={{ minHeight: '500px' }}>
+            <div 
+              className="absolute inset-0 opacity-50 group-hover:opacity-70 transition-opacity duration-700 bg-cover bg-center" 
+              style={{ backgroundImage: 'url("/community-bg.png")' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050d1a] via-[#050d1a]/60 to-transparent z-0" />
             <div className="relative z-10">
               <span className="text-[#00f5ff] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Elite Community</span>
               <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tighter">Master the <span className="text-glow-fire text-[#00f5ff]">Arena</span></h2>
@@ -426,7 +442,12 @@ export default function LandingPage() {
           </ScrollReveal>
 
           {/* Steps to Win Card */}
-          <ScrollReveal delay={0.2} className="card p-10 md:p-14 relative overflow-hidden border border-white/5 bg-[#071428]/50">
+          <ScrollReveal delay={0.2} className="card p-10 md:p-14 relative overflow-hidden border border-white/5 bg-[#071428]/50 flex flex-col justify-end" style={{ minHeight: '500px' }}>
+            <div 
+              className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-700 bg-cover bg-center" 
+              style={{ backgroundImage: 'url("/steps-bg.png")' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050d1a] via-[#050d1a]/60 to-transparent z-0" />
             <div className="relative z-10">
               <span className="text-[#00FF9C] font-black uppercase tracking-[0.3em] text-xs mb-4 block">How to play</span>
               <h2 className="text-4xl font-black text-white mb-10 tracking-tight">Your Path to <span className="text-[#00FF9C]">Glory</span></h2>

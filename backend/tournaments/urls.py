@@ -11,6 +11,7 @@ urlpatterns = [
     path("my-registrations/",           views.my_registrations,       name="my_registrations"),
     path("create/",                      views.create_tournament,      name="create_tournament"),
     path("admin/stats/",                 views.admin_dashboard_stats,  name="admin_stats"),
+    path("public-stats/",                views.public_stats,           name="public_stats"),
 
     # Team Finder
     path("team-finder/",                 views.list_team_finder,       name="list_team_finder"),

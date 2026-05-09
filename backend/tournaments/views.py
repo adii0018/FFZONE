@@ -412,6 +412,36 @@ def submit_results(request, tournament_id):
     return Response({"message": f"Results submitted for {len(entries)} players."})
 
 
+# ── Public Stats ──────────────────────────────────────────────────────────────
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def public_stats(request):
+    """
+    Public: platform-wide stats for the landing page badge.
+    GET /api/tournaments/public-stats/
+    """
+    db = get_db()
+    total_tournaments = db.tournaments.count_documents({})
+    total_players     = db.users.count_documents({"is_admin": False})
+    live_tournaments  = db.tournaments.count_documents({"status": "live"})
+
+    # Total prize pool distributed (sum of prize_pool of completed tournaments)
+    pipeline = [
+        {"$match": {"status": "completed"}},
+        {"$group": {"_id": None, "total": {"$sum": "$prize_pool"}}},
+    ]
+    prize_result  = list(db.tournaments.aggregate(pipeline))
+    total_prizes  = prize_result[0]["total"] if prize_result else 0
+
+    return Response({
+        "total_tournaments": total_tournaments,
+        "total_players":     total_players,
+        "live_tournaments":  live_tournaments,
+        "total_prizes":      total_prizes,
+    })
+
+
 # ── Admin Analytics ───────────────────────────────────────────────────────────
 
 @api_view(["GET"])
