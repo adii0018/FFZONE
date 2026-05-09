@@ -4,7 +4,6 @@ All tournament data stored in MongoDB Atlas.
 Covers: CRUD, registrations, team-finder, results, analytics.
 """
 
-import uuid
 from datetime import datetime
 
 from bson import ObjectId
@@ -14,10 +13,10 @@ from rest_framework.decorators import api_view, permission_classes, parser_class
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
-from django.core.files.storage import default_storage
 from django.conf import settings
 
 from ffzone_backend.db import get_db
+from ffzone_backend.cloudinary_utils import upload_image
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -141,9 +140,7 @@ def create_tournament(request):
     # Handle banner upload
     banner_url = ""
     if request.FILES.get("banner"):
-        banner = request.FILES["banner"]
-        path   = default_storage.save(f"banners/{uuid.uuid4()}_{banner.name}", banner)
-        banner_url = f"/media/{path}"
+        banner_url = upload_image(request.FILES["banner"], "banners")
 
     db  = get_db()
     doc = {
@@ -188,9 +185,7 @@ def update_tournament(request, tournament_id):
             update[field] = int(val) if field in ["entry_fee", "prize_pool", "max_slots"] else val
 
     if request.FILES.get("banner"):
-        banner = request.FILES["banner"]
-        path   = default_storage.save(f"banners/{uuid.uuid4()}_{banner.name}", banner)
-        update["banner"] = f"/media/{path}"
+        update["banner"] = upload_image(request.FILES["banner"], "banners")
 
     db.tournaments.update_one({"_id": oid}, {"$set": update})
     return Response({"message": "Tournament updated."})

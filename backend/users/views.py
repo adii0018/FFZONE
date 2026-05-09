@@ -182,10 +182,8 @@ def update_profile(request):
         update["phone"] = request.data["phone"]
 
     if request.FILES.get("avatar"):
-        from django.core.files.storage import default_storage
-        avatar = request.FILES["avatar"]
-        path   = default_storage.save(f"avatars/{request.user.id}_{avatar.name}", avatar)
-        update["avatar_url"] = f"/media/{path}"
+        from ffzone_backend.cloudinary_utils import upload_image
+        update["avatar_url"] = upload_image(request.FILES["avatar"], "avatars")
 
     if update:
         db.users.update_one({"django_id": request.user.id}, {"$set": update})

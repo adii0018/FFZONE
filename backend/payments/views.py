@@ -5,20 +5,19 @@ Handles: QR screenshot upload, Razorpay order + webhook, admin approval/rejectio
 
 import hmac
 import hashlib
-import uuid
 from datetime import datetime
 
 from bson import ObjectId
 from bson.errors import InvalidId
 
 from django.conf import settings
-from django.core.files.storage import default_storage
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
 
 from ffzone_backend.db import get_db
+from ffzone_backend.cloudinary_utils import upload_image
 
 try:
     import razorpay
@@ -90,9 +89,7 @@ def submit_qr_payment(request, tournament_id):
     # Upload screenshot
     screenshot_url = ""
     if request.FILES.get("screenshot"):
-        ss   = request.FILES["screenshot"]
-        path = default_storage.save(f"screenshots/{uuid.uuid4()}_{ss.name}", ss)
-        screenshot_url = f"/media/{path}"
+        screenshot_url = upload_image(request.FILES["screenshot"], "screenshots")
     else:
         return Response({"error": "Payment screenshot is required."}, status=400)
 
