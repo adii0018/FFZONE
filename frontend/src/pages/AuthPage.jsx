@@ -9,6 +9,7 @@ import { GiFlame, GiCrossedSwords } from 'react-icons/gi'
 import toast from 'react-hot-toast'
 import api from '../lib/api'
 import useAuthStore from '../store/authStore'
+import AuthLoader from '../components/AuthLoader'
 
 const InputField = ({ icon: Icon, type='text', placeholder, value, onChange, right }) => (
   <div className="relative">
@@ -69,6 +70,10 @@ export default function AuthPage() {
         backgroundAttachment: 'fixed'
       }}
     >
+      {/* Auth loader overlay */}
+      {loading && (
+        <AuthLoader message={tab === 'login' ? 'Logging in...' : 'Creating account...'} />
+      )}
       <div className="absolute inset-0 bg-black/45 z-0"></div>
       <motion.div initial={{ opacity:0, scale:0.95 }} animate={{ opacity:1, scale:1 }} className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
@@ -97,7 +102,7 @@ export default function AuthPage() {
                 <InputField icon={FiMail} type="email" placeholder="Email" value={loginEmail} onChange={setLoginEmail} />
                 <InputField icon={FiLock} type={showPass?'text':'password'} placeholder="Password" value={loginPass} onChange={setLoginPass} right={eyeBtn} />
                 <button type="submit" disabled={loading} className="btn-fire w-full py-3 flex items-center justify-center gap-2">
-                  {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><FiZap/>Login</>}
+                  <FiZap/>Login
                 </button>
               </motion.form>
             ) : (
@@ -109,7 +114,7 @@ export default function AuthPage() {
                 <InputField icon={GiCrossedSwords} placeholder="Free Fire UID" value={uid} onChange={setUid} />
                 <InputField icon={FiLock} type={showPass?'text':'password'} placeholder="Password (min 6)" value={pass} onChange={setPass} right={eyeBtn} />
                 <button type="submit" disabled={loading} className="btn-fire w-full py-3 flex items-center justify-center gap-2 mt-2">
-                  {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><GiFlame/>Create Account</>}
+                  <GiFlame/>Create Account
                 </button>
               </motion.form>
             )}

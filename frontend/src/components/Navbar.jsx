@@ -11,6 +11,7 @@ import { HiSparkles } from 'react-icons/hi'
 import useAuthStore from '../store/authStore'
 import toast from 'react-hot-toast'
 import { getAvatarUrl } from '../lib/api'
+import AuthLoader from './AuthLoader'
 
 // ─── Help Dropdown items ─────────────────────────────────────
 const HELP_LINKS = [
@@ -26,6 +27,7 @@ export default function Navbar() {
   const [open, setOpen]         = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
+  const [loggingOut, setLoggingOut] = useState(false)
   const helpRef = useRef(null)
 
   // Check if current page is admin panel
@@ -49,8 +51,10 @@ export default function Navbar() {
   // Close mobile menu on route change
   useEffect(() => { setOpen(false) }, [location.pathname])
 
-  const handleLogout = () => {
-    logout()
+  const handleLogout = async () => {
+    setLoggingOut(true)
+    await logout()
+    setLoggingOut(false)
     toast.success('Logged out.')
     navigate('/')
   }
@@ -72,7 +76,9 @@ export default function Navbar() {
   const allNavLinks = [...publicLinks, ...authLinks]
 
   return (
-    <nav className={`sticky w-full top-0 z-[60] transition-all duration-500 ${
+    <>
+      {loggingOut && <AuthLoader message="Logging out..." />}
+      <nav className={`sticky w-full top-0 z-[60] transition-all duration-500 ${
       scrolled
         ? 'bg-[#050d1a]/85 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.4)]'
         : 'bg-[#050d1a] border-b border-[rgba(0,245,255,0.05)]'
@@ -359,5 +365,6 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
+    </>
   )
 }
