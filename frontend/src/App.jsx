@@ -5,7 +5,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useState, useEffect } from 'react'
 import useAuthStore from './store/authStore'
+import AuthLoader from './components/AuthLoader'
 
 // ── Layouts ────────────────────────────────────────────────────────────────
 import Navbar from './components/Navbar'
@@ -51,6 +53,18 @@ function ProtectedRoute({ children, adminOnly = false }) {
 }
 
 export default function App() {
+  const [appReady, setAppReady] = useState(false)
+
+  useEffect(() => {
+    // Show loader for a minimum of 1.5s on initial load / refresh
+    // This gives React time to hydrate + feels intentional
+    const timer = setTimeout(() => setAppReady(true), 1500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (!appReady) {
+    return <AuthLoader message="Loading FFZone..." />
+  }
   return (
     <QueryClientProvider client={qc}>
       <BrowserRouter>
