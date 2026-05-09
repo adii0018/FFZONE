@@ -39,8 +39,26 @@ export default function AuthPage() {
     e.preventDefault(); setLoading(true)
     try {
       await login(loginEmail, loginPass)
-      toast.success('Welcome back! 🔥'); navigate('/dashboard')
-    } catch (err) { toast.error(err.response?.data?.error || 'Invalid credentials.') }
+      toast.success('Welcome back! 🔥')
+      navigate('/dashboard')
+    } catch (err) {
+      const status = err.response?.status
+      const msg    = err.response?.data?.error || ''
+
+      if (!err.response) {
+        toast.error('⚡ Server unreachable. Check your connection.')
+      } else if (status === 403 || msg.toLowerCase().includes('banned')) {
+        toast.error('🚫 Your account has been banned. Contact support.')
+      } else if (status === 401 || msg.toLowerCase().includes('invalid')) {
+        toast.error('❌ Wrong email or password. Please try again.')
+      } else if (status === 400) {
+        toast.error('⚠️ Please enter a valid email and password.')
+      } else if (status >= 500) {
+        toast.error('🔧 Server error. Please try again in a moment.')
+      } else {
+        toast.error(msg || 'Login failed. Please try again.')
+      }
+    }
     finally { setLoading(false) }
   }
 
@@ -51,8 +69,30 @@ export default function AuthPage() {
       const { data } = await api.post('/auth/register/', { name, email, phone, uid, password: pass })
       localStorage.setItem('access_token', data.access)
       localStorage.setItem('refresh_token', data.refresh)
-      toast.success('Account created! Welcome 🔥'); navigate('/dashboard')
-    } catch (err) { toast.error(err.response?.data?.error || 'Registration failed.') }
+      toast.success('Account created! Welcome to FFZone 🔥')
+      navigate('/dashboard')
+    } catch (err) {
+      const status = err.response?.status
+      const data   = err.response?.data || {}
+
+      if (!err.response) {
+        toast.error('⚡ Server unreachable. Check your connection.')
+      } else if (data.error?.toLowerCase().includes('email already')) {
+        toast.error('📧 This email is already registered. Try logging in.')
+      } else if (data.email) {
+        toast.error('📧 Enter a valid email address.')
+      } else if (data.password) {
+        toast.error('🔒 Password must be at least 6 characters.')
+      } else if (data.phone) {
+        toast.error('📱 Enter a valid phone number.')
+      } else if (data.uid) {
+        toast.error('🎮 Enter a valid Free Fire UID.')
+      } else if (status >= 500) {
+        toast.error('🔧 Server error. Please try again in a moment.')
+      } else {
+        toast.error(data.error || 'Registration failed. Please try again.')
+      }
+    }
     finally { setLoading(false) }
   }
 
