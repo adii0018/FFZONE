@@ -31,6 +31,9 @@ export default function TournamentsPage() {
     queryKey: ['tournaments', status, mode, map, page],
     queryFn:  () => api.get(`/tournaments/?${params}`).then(r => r.data),
     keepPreviousData: true,
+    staleTime: 2 * 60 * 1000,        // Fresh for 2 minutes
+    cacheTime: 10 * 60 * 1000,       // Cache for 10 minutes
+    refetchOnWindowFocus: true,       // Refetch when user returns
   })
 
   const tournaments = data?.tournaments || []

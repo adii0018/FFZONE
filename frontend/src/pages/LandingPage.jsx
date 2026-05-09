@@ -136,6 +136,8 @@ export default function LandingPage() {
   const { data } = useQuery({
     queryKey: ['featured-tournaments'],
     queryFn: () => api.get('/tournaments/?status=upcoming&page=1').then(r => r.data),
+    staleTime: 3 * 60 * 1000,        // Fresh for 3 minutes
+    cacheTime: 10 * 60 * 1000,       // Cache for 10 minutes
   })
 
   const featured = data?.tournaments?.slice(0, 3) || []
@@ -165,13 +167,41 @@ export default function LandingPage() {
   ]
 
   const [bgIndex, setBgIndex] = useState(0)
+  const [imagesLoaded, setImagesLoaded] = useState(false)
+
+  // Preload images for smooth transitions
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = bgImages.map(src => {
+        return new Promise((resolve, reject) => {
+          const img = new Image()
+          img.src = src
+          img.onload = resolve
+          img.onerror = reject
+        })
+      })
+      
+      try {
+        await Promise.all(imagePromises)
+        setImagesLoaded(true)
+      } catch (error) {
+        console.warn('Some images failed to load:', error)
+        setImagesLoaded(true) // Continue anyway
+      }
+    }
+    
+    preloadImages()
+  }, [])
 
   useEffect(() => {
+    if (!imagesLoaded) return
+    
     const interval = setInterval(() => {
       setBgIndex((prev) => (prev + 1) % bgImages.length)
-    }, 4000)
+    }, 5000) // Increased from 4s to 5s for better UX
+    
     return () => clearInterval(interval)
-  }, [])
+  }, [imagesLoaded])
 
   return (
     <div className="min-h-screen bg-[#05070A] relative overflow-hidden">
@@ -185,22 +215,28 @@ export default function LandingPage() {
 
       {/* ── Hero ──────────────────────────────────────────── */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Crossfade background slides */}
-        {bgImages.map((src, i) => (
-          <div
-            key={src}
-            style={{
-              backgroundImage: `url('${src}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              opacity: i === bgIndex ? 1 : 0,
-              transition: 'opacity 1s ease-in-out',
-              position: 'absolute',
-              inset: 0,
-              zIndex: 0,
-            }}
-          />
-        ))}
+        {/* Crossfade background slides with lazy loading */}
+        {imagesLoaded ? (
+          bgImages.map((src, i) => (
+            <div
+              key={src}
+              style={{
+                backgroundImage: `url('${src}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                opacity: i === bgIndex ? 1 : 0,
+                transition: 'opacity 1.5s ease-in-out',
+                position: 'absolute',
+                inset: 0,
+                zIndex: 0,
+                willChange: i === bgIndex || i === (bgIndex + 1) % bgImages.length ? 'opacity' : 'auto',
+              }}
+            />
+          ))
+        ) : (
+          // Fallback gradient while images load
+          <div className="absolute inset-0 bg-gradient-to-br from-[#05070A] via-[#0E121A] to-[#05070A]" style={{ zIndex: 0 }} />
+        )}
         <div className="absolute inset-0 bg-[#05070A]/60" style={{ zIndex: 1 }}></div>
         <div style={{ position: 'absolute', inset: 0, zIndex: 2 }}><AnimatedBackground /></div>
 

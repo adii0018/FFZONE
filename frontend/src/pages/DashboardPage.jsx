@@ -18,21 +18,60 @@ const RANK_CONFIG = {
 }
 
 function NotificationsList() {
-  const { data } = useQuery({
+  const { data, refetch, isRefetching } = useQuery({
     queryKey: ['notifications'],
     queryFn: () => api.get('/auth/notifications/').then(r => r.data),
-    refetchInterval: 30000,
+    
+    // Smart refetching strategy
+    refetchOnWindowFocus: true,      // Refresh when user returns to tab
+    refetchOnMount: true,             // Refresh on component mount
+    refetchInterval: false,           // Disable auto-polling (save battery & data)
+    
+    // Caching strategy
+    staleTime: 2 * 60 * 1000,        // Consider data fresh for 2 minutes
+    cacheTime: 10 * 60 * 1000,       // Keep in cache for 10 minutes
+    
+    // Error handling
+    retry: 2,
+    retryDelay: 1000,
   })
+  
   const notifs = (data || []).slice(0, 5)
-  if (!notifs.length) return <div className="text-white/30 text-sm text-center py-4">No new notifications.</div>
+  
   return (
-    <div className="space-y-2">
-      {notifs.map(n => (
-        <div key={n._id} className={`card p-3 text-sm border-l-2 ${n.read ? 'border-white/10' : 'border-[#FF007F]'}`}>
-          <p className="text-white/80">{n.message}</p>
-          <p className="text-white/30 text-xs mt-1">{n.created_at ? format(new Date(n.created_at), 'dd MMM, hh:mm a') : ''}</p>
+    <div>
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-white/60 text-xs font-bold uppercase tracking-wider">Recent Updates</h3>
+        <button 
+          onClick={() => refetch()} 
+          disabled={isRefetching}
+          className="text-[#FF007F] text-xs font-bold hover:text-[#FF007F]/80 transition-colors disabled:opacity-50 flex items-center gap-1"
+          aria-label="Refresh notifications"
+        >
+          <svg 
+            className={`w-3.5 h-3.5 ${isRefetching ? 'animate-spin' : ''}`} 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          {isRefetching ? 'Refreshing...' : 'Refresh'}
+        </button>
+      </div>
+      
+      {notifs.length > 0 ? (
+        <div className="space-y-2">
+          {notifs.map(n => (
+            <div key={n._id} className={`card p-3 text-sm border-l-2 ${n.read ? 'border-white/10' : 'border-[#FF007F]'}`}>
+              <p className="text-white/80">{n.message}</p>
+              <p className="text-white/30 text-xs mt-1">{n.created_at ? format(new Date(n.created_at), 'dd MMM, hh:mm a') : ''}</p>
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <div className="text-white/30 text-sm text-center py-4">No new notifications.</div>
+      )}
     </div>
   )
 }
@@ -45,16 +84,25 @@ export default function DashboardPage() {
   const { data: profile } = useQuery({
     queryKey: ['my-profile'],
     queryFn: () => api.get('/auth/profile/').then(r => r.data),
+    staleTime: 5 * 60 * 1000,        // Profile data fresh for 5 minutes
+    cacheTime: 15 * 60 * 1000,       // Cache for 15 minutes
+    refetchOnWindowFocus: false,      // Profile doesn't change often
   })
 
   const { data: regsData } = useQuery({
     queryKey: ['my-registrations'],
     queryFn: () => api.get('/tournaments/my-registrations/').then(r => r.data),
+    staleTime: 2 * 60 * 1000,        // Fresh for 2 minutes
+    cacheTime: 10 * 60 * 1000,       // Cache for 10 minutes
+    refetchOnWindowFocus: true,       // Refetch when user returns
   })
 
   const { data: featuredData } = useQuery({
     queryKey: ['featured-dash'],
     queryFn: () => api.get('/tournaments/?status=upcoming').then(r => r.data),
+    staleTime: 5 * 60 * 1000,        // Tournaments don't change rapidly
+    cacheTime: 15 * 60 * 1000,
+    refetchOnWindowFocus: false,
   })
 
   const regs     = (regsData || []).filter(r => r.tournament?.status !== 'completed').slice(0, 3)
