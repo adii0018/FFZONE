@@ -27,6 +27,16 @@
     min-height: 100vh;
     /* Prevent horizontal scroll on mobile */
     overflow-x: hidden;
+    /* Better touch scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Improve tap targets on mobile */
+  @media (max-width: 768px) {
+    button, a {
+      min-height: 44px;
+      min-width: 44px;
+    }
   }
 
   ::-webkit-scrollbar        { width: 6px; height: 6px; }
@@ -47,9 +57,18 @@
   .text-glow-cyan   { text-shadow: 0 0 20px rgba(0,210,255,0.8); }
 
   /* ─── Touch utilities ────────────────────────────────── */
-  .touch-manipulation { touch-action: manipulation; }
+  .touch-manipulation { 
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
   .active\:scale-98:active { transform: scale(0.98); }
   .active\:scale-95:active { transform: scale(0.95); }
+
+  /* Prevent text selection on buttons and interactive elements */
+  button, .btn-fire, .btn-ghost, .btn-cyan {
+    -webkit-user-select: none;
+    user-select: none;
+  }
 
   /* ─── Card ───────────────────────────────────────────── */
   .card {

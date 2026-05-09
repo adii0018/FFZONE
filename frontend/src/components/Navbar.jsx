@@ -215,16 +215,17 @@ export default function Navbar() {
 
         {/* ── Mobile Hamburger ──────────────────────────────── */}
         <button 
-          className="lg:hidden relative z-[70] p-2.5 text-white/80 hover:text-white transition-colors flex-shrink-0 touch-manipulation active:scale-95" 
+          className="lg:hidden relative z-[70] p-2.5 text-white/80 hover:text-white transition-colors flex-shrink-0 touch-manipulation active:scale-95 min-w-[44px] min-h-[44px] flex items-center justify-center" 
           onClick={() => setOpen(!open)}
           aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
         >
           {open ? <FiX size={26} /> : <FiMenu size={26} />}
         </button>
       </div>
 
       {/* ── Mobile Menu ───────────────────────────────────── */}
-      <div className={`fixed inset-0 bg-[#05070A] z-[65] transition-all duration-300 lg:hidden flex flex-col overflow-hidden ${
+      <div className={`fixed inset-0 bg-[#05070A] z-[65] transition-all duration-300 lg:hidden flex flex-col ${
         open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}>
         {/* Sticky mini-header inside menu */}
@@ -235,31 +236,32 @@ export default function Navbar() {
           </Link>
           <button 
             onClick={() => setOpen(false)} 
-            className="p-2.5 text-white/60 hover:text-white transition-colors touch-manipulation active:scale-95"
+            className="p-2.5 text-white/60 hover:text-white transition-colors touch-manipulation active:scale-95 min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Close menu"
           >
             <FiX size={26} />
           </button>
         </div>
 
-        {/* Scrollable content */}
-        <div className={`flex-1 overflow-y-auto overscroll-contain px-4 sm:px-6 py-4 sm:py-6 transition-all duration-500 ${open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
-          <div className="flex flex-col gap-2 pb-4">
+        {/* Scrollable content with proper mobile optimization */}
+        <div className={`flex-1 overflow-y-auto overscroll-contain px-4 sm:px-6 py-4 sm:py-6 transition-all duration-500 -webkit-overflow-scrolling-touch ${open ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
+          <div className="flex flex-col gap-2.5 pb-6 min-h-full">
 
           {/* Mobile nav links */}
-          <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-2 ml-1 px-1">Navigate</p>
+          <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-3 ml-1 px-1">Navigate</p>
           {allNavLinks.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
               onClick={() => setOpen(false)}
-              className={`flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg transition-all touch-manipulation active:scale-98 ${
+              className={`flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-4 sm:py-4 rounded-xl font-bold text-base sm:text-lg transition-all touch-manipulation active:scale-98 min-h-[52px] ${
                 isActive(to)
                   ? 'text-[#FF007F] bg-[#FF007F]/10 border border-[#FF007F]/20'
                   : 'text-white/70 hover:text-white hover:bg-white/5'
               }`}
+              style={{ WebkitTapHighlightColor: 'transparent' }}
             >
-              <Icon size={20} className={`flex-shrink-0 ${isActive(to) ? 'text-[#FF007F]' : ''}`} />
+              <Icon size={22} className={`flex-shrink-0 ${isActive(to) ? 'text-[#FF007F]' : ''}`} />
               <span className="truncate">{label}</span>
             </Link>
           ))}
@@ -269,78 +271,85 @@ export default function Navbar() {
             <Link 
               to="/leaderboard" 
               onClick={() => setOpen(false)} 
-              className="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg text-white/70 hover:text-white hover:bg-white/5 transition-all touch-manipulation active:scale-98"
+              className="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-4 sm:py-4 rounded-xl font-bold text-base sm:text-lg text-white/70 hover:text-white hover:bg-white/5 transition-all touch-manipulation active:scale-98 min-h-[52px]"
+              style={{ WebkitTapHighlightColor: 'transparent' }}
             >
-              <GiPodium size={20} className="flex-shrink-0" /> 
+              <GiPodium size={22} className="flex-shrink-0" /> 
               <span className="truncate">Leaderboard</span>
-              <span className="text-[10px] sm:text-xs text-[#00D2FF] ml-auto bg-[#00D2FF]/10 px-2 py-0.5 rounded-full flex-shrink-0">SOON</span>
+              <span className="text-[10px] sm:text-xs text-[#00D2FF] ml-auto bg-[#00D2FF]/10 px-2 py-1 rounded-full flex-shrink-0 font-bold">SOON</span>
             </Link>
           )}
 
-          <div className="h-px bg-white/5 my-2 sm:my-3"></div>
+          <div className="h-px bg-white/5 my-3 sm:my-4"></div>
 
           {/* Support section - Hide for admins */}
           {!isAdminPage && !isAdmin() && (
             <>
-              <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-2 ml-1 px-1">Support</p>
+              <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-3 ml-1 px-1">Support</p>
               {HELP_LINKS.map(({ to, icon: Icon, label }) => (
                 <Link 
                   key={to} 
                   to={to} 
                   onClick={() => setOpen(false)} 
-                  className="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl font-semibold text-sm sm:text-base text-white/60 hover:text-white hover:bg-white/5 transition-all touch-manipulation active:scale-98"
+                  className="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4 rounded-xl font-semibold text-sm sm:text-base text-white/60 hover:text-white hover:bg-white/5 transition-all touch-manipulation active:scale-98 min-h-[48px]"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
                 >
-                  <Icon size={18} className="flex-shrink-0" /> 
+                  <Icon size={20} className="flex-shrink-0" /> 
                   <span className="truncate">{label}</span>
                 </Link>
               ))}
-              <div className="h-px bg-white/5 my-2 sm:my-3"></div>
+              <div className="h-px bg-white/5 my-3 sm:my-4"></div>
             </>
           )}
 
           {isAuthenticated() ? (
-            <div className="flex flex-col gap-2.5 sm:gap-3">
+            <div className="flex flex-col gap-3 sm:gap-3">
               {isAdmin() && (
                 <Link 
                   to="/admin/dashboard" 
                   onClick={() => setOpen(false)} 
-                  className="flex items-center justify-center gap-2 py-3.5 sm:py-4 rounded-xl bg-[#FF007F]/10 text-[#FF007F] font-bold border border-[#FF007F]/20 touch-manipulation active:scale-98 transition-transform"
+                  className="flex items-center justify-center gap-2 py-4 sm:py-4 rounded-xl bg-[#FF007F]/10 text-[#FF007F] font-bold border border-[#FF007F]/20 touch-manipulation active:scale-98 transition-transform min-h-[52px]"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
                 >
-                  <FiShield className="flex-shrink-0" /> 
+                  <FiShield className="flex-shrink-0" size={20} /> 
                   <span className="truncate">Admin Dashboard</span>
                 </Link>
               )}
               <Link 
                 to="/profile" 
                 onClick={() => setOpen(false)} 
-                className="flex items-center justify-center gap-2 py-3.5 sm:py-4 rounded-xl bg-white/5 text-white font-bold border border-white/10 touch-manipulation active:scale-98 transition-transform"
+                className="flex items-center justify-center gap-2 py-4 sm:py-4 rounded-xl bg-white/5 text-white font-bold border border-white/10 touch-manipulation active:scale-98 transition-transform min-h-[52px]"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
-                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full overflow-hidden flex-shrink-0">
+                <div className="w-6 h-6 sm:w-6 sm:h-6 rounded-full overflow-hidden flex-shrink-0">
                   <img src={getAvatarUrl(user?.email)} alt="avatar" className="w-full h-full object-cover" />
                 </div>
                 <span className="truncate">My Profile</span>
               </Link>
               <button 
                 onClick={() => { handleLogout(); setOpen(false) }} 
-                className="flex items-center justify-center gap-2 py-3.5 sm:py-4 rounded-xl bg-red-500/10 text-red-400 font-bold border border-red-500/20 touch-manipulation active:scale-98 transition-transform"
+                className="flex items-center justify-center gap-2 py-4 sm:py-4 rounded-xl bg-red-500/10 text-red-400 font-bold border border-red-500/20 touch-manipulation active:scale-98 transition-transform min-h-[52px]"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
-                <FiLogOut className="flex-shrink-0" /> 
+                <FiLogOut className="flex-shrink-0" size={20} /> 
                 <span className="truncate">Logout</span>
               </button>
             </div>
           ) : (
-            <div className="flex flex-col gap-2.5 sm:gap-3">
+            <div className="flex flex-col gap-3 sm:gap-3">
               <Link 
                 to="/login" 
                 onClick={() => setOpen(false)} 
-                className="text-center py-3.5 sm:py-4 rounded-xl bg-white/5 text-white font-bold border border-white/10 touch-manipulation active:scale-98 transition-transform"
+                className="text-center py-4 sm:py-4 rounded-xl bg-white/5 text-white font-bold border border-white/10 touch-manipulation active:scale-98 transition-transform min-h-[52px] flex items-center justify-center"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Login
               </Link>
               <Link 
                 to="/login?tab=register" 
                 onClick={() => setOpen(false)} 
-                className="text-center py-3.5 sm:py-4 rounded-xl bg-gradient-to-r from-[#FF007F] to-[#D4006A] text-white font-bold shadow-[0_0_30px_rgba(255,0,127,0.3)] touch-manipulation active:scale-98 transition-transform"
+                className="text-center py-4 sm:py-4 rounded-xl bg-gradient-to-r from-[#FF007F] to-[#D4006A] text-white font-bold shadow-[0_0_30px_rgba(255,0,127,0.3)] touch-manipulation active:scale-98 transition-transform min-h-[52px] flex items-center justify-center"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 Join Free 🔥
               </Link>
