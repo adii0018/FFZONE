@@ -57,7 +57,10 @@ export const getImageUrl = (path) => {
   if (path.startsWith('http') || path.startsWith('blob:') || path.startsWith('data:')) {
     return path
   }
-  let baseUrl = import.meta.env.VITE_API_URL || ''
+  // For media files, use the backend base URL (not /api prefix)
+  let apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+  // Strip /api suffix to get the backend root URL
+  let baseUrl = apiUrl.replace(/\/api\/?$/, '')
   if (baseUrl.endsWith('/')) {
     baseUrl = baseUrl.slice(0, -1)
   }
