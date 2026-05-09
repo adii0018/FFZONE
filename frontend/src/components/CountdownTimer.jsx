@@ -42,8 +42,8 @@ export default function CountdownTimer({ targetTime, onEnd }) {
     <div className="flex items-center gap-2">
       {units.map(({ label, value }) => (
         <div key={label} className="text-center">
-          <div className="bg-[#0B0F1A] border border-[rgba(249,115,22,0.3)] rounded-lg w-12 h-12 flex items-center justify-center">
-            <span className="text-xl font-black text-[#F97316] font-mono tabular-nums">
+          <div className="bg-[#050d1a] border border-[rgba(249,115,22,0.3)] rounded-lg w-12 h-12 flex items-center justify-center">
+            <span className="text-xl font-black text-[#00f5ff] font-mono tabular-nums">
               {String(value).padStart(2, '0')}
             </span>
           </div>

@@ -47,7 +47,7 @@ export default function AdminRoom() {
         </button>
 
         <h1 className="text-2xl font-black text-white mb-2 flex items-center gap-2">
-          <FiKey className="text-[#22D3EE]" /> Room Management
+          <FiKey className="text-[#0066ff]" /> Room Management
         </h1>
         {t && <p className="text-white/50 text-sm mb-6">{t.title}</p>}
 
@@ -58,7 +58,7 @@ export default function AdminRoom() {
             <div className="text-white/40 text-xs">Approved Players</div>
           </div>
           <div className="card p-4 text-center">
-            <div className="text-2xl font-black text-[#F97316]">{(regs||[]).filter(r=>r.status==='pending').length}</div>
+            <div className="text-2xl font-black text-[#00f5ff]">{(regs||[]).filter(r=>r.status==='pending').length}</div>
             <div className="text-white/40 text-xs">Pending</div>
           </div>
         </div>
@@ -79,7 +79,7 @@ export default function AdminRoom() {
             </button>
           </div>
 
-          <div className="bg-[#22D3EE]/5 border border-[#22D3EE]/20 rounded-xl p-4 text-sm text-[#22D3EE]">
+          <div className="bg-[#0066ff]/5 border border-[#0066ff]/20 rounded-xl p-4 text-sm text-[#0066ff]">
             <FiSend size={14} className="inline mr-2" />
             Broadcasting to <strong>{approvedCount}</strong> approved player{approvedCount !== 1 ? 's' : ''}
           </div>

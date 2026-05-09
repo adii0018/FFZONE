@@ -65,8 +65,8 @@ function ScrollReveal({ children, className = "", delay = 0 }) {
 
 
 // ── SVG Dividers ──────────────────────────────────────────────────────────
-function SectionDivider({ type = 'slant', color = '#05070A', flip = false }) {
-  const glowColor = "#FF007F";
+function SectionDivider({ type = 'slant', color = '#050d1a', flip = false }) {
+  const glowColor = "#00f5ff";
   const shapes = {
     slant: (
       <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className={`w-full h-[70px] ${flip ? 'rotate-180' : ''}`} style={{ filter: `drop-shadow(0 -2px 10px ${glowColor}40)` }}>
@@ -95,9 +95,9 @@ function AnimatedBackground() {
       <div className="absolute inset-0 grid-bg opacity-30" />
 
       {/* Glowing orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#FF007F]/10 blur-[120px] animate-float" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#00f5ff]/10 blur-[120px] animate-float" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#00FF9C]/8 blur-[120px] animate-float" style={{ animationDelay: '2s' }} />
-      <div className="absolute top-1/2 left-3/4 w-64 h-64 rounded-full bg-[#00D2FF]/8 blur-[120px] animate-float" style={{ animationDelay: '4s' }} />
+      <div className="absolute top-1/2 left-3/4 w-64 h-64 rounded-full bg-[#0066ff]/8 blur-[120px] animate-float" style={{ animationDelay: '4s' }} />
     </div>
   )
 }
@@ -107,8 +107,8 @@ function DynamicSection({ children, className = "" }) {
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <div className="absolute inset-0 z-0 opacity-30">
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#FF007F]/5 via-transparent to-[#00FF9C]/5 animate-gradient" style={{ backgroundSize: '200% 200%' }} />
-        <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(255,0,127,0.03)_0,transparent_70%)] animate-float" />
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#00f5ff]/5 via-transparent to-[#00FF9C]/5 animate-gradient" style={{ backgroundSize: '200% 200%' }} />
+        <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.03)_0,transparent_70%)] animate-float" />
       </div>
       <div className="relative z-10">{children}</div>
     </div>
@@ -120,7 +120,7 @@ function StatCard({ icon: Icon, label, value, color }) {
   return (
     <motion.div
       variants={itemVariants}
-      className="card p-5 text-center group hover:bg-[#0E121A]/80 transition-all duration-300"
+      className="card p-5 text-center group hover:bg-[#071428]/80 transition-all duration-300"
     >
       <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 transition-transform group-hover:scale-110"
         style={{ background: `${color}15`, border: `1px solid ${color}30` }}>
@@ -159,11 +159,11 @@ export default function LandingPage() {
   ]
 
   const heroTitles = [
-    <>Battle <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF007F] to-[#D4006A] text-glow-fire">Begins</span><br />Here</>,
-    <>Only <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF007F] to-[#D4006A] text-glow-fire">Legends</span><br />Survive</>,
-    <>Rise <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF007F] to-[#D4006A] text-glow-fire">To</span><br />Booyah</>,
-    <>India's Ultimate <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF007F] to-[#D4006A] text-glow-fire">FF</span><br />Arena</>,
-    <>Dominate <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF007F] to-[#D4006A] text-glow-fire">The</span><br />Battleground</>
+    <>Battle <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] to-[#0066ff] text-glow-fire">Begins</span><br />Here</>,
+    <>Only <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] to-[#0066ff] text-glow-fire">Legends</span><br />Survive</>,
+    <>Rise <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] to-[#0066ff] text-glow-fire">To</span><br />Booyah</>,
+    <>India's Ultimate <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] to-[#0066ff] text-glow-fire">FF</span><br />Arena</>,
+    <>Dominate <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f5ff] to-[#0066ff] text-glow-fire">The</span><br />Battleground</>
   ]
 
   const [bgIndex, setBgIndex] = useState(0)
@@ -204,11 +204,11 @@ export default function LandingPage() {
   }, [imagesLoaded])
 
   return (
-    <div className="min-h-screen bg-[#05070A] relative overflow-hidden">
+    <div className="min-h-screen bg-[#050d1a] relative overflow-hidden">
       {/* Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-[#FF007F] z-[100] origin-left"
-        style={{ scaleX, boxShadow: '0 0 10px rgba(255,0,127,0.8)' }}
+        className="fixed top-0 left-0 right-0 h-1 bg-[#00f5ff] z-[100] origin-left"
+        style={{ scaleX, boxShadow: '0 0 10px rgba(0,245,255,0.8)' }}
       />
 
       <StarField />
@@ -235,9 +235,9 @@ export default function LandingPage() {
           ))
         ) : (
           // Fallback gradient while images load
-          <div className="absolute inset-0 bg-gradient-to-br from-[#05070A] via-[#0E121A] to-[#05070A]" style={{ zIndex: 0 }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#050d1a] via-[#071428] to-[#050d1a]" style={{ zIndex: 0 }} />
         )}
-        <div className="absolute inset-0 bg-[#05070A]/60" style={{ zIndex: 1 }}></div>
+        <div className="absolute inset-0 bg-[#050d1a]/60" style={{ zIndex: 1 }}></div>
         <div style={{ position: 'absolute', inset: 0, zIndex: 2 }}><AnimatedBackground /></div>
 
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
@@ -246,7 +246,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-[#FF007F]/10 border border-[#FF007F]/30 rounded-full px-4 py-2 text-sm text-[#FF007F] font-bold mb-8 uppercase tracking-widest"
+            className="inline-flex items-center gap-2 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-full px-4 py-2 text-sm text-[#00f5ff] font-bold mb-8 uppercase tracking-widest"
           >
             <GiFlame className="animate-pulse" />
             India's #1 Free Fire Tournament Platform
@@ -305,11 +305,11 @@ export default function LandingPage() {
           transition={{ duration: 2, repeat: Infinity }}
           className="absolute bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30"
         >
-          <div className="w-[2px] h-12 bg-gradient-to-b from-[#FF007F] to-transparent" />
+          <div className="w-[2px] h-12 bg-gradient-to-b from-[#00f5ff] to-transparent" />
         </motion.div>
 
         {/* Bottom Mask for Hero */}
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#05070A] to-transparent z-10" />
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050d1a] to-transparent z-10" />
 
         <div className="absolute bottom-0 w-full z-40">
           <SectionDivider type="slant" flip />
@@ -321,11 +321,11 @@ export default function LandingPage() {
         <ScrollReveal className="flex items-center justify-between mb-12 relative z-20">
           <div>
             <h2 className="text-3xl md:text-5xl font-black text-white flex items-center gap-3 tracking-tight">
-              <FaFire className="text-[#FF007F] animate-pulse" /> Featured <span className="text-[#FF007F]">Tournaments</span>
+              <FaFire className="text-[#00f5ff] animate-pulse" /> Featured <span className="text-[#00f5ff]">Tournaments</span>
             </h2>
             <p className="text-white/50 text-base mt-2 font-medium">Upcoming competitions you can join right now</p>
           </div>
-          <Link to="/tournaments" className="btn-ghost text-sm py-2 px-6 font-bold hover:bg-[#FF007F] hover:text-white transition-all">View All →</Link>
+          <Link to="/tournaments" className="btn-ghost text-sm py-2 px-6 font-bold hover:bg-[#00f5ff] hover:text-[#050d1a] transition-all">View All →</Link>
         </ScrollReveal>
 
         {featured.length > 0 ? (
@@ -357,7 +357,7 @@ export default function LandingPage() {
       <DynamicSection className="py-40 relative -mt-24 z-20">
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <ScrollReveal className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">Why Choose <span className="text-[#FF007F]">FFZone</span>?</h2>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">Why Choose <span className="text-[#00f5ff]">FFZone</span>?</h2>
             <p className="text-white/50 text-lg font-medium">Everything you need for the ultimate esports experience</p>
           </ScrollReveal>
 
@@ -369,14 +369,14 @@ export default function LandingPage() {
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             {[
-              { icon: FiZap, color: '#FF007F', title: 'Instant Registration', desc: 'Join tournaments in seconds with our streamlined QR or Razorpay payment flow.' },
+              { icon: FiZap, color: '#00f5ff', title: 'Instant Registration', desc: 'Join tournaments in seconds with our streamlined QR or Razorpay payment flow.' },
               { icon: GiTrophy, color: '#00D2FF', title: 'Real Prize Pools', desc: 'Compete for real cash prizes distributed directly after tournament completion.' },
               { icon: FiUsers, color: '#00FF9C', title: 'Team Finder', desc: 'Find Duo & Squad partners from our active community of Free Fire players.' },
             ].map(({ icon: Icon, color, title, desc }) => (
               <motion.div
                 key={title}
                 variants={itemVariants}
-                className="card p-8 group hover:bg-[#0E121A]/80 transition-all duration-500 hover:shadow-[0_0_50px_-12px_rgba(255,0,127,0.3)]"
+                className="card p-8 group hover:bg-[#071428]/80 transition-all duration-500 hover:shadow-[0_0_50px_-12px_rgba(0,245,255,0.3)]"
               >
                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110"
                   style={{ background: `${color}15`, border: `1px solid ${color}30` }}>
@@ -395,11 +395,11 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
           {/* Join Community Card */}
-          <ScrollReveal delay={0.1} className="card p-10 md:p-14 relative overflow-hidden group border border-[#FF007F]/20">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#FF007F]/10 to-transparent" />
+          <ScrollReveal delay={0.1} className="card p-10 md:p-14 relative overflow-hidden group border border-[#00f5ff]/20">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#00f5ff]/10 to-transparent" />
             <div className="relative z-10">
-              <span className="text-[#FF007F] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Elite Community</span>
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tighter">Master the <span className="text-glow-fire text-[#FF007F]">Arena</span></h2>
+              <span className="text-[#00f5ff] font-black uppercase tracking-[0.3em] text-xs mb-4 block">Elite Community</span>
+              <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tighter">Master the <span className="text-glow-fire text-[#00f5ff]">Arena</span></h2>
               <p className="text-white/60 text-lg mb-10 font-medium leading-relaxed">
                 Connect with India's top Free Fire players. Get exclusive tips, early tournament access, and participate in mega giveaways.
               </p>
@@ -426,14 +426,14 @@ export default function LandingPage() {
           </ScrollReveal>
 
           {/* Steps to Win Card */}
-          <ScrollReveal delay={0.2} className="card p-10 md:p-14 relative overflow-hidden border border-white/5 bg-[#0E121A]/50">
+          <ScrollReveal delay={0.2} className="card p-10 md:p-14 relative overflow-hidden border border-white/5 bg-[#071428]/50">
             <div className="relative z-10">
               <span className="text-[#00FF9C] font-black uppercase tracking-[0.3em] text-xs mb-4 block">How to play</span>
               <h2 className="text-4xl font-black text-white mb-10 tracking-tight">Your Path to <span className="text-[#00FF9C]">Glory</span></h2>
 
               <div className="space-y-8">
                 {[
-                  { step: '01', title: 'Register Account', desc: 'Create your profile and verify your Free Fire UID in seconds.', color: '#FF007F' },
+                  { step: '01', title: 'Register Account', desc: 'Create your profile and verify your Free Fire UID in seconds.', color: '#00f5ff' },
                   { step: '02', title: 'Join Tournament', desc: 'Browse upcoming matches and secure your slot with easy payments.', color: '#00D2FF' },
                   { step: '03', title: 'Dominate & Win', desc: 'Compete in the battleground and claim your prizes instantly.', color: '#00FF9C' },
                 ].map((s) => (
@@ -464,10 +464,10 @@ export default function LandingPage() {
             variants={containerVariants}
             className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"
           >
-            <StatCard icon={GiTrophy} label="Tournaments Hosted" value="500+" color="#FF007F" />
+            <StatCard icon={GiTrophy} label="Tournaments Hosted" value="500+" color="#00f5ff" />
             <StatCard icon={FiUsers} label="Active Players" value="10K+" color="#00D2FF" />
             <StatCard icon={GiTargetShot} label="Kills Recorded" value="1.2M+" color="#00FF9C" />
-            <StatCard icon={FiAward} label="Prize Distributed" value="₹5L+" color="#FF007F" />
+            <StatCard icon={FiAward} label="Prize Distributed" value="₹5L+" color="#00f5ff" />
           </motion.div>
         </div>
       </DynamicSection>

@@ -15,13 +15,13 @@ import useAuthStore from '../store/authStore'
 import PageLoader from '../components/PageLoader'
 
 const RANKS = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond']
-const RANK_COLORS = { Bronze:'#cd7f32', Silver:'#c0c0c0', Gold:'#ffd700', Platinum:'#22D3EE', Diamond:'#b9f2ff' }
+const RANK_COLORS = { Bronze:'#cd7f32', Silver:'#c0c0c0', Gold:'#ffd700', Platinum:'#0066ff', Diamond:'#b9f2ff' }
 const RANK_ICONS  = { Bronze:<FaMedal />, Silver:<FaMedal />, Gold:<FaMedal />, Platinum:<FaGem />, Diamond:<FaCrown /> }
 
 function RankProgress({ rank }) {
   const idx   = RANKS.indexOf(rank)
   const pct   = ((idx) / (RANKS.length - 1)) * 100
-  const color = RANK_COLORS[rank] || '#F97316'
+  const color = RANK_COLORS[rank] || '#00f5ff'
   return (
     <div>
       <div className="flex justify-between text-xs text-white/40 mb-2">
@@ -32,7 +32,7 @@ function RankProgress({ rank }) {
         ))}
       </div>
       <div className="slot-bar-track">
-        <div className="slot-bar-fill" style={{ width: `${pct}%`, background: `linear-gradient(90deg, #F97316, ${color})` }} />
+        <div className="slot-bar-fill" style={{ width: `${pct}%`, background: `linear-gradient(90deg, #00f5ff, ${color})` }} />
       </div>
     </div>
   )
@@ -76,16 +76,16 @@ export default function ProfilePage() {
 
   const p     = profile || {}
   const rank  = p.rank || user?.rank || 'Bronze'
-  const color = RANK_COLORS[rank] || '#F97316'
+  const color = RANK_COLORS[rank] || '#00f5ff'
   const history = (regsData || []).filter(r => r.tournament?.status === 'completed').slice(0, 5)
 
   if (isLoading) return <PageLoader />
 
 
   return (
-    <div className="min-h-screen bg-[#0B0F1A] py-8 px-4">
+    <div className="min-h-screen bg-[#050d1a] py-8 px-4">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-black text-white mb-6 flex items-center gap-2"><FaUser className="text-[#F97316]" /> My Profile</h1>
+        <h1 className="text-3xl font-black text-white mb-6 flex items-center gap-2"><FaUser className="text-[#00f5ff]" /> My Profile</h1>
 
         {/* Profile card */}
         <div className="card p-6 mb-6">
@@ -145,7 +145,7 @@ export default function ProfilePage() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">
           {[
-            { label: 'Kills',   value: p.kills   || 0, icon: GiTargetShot, color: '#F97316' },
+            { label: 'Kills',   value: p.kills   || 0, icon: GiTargetShot, color: '#00f5ff' },
             { label: 'Wins',    value: p.wins     || 0, icon: GiTrophy,    color: '#ffd700' },
             { label: 'Matches', value: p.matches  || 0, icon: GiFlame,     color: '#7C3AED' },
           ].map(({ label, value, icon: Icon, color: c }) => (

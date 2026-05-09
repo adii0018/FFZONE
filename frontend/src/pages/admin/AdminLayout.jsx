@@ -29,19 +29,19 @@ export default function AdminLayout({ children }) {
   useEffect(() => { setOpen(false) }, [pathname])
 
   return (
-    <div className="flex min-h-screen bg-[#05070A] text-white relative overflow-hidden">
+    <div className="flex min-h-screen bg-[#050d1a] text-white relative overflow-hidden">
       {/* Starfield Background */}
       <StarField />
       
       {/* Subtle Orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#FF007F]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#00f5ff]/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-[#00FF9C]/5 blur-[120px] pointer-events-none" />
 
       {/* Mobile Top Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#0E121A]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-4 z-[100]">
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-[#071428]/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-4 z-[100]">
         <Link to="/" className="flex items-center gap-2">
-          <GiFlame className="text-[#FF007F] text-xl" />
-          <span className="font-black text-white uppercase tracking-tighter">FF<span className="text-[#FF007F]">ZONE</span></span>
+          <GiFlame className="text-[#00f5ff] text-xl" />
+          <span className="font-black text-white uppercase tracking-tighter">FF<span className="text-[#00f5ff]">ZONE</span></span>
         </Link>
         <button onClick={() => setOpen(!open)} className="p-2 text-white/70 hover:text-white transition-colors">
           <FiGrid size={24} />
@@ -55,12 +55,12 @@ export default function AdminLayout({ children }) {
       />
 
       {/* Sidebar */}
-      <aside className={`fixed lg:static top-0 left-0 h-full w-64 shrink-0 bg-[#0E121A]/95 backdrop-blur-xl border-r border-white/5 flex flex-col z-[100] transition-transform duration-300 transform ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+      <aside className={`fixed lg:static top-0 left-0 h-full w-64 shrink-0 bg-[#071428]/95 backdrop-blur-xl border-r border-white/5 flex flex-col z-[100] transition-transform duration-300 transform ${open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="h-20 flex items-center gap-2 px-6 border-b border-white/5">
-          <GiFlame className="text-[#FF007F] text-2xl animate-pulse" />
+          <GiFlame className="text-[#00f5ff] text-2xl animate-pulse" />
           <div className="flex flex-col">
-            <span className="font-black text-white text-lg leading-none tracking-tighter uppercase">FF<span className="text-[#FF007F]">ZONE</span></span>
-            <span className="text-[10px] text-[#FF007F] font-bold uppercase tracking-[0.2em] mt-1">Admin Panel</span>
+            <span className="font-black text-white text-lg leading-none tracking-tighter uppercase">FF<span className="text-[#00f5ff]">ZONE</span></span>
+            <span className="text-[10px] text-[#00f5ff] font-bold uppercase tracking-[0.2em] mt-1">Admin Panel</span>
           </div>
         </div>
         <nav className="flex-1 py-8 space-y-2 px-4 overflow-y-auto">
@@ -69,7 +69,7 @@ export default function AdminLayout({ children }) {
             <Link key={to} to={to}
               className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold transition-all duration-300 ${
                 pathname === to
-                  ? 'bg-[#FF007F]/10 text-[#FF007F] border border-[#FF007F]/20 shadow-[0_0_20px_-10px_rgba(255,0,127,0.5)]'
+                  ? 'bg-[#00f5ff]/10 text-[#00f5ff] border border-[#00f5ff]/20 shadow-[0_0_20px_-10px_rgba(0,245,255,0.5)]'
                   : 'text-white/40 hover:text-white hover:bg-white/5'
               }`}>
               <Icon size={18} className={pathname === to ? 'animate-pulse' : ''} />

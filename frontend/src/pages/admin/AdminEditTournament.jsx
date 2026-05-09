@@ -79,7 +79,7 @@ export default function AdminEditTournament() {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center min-h-[50vh]">
-          <div className="w-8 h-8 border-4 border-white/10 border-t-[#F97316] rounded-full animate-spin" />
+          <div className="w-8 h-8 border-4 border-white/10 border-t-[#00f5ff] rounded-full animate-spin" />
         </div>
       </AdminLayout>
     )
@@ -91,7 +91,7 @@ export default function AdminEditTournament() {
         <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-white/50 hover:text-white mb-6 transition">
           <FiArrowLeft /> Back
         </button>
-        <h1 className="text-2xl font-black text-white mb-6 flex items-center gap-2"><FaTrophy className="text-[#F97316]" /> Edit Tournament</h1>
+        <h1 className="text-2xl font-black text-white mb-6 flex items-center gap-2"><FaTrophy className="text-[#00f5ff]" /> Edit Tournament</h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Basic Info */}
@@ -157,7 +157,7 @@ export default function AdminEditTournament() {
           <div className="card p-5">
             <h2 className="text-white font-bold mb-3">Banner Image</h2>
             <div {...getRootProps()} className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
-              isDragActive ? 'border-[#F97316] bg-[#F97316]/5' : 'border-white/15 hover:border-[#F97316]/40'
+              isDragActive ? 'border-[#00f5ff] bg-[#00f5ff]/5' : 'border-white/15 hover:border-[#00f5ff]/40'
             }`}>
               <input {...getInputProps()} />
               {banner ? (

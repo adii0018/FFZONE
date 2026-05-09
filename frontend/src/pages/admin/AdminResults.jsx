@@ -65,7 +65,7 @@ export default function AdminResults() {
           <FiArrowLeft /> Back
         </button>
         <h1 className="text-2xl font-black text-white mb-2 flex items-center gap-2">
-          <GiTrophy className="text-[#F97316]" /> Enter Results
+          <GiTrophy className="text-[#00f5ff]" /> Enter Results
         </h1>
         {t && <p className="text-white/50 text-sm mb-6">{t.title} • {t.mode}</p>}
 
@@ -115,7 +115,7 @@ export default function AdminResults() {
             <div className="card p-4 mb-4 flex items-center justify-between">
               <div>
                 <p className="text-white/60 text-xs">Total Prize Pool</p>
-                <p className="text-[#F97316] font-black text-lg">₹{t?.prize_pool?.toLocaleString()}</p>
+                <p className="text-[#00f5ff] font-black text-lg">₹{t?.prize_pool?.toLocaleString()}</p>
               </div>
               <div className="text-right">
                 <p className="text-white/60 text-xs">Prize Allocated</p>

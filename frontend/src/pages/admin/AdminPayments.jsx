@@ -62,7 +62,7 @@ export default function AdminPayments() {
                   {/* Screenshot thumb */}
                   {reg.screenshot && (
                     <button onClick={() => setPreview(reg.screenshot)} className="shrink-0">
-                      <div className="w-16 h-16 rounded-xl overflow-hidden border border-white/10 bg-[#0B0F1A] relative group">
+                      <div className="w-16 h-16 rounded-xl overflow-hidden border border-white/10 bg-[#050d1a] relative group">
                         <img src={getImageUrl(reg.screenshot)} alt="proof" className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition" />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                           <FiEye size={18} className="text-white" />
@@ -74,7 +74,7 @@ export default function AdminPayments() {
                   <div className="flex-1 min-w-0">
                     <p className="text-white font-semibold text-sm">{reg.user_name}</p>
                     <p className="text-white/40 text-xs mt-0.5">Tournament ID: {reg.tournament_id}</p>
-                    <p className="text-[#22D3EE] text-xs font-mono mt-1">TXN: {reg.transaction_id}</p>
+                    <p className="text-[#0066ff] text-xs font-mono mt-1">TXN: {reg.transaction_id}</p>
                     <p className="text-white/30 text-xs">Method: {reg.payment_method?.toUpperCase()}</p>
                   </div>
 

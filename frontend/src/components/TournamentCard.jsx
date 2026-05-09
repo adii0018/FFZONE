@@ -6,16 +6,16 @@ import { format } from 'date-fns'
 import { getImageUrl } from '../lib/api'
 
 const STATUS_CONFIG = {
-  live:      { label: 'LIVE',      cls: 'badge-live',      dot: 'bg-[#FF007F] animate-pulse' },
-  upcoming:  { label: 'UPCOMING',  cls: 'badge-upcoming',  dot: 'bg-[#00D2FF]' },
+  live:      { label: 'LIVE',      cls: 'badge-live',      dot: 'bg-[#00f5ff] animate-pulse' },
+  upcoming:  { label: 'UPCOMING',  cls: 'badge-upcoming',  dot: 'bg-[#0066ff]' },
   open:      { label: 'OPEN',      cls: 'badge-open',      dot: 'bg-[#00FF9C]' },
   completed: { label: 'COMPLETED', cls: 'badge-completed', dot: 'bg-white/30' },
 }
 
 const MAP_COLOR = {
-  Bermuda:   '#00D2FF',
+  Bermuda:   '#00f5ff',
   Purgatory: '#00FF9C',
-  Kalahari:  '#FF007F',
+  Kalahari:  '#0066ff',
 }
 
 export default function TournamentCard({ tournament }) {
@@ -26,7 +26,7 @@ export default function TournamentCard({ tournament }) {
 
   const cfg        = STATUS_CONFIG[status] || STATUS_CONFIG.upcoming
   const pct        = Math.min(100, Math.round((filled_slots / max_slots) * 100))
-  const mapColor   = MAP_COLOR[map] || '#FF007F'
+  const mapColor   = MAP_COLOR[map] || '#00f5ff'
   const startDate  = start_time ? format(new Date(start_time), 'dd MMM, hh:mm a') : '—'
 
   // Detect if user prefers reduced motion
@@ -36,11 +36,11 @@ export default function TournamentCard({ tournament }) {
     <motion.div
       whileHover={prefersReducedMotion ? {} : { y: -10, scale: 1.02 }}
       transition={{ duration: 0.3 }}
-      className="card overflow-hidden group cursor-pointer hover:shadow-[0_20px_50px_rgba(255,0,127,0.2)] transition-all duration-500 touch-manipulation"
+      className="card overflow-hidden group cursor-pointer hover:shadow-[0_20px_50px_rgba(0,245,255,0.2)] transition-all duration-500 touch-manipulation"
       style={{ WebkitTapHighlightColor: 'transparent' }}
     >
       {/* Banner */}
-      <div className="relative h-44 sm:h-40 overflow-hidden bg-[#05070A]">
+      <div className="relative h-44 sm:h-40 overflow-hidden bg-[#050d1a]">
         {banner ? (
           <img
             src={getImageUrl(banner)}
@@ -52,8 +52,8 @@ export default function TournamentCard({ tournament }) {
               e.target.onerror = null;
               e.target.style.display = 'none';
               e.target.parentNode.innerHTML = `
-                <div class="absolute inset-0 flex items-center justify-center bg-[#05070A] opacity-20">
-                  <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="80" width="80" xmlns="http://www.w3.org/2000/svg" style="color: #FF007F">
+                <div class="absolute inset-0 flex items-center justify-center bg-[#050d1a] opacity-20">
+                  <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="80" width="80" xmlns="http://www.w3.org/2000/svg" style="color: #00f5ff">
                     <path d="M7 2h10l4 12H3L7 2z"></path>
                     <path d="M12 2v12"></path>
                     <path d="M12 18v4"></path>
@@ -66,10 +66,10 @@ export default function TournamentCard({ tournament }) {
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center opacity-10">
-            <GiCrossedSwords size={80} color="#FF007F" />
+            <GiCrossedSwords size={80} color="#00f5ff" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0E121A] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#071428] via-transparent to-transparent" />
 
         {/* Status badge */}
         <div className="absolute top-4 left-4">
@@ -89,19 +89,19 @@ export default function TournamentCard({ tournament }) {
 
       {/* Content */}
       <div className="p-4 sm:p-5">
-        <h3 className="font-black text-white text-base sm:text-lg mb-2 line-clamp-1 group-hover:text-[#FF007F] transition-colors tracking-tight">
+        <h3 className="font-black text-white text-base sm:text-lg mb-2 line-clamp-1 group-hover:text-[#00f5ff] transition-colors tracking-tight">
           {title}
         </h3>
 
         <div className="flex items-center gap-3 sm:gap-4 text-xs text-white/50 mb-4 font-bold uppercase tracking-wider flex-wrap">
-          <span className="flex items-center gap-1.5"><GiCrossedSwords size={13} className="text-[#FF007F]" />{mode}</span>
+          <span className="flex items-center gap-1.5"><GiCrossedSwords size={13} className="text-[#00f5ff]" />{mode}</span>
           <span className="flex items-center gap-1.5"><FiClock size={13} className="text-[#00D2FF]" />{startDate}</span>
         </div>
 
         {/* Prize & Entry */}
         <div className="grid grid-cols-2 gap-3 mb-5">
-          <div className="bg-[#FF007F]/10 border border-[#FF007F]/20 rounded-xl p-3 text-center group-hover:bg-[#FF007F]/20 transition-colors">
-            <div className="text-[#FF007F] font-black text-base sm:text-lg">₹{prize_pool?.toLocaleString()}</div>
+          <div className="bg-[#00f5ff]/10 border border-[#00f5ff]/20 rounded-xl p-3 text-center group-hover:bg-[#00f5ff]/20 transition-colors">
+            <div className="text-[#00f5ff] font-black text-base sm:text-lg">₹{prize_pool?.toLocaleString()}</div>
             <div className="text-white/40 text-[9px] font-black uppercase tracking-widest">Prize Pool</div>
           </div>
           <div className="bg-white/5 border border-white/5 rounded-xl p-3 text-center group-hover:bg-white/10 transition-colors">
@@ -123,7 +123,7 @@ export default function TournamentCard({ tournament }) {
 
         <Link
           to={`/tournament/${_id}`}
-          className="btn-fire w-full text-center text-sm font-black py-3.5 sm:py-3 block uppercase tracking-widest shadow-lg shadow-[#FF007F]/20 min-h-[48px] flex items-center justify-center gap-2"
+          className="btn-fire w-full text-center text-sm font-black py-3.5 sm:py-3 block uppercase tracking-widest shadow-lg shadow-[#00f5ff]/20 min-h-[48px] flex items-center justify-center gap-2"
           onClick={(e) => e.stopPropagation()}
           style={{ WebkitTapHighlightColor: 'transparent' }}
         >
