@@ -21,10 +21,10 @@ export default function Footer() {
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#F97316]/10 rounded-full blur-[120px] pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#F97316]/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 mb-16">
           
           {/* Brand & Socials */}
           <div className="flex flex-col gap-6">
@@ -40,18 +40,38 @@ export default function Footer() {
             <p className="text-white/60 text-sm leading-relaxed">
               The premier Free Fire Esports Platform. Assemble your squad, dominate the battlefield, and rise through the competitive ranks. Tactical kineticism at its core.
             </p>
-            <div className="flex gap-4 items-center mt-2">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#F97316] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(249,115,22,0.5)] transition-all duration-300">
-                <FaInstagram size={18} />
+            <div className="flex gap-3 sm:gap-4 items-center mt-2 flex-wrap">
+              <a 
+                href="#" 
+                className="w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#F97316] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(249,115,22,0.5)] transition-all duration-300 touch-manipulation min-w-[44px] min-h-[44px]"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+                aria-label="Instagram"
+              >
+                <FaInstagram size={20} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#25D366] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(37,211,102,0.5)] transition-all duration-300">
-                <FaWhatsapp size={18} />
+              <a 
+                href="#" 
+                className="w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#25D366] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(37,211,102,0.5)] transition-all duration-300 touch-manipulation min-w-[44px] min-h-[44px]"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+                aria-label="WhatsApp"
+              >
+                <FaWhatsapp size={20} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#5865F2] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(88,101,242,0.5)] transition-all duration-300">
-                <FaDiscord size={18} />
+              <a 
+                href="#" 
+                className="w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#5865F2] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(88,101,242,0.5)] transition-all duration-300 touch-manipulation min-w-[44px] min-h-[44px]"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+                aria-label="Discord"
+              >
+                <FaDiscord size={20} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#FF0000] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(255,0,0,0.5)] transition-all duration-300">
-                <FaYoutube size={18} />
+              <a 
+                href="#" 
+                className="w-11 h-11 sm:w-10 sm:h-10 rounded-full bg-white/5 flex items-center justify-center text-white/50 hover:bg-[#FF0000] hover:text-white hover:scale-110 hover:shadow-[0_0_15px_rgba(255,0,0,0.5)] transition-all duration-300 touch-manipulation min-w-[44px] min-h-[44px]"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+                aria-label="YouTube"
+              >
+                <FaYoutube size={20} />
               </a>
             </div>
           </div>
@@ -118,7 +138,8 @@ export default function Footer() {
               </div>
               <button 
                 type="submit" 
-                className="w-full bg-[#F97316] hover:bg-[#ea580c] text-white font-bold py-3 px-4 rounded-lg text-sm transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-[0_4px_14px_0_rgba(249,115,22,0.39)]"
+                className="w-full bg-[#F97316] hover:bg-[#ea580c] text-white font-bold py-3.5 sm:py-3 px-4 rounded-lg text-sm transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-[0_4px_14px_0_rgba(249,115,22,0.39)] min-h-[48px] touch-manipulation"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
               >
                 SUBSCRIBE NOW
               </button>

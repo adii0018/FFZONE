@@ -242,13 +242,21 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full px-4 sm:px-0"
           >
-            <Link to="/tournaments" className="btn-fire px-10 py-4 text-base glow-fire flex items-center gap-2 font-black uppercase tracking-wider hover:scale-105 transition-transform active:scale-95">
+            <Link 
+              to="/tournaments" 
+              className="btn-fire px-8 sm:px-10 py-4 text-base glow-fire flex items-center justify-center gap-2 font-black uppercase tracking-wider hover:scale-105 transition-transform active:scale-95 w-full sm:w-auto min-h-[52px]"
+              style={{ WebkitTapHighlightColor: 'transparent' }}
+            >
               <GiCrossedSwords size={20} />
               Browse Tournaments
             </Link>
-            <Link to="/login?tab=register" className="btn-ghost px-10 py-4 text-base flex items-center gap-2 font-black uppercase tracking-wider hover:scale-105 transition-transform active:scale-95">
+            <Link 
+              to="/login?tab=register" 
+              className="btn-ghost px-8 sm:px-10 py-4 text-base flex items-center justify-center gap-2 font-black uppercase tracking-wider hover:scale-105 transition-transform active:scale-95 w-full sm:w-auto min-h-[52px]"
+              style={{ WebkitTapHighlightColor: 'transparent' }}
+            >
               <FiZap size={20} />
               Join for Free
             </Link>
@@ -375,7 +383,7 @@ export default function LandingPage() {
                 </motion.a>
               </div>
 
-              <Link to="/login?tab=register" className="btn-fire px-12 py-4 text-lg glow-fire inline-flex items-center gap-3 font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95">
+              <Link to="/login?tab=register" className="btn-fire px-8 sm:px-12 py-4 text-base sm:text-lg glow-fire inline-flex items-center justify-center gap-3 font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 w-full sm:w-auto min-h-[52px]" style={{ WebkitTapHighlightColor: 'transparent' }}>
                 Get Started Now <FaFire />
               </Link>
             </div>

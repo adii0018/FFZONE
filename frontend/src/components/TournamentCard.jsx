@@ -32,10 +32,11 @@ export default function TournamentCard({ tournament }) {
   return (
     <motion.div
       whileHover={{ y: -10, scale: 1.02 }}
-      className="card overflow-hidden group cursor-pointer hover:shadow-[0_20px_50px_rgba(255,0,127,0.2)] transition-all duration-500"
+      className="card overflow-hidden group cursor-pointer hover:shadow-[0_20px_50px_rgba(255,0,127,0.2)] transition-all duration-500 touch-manipulation"
+      style={{ WebkitTapHighlightColor: 'transparent' }}
     >
       {/* Banner */}
-      <div className="relative h-40 overflow-hidden bg-[#05070A]">
+      <div className="relative h-44 sm:h-40 overflow-hidden bg-[#05070A]">
         {banner ? (
           <img
             src={getImageUrl(banner)}
@@ -81,24 +82,24 @@ export default function TournamentCard({ tournament }) {
       </div>
 
       {/* Content */}
-      <div className="p-5">
-        <h3 className="font-black text-white text-lg mb-2 line-clamp-1 group-hover:text-[#FF007F] transition-colors tracking-tight">
+      <div className="p-4 sm:p-5">
+        <h3 className="font-black text-white text-base sm:text-lg mb-2 line-clamp-1 group-hover:text-[#FF007F] transition-colors tracking-tight">
           {title}
         </h3>
 
-        <div className="flex items-center gap-4 text-xs text-white/50 mb-4 font-bold uppercase tracking-wider">
-          <span className="flex items-center gap-1.5"><GiCrossedSwords size={12} className="text-[#FF007F]" />{mode}</span>
-          <span className="flex items-center gap-1.5"><FiClock size={12} className="text-[#00D2FF]" />{startDate}</span>
+        <div className="flex items-center gap-3 sm:gap-4 text-xs text-white/50 mb-4 font-bold uppercase tracking-wider flex-wrap">
+          <span className="flex items-center gap-1.5"><GiCrossedSwords size={13} className="text-[#FF007F]" />{mode}</span>
+          <span className="flex items-center gap-1.5"><FiClock size={13} className="text-[#00D2FF]" />{startDate}</span>
         </div>
 
         {/* Prize & Entry */}
         <div className="grid grid-cols-2 gap-3 mb-5">
           <div className="bg-[#FF007F]/10 border border-[#FF007F]/20 rounded-xl p-3 text-center group-hover:bg-[#FF007F]/20 transition-colors">
-            <div className="text-[#FF007F] font-black text-lg">₹{prize_pool?.toLocaleString()}</div>
+            <div className="text-[#FF007F] font-black text-base sm:text-lg">₹{prize_pool?.toLocaleString()}</div>
             <div className="text-white/40 text-[9px] font-black uppercase tracking-widest">Prize Pool</div>
           </div>
           <div className="bg-white/5 border border-white/5 rounded-xl p-3 text-center group-hover:bg-white/10 transition-colors">
-            <div className="text-white font-black text-lg">₹{entry_fee}</div>
+            <div className="text-white font-black text-base sm:text-lg">₹{entry_fee}</div>
             <div className="text-white/40 text-[9px] font-black uppercase tracking-widest">Entry Fee</div>
           </div>
         </div>
@@ -116,10 +117,11 @@ export default function TournamentCard({ tournament }) {
 
         <Link
           to={`/tournament/${_id}`}
-          className="btn-fire w-full text-center text-sm font-black py-3 block uppercase tracking-widest shadow-lg shadow-[#FF007F]/20"
+          className="btn-fire w-full text-center text-sm font-black py-3.5 sm:py-3 block uppercase tracking-widest shadow-lg shadow-[#FF007F]/20 min-h-[48px] flex items-center justify-center gap-2"
           onClick={(e) => e.stopPropagation()}
+          style={{ WebkitTapHighlightColor: 'transparent' }}
         >
-          <FiZap className="inline mr-1 animate-pulse" size={14} />
+          <FiZap className="animate-pulse" size={16} />
           View Details
         </Link>
       </div>
