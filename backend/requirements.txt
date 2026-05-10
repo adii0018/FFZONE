@@ -11,4 +11,5 @@ django-filter==25.2
 gunicorn
 whitenoise
 cloudinary==1.44.2
-
+google-auth
+requests
