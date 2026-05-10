@@ -41,3 +41,4 @@ def delete_image(public_id: str) -> None:
         cloudinary.uploader.destroy(public_id)
     except Exception:
         pass
+        
