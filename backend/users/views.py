@@ -1,6 +1,6 @@
 """
 FFZone – Users App Views
-Handles: Register (OTP), Login, Profile, OTP generation, Admin player management
+Handles: Register, Login, Google OAuth, Profile, Admin player management
 All player profile data lives in MongoDB; Django auth model is auth-only.
 """
 
@@ -15,6 +15,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 
 from ffzone_backend.db import get_db
 from .serializers import RegisterSerializer, LoginSerializer, ProfileUpdateSerializer
@@ -148,6 +151,116 @@ def login(request):
             "avatar_url":  (profile or {}).get("avatar_url", ""),
             "uid":         (profile or {}).get("uid", ""),
         }
+    })
+
+
+# ── Google OAuth ─────────────────────────────────────────────────────────────
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def google_auth(request):
+    """
+    Verify a Google ID token from the frontend and return JWT tokens.
+    Creates a new account automatically if the email doesn't exist yet.
+    """
+    credential = request.data.get("credential")
+    if not credential:
+        return Response({"error": "Google credential is required."}, status=400)
+
+    # Frontend sends userinfo fetched from Google's userinfo endpoint
+    # We trust the email/name/picture since they come from Google's API
+    # using the access_token. For extra security, verify the access_token.
+    email      = request.data.get("email", "").strip().lower()
+    name       = request.data.get("name", "")
+    avatar_url = request.data.get("picture", "")
+
+    if not email:
+        return Response({"error": "Could not retrieve email from Google."}, status=400)
+
+    # Verify the access_token is valid by calling Google's tokeninfo endpoint
+    import urllib.request, json as _json
+    try:
+        with urllib.request.urlopen(
+            f"https://www.googleapis.com/oauth2/v3/userinfo",
+            timeout=5,
+        ) as _:
+            pass  # just a connectivity check; real verify below
+        req = urllib.request.Request(
+            "https://www.googleapis.com/oauth2/v3/userinfo",
+            headers={"Authorization": f"Bearer {credential}"},
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            google_data = _json.loads(resp.read().decode())
+        # Use Google's response as the source of truth
+        email      = google_data.get("email", email).strip().lower()
+        name       = google_data.get("name", name)
+        avatar_url = google_data.get("picture", avatar_url)
+    except Exception as e:
+        return Response({"error": f"Could not verify Google token: {str(e)}"}, status=400)
+
+    if not email:
+        return Response({"error": "Could not retrieve email from Google."}, status=400)
+
+    db = get_db()
+
+    # Get or create Django user
+    user, created = User.objects.get_or_create(
+        email=email,
+        defaults={
+            "username":   email,
+            "first_name": name,
+        }
+    )
+
+    if user.is_banned:
+        return Response({"error": "Your account has been banned."}, status=403)
+
+    # If new user — create MongoDB profile
+    if created:
+        try:
+            db.users.insert_one({
+                "django_id":  user.id,
+                "name":       name,
+                "email":      email,
+                "phone":      "",
+                "uid":        "",
+                "rank":       "Bronze",
+                "badges":     [],
+                "kills":      0,
+                "wins":       0,
+                "matches":    0,
+                "avatar_url": avatar_url,
+                "is_banned":  False,
+                "is_admin":   False,
+                "google":     True,
+                "created_at": datetime.utcnow(),
+            })
+        except Exception as e:
+            user.delete()
+            return Response({"error": str(e)}, status=500)
+    else:
+        # Update avatar if it changed
+        if avatar_url:
+            db.users.update_one(
+                {"django_id": user.id},
+                {"$set": {"avatar_url": avatar_url}},
+            )
+
+    profile = db.users.find_one({"django_id": user.id}, {"_id": 0}) or {}
+    tokens  = _tokens_for_user(user)
+
+    return Response({
+        **tokens,
+        "user": {
+            "id":         user.id,
+            "email":      user.email,
+            "name":       user.first_name or name,
+            "is_admin":   user.email == settings.ADMIN_EMAIL,
+            "rank":       profile.get("rank", "Bronze"),
+            "avatar_url": profile.get("avatar_url", avatar_url),
+            "uid":        profile.get("uid", ""),
+        },
+        "created": created,
     })
 
 
