@@ -180,11 +180,6 @@ def google_auth(request):
     # Verify the access_token is valid by calling Google's tokeninfo endpoint
     import urllib.request, json as _json
     try:
-        with urllib.request.urlopen(
-            f"https://www.googleapis.com/oauth2/v3/userinfo",
-            timeout=5,
-        ) as _:
-            pass  # just a connectivity check; real verify below
         req = urllib.request.Request(
             "https://www.googleapis.com/oauth2/v3/userinfo",
             headers={"Authorization": f"Bearer {credential}"},
