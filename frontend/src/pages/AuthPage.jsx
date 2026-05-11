@@ -4,7 +4,7 @@
 import { useState } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiMail, FiLock, FiUser, FiPhone, FiZap, FiEye, FiEyeOff } from 'react-icons/fi'
+import { FiMail, FiLock, FiUser, FiPhone, FiZap, FiEye, FiEyeOff, FiArrowLeft, FiHome } from 'react-icons/fi'
 import { GiFlame, GiCrossedSwords } from 'react-icons/gi'
 import { useGoogleLogin } from '@react-oauth/google'
 import toast from 'react-hot-toast'
@@ -16,18 +16,12 @@ import AuthLoader from '../components/AuthLoader'
 const InputField = ({ icon: Icon, type = 'text', placeholder, value, onChange, right }) => {
   const [focused, setFocused] = useState(false)
   return (
-    <div style={{ position: 'relative', marginTop: 12 }}>
+    <div className="relative mt-3">
       <Icon
         size={15}
-        style={{
-          position: 'absolute',
-          left: 14,
-          top: '50%',
-          transform: 'translateY(-50%)',
-          color: focused ? '#00f5ff' : 'rgba(0,245,255,0.4)',
-          pointerEvents: 'none',
-          transition: 'color 0.2s',
-        }}
+        className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none transition-colors duration-200 ${
+          focused ? 'text-[#00f5ff]' : 'text-[#00f5ff]/40'
+        }`}
       />
       <input
         type={type}
@@ -37,24 +31,14 @@ const InputField = ({ icon: Icon, type = 'text', placeholder, value, onChange, r
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         required
-        style={{
-          width: '100%',
-          background: 'rgba(255,255,255,0.04)',
-          border: 'none',
-          borderLeft: `2px solid ${focused ? '#00f5ff' : 'transparent'}`,
-          borderRight: `2px solid ${focused ? '#00f5ff' : 'transparent'}`,
-          padding: '13px 44px 13px 42px',
-          borderRadius: 16,
-          color: '#fff',
-          fontSize: 14,
-          boxShadow: 'rgba(0,245,255,0.1) 0px 8px 12px -5px',
-          outline: 'none',
-          transition: 'border-color 0.2s ease',
-          boxSizing: 'border-box',
-        }}
+        className={`w-full bg-white/[0.04] py-3.5 pl-10 pr-11 rounded-2xl text-white text-sm outline-none transition-all duration-200 ${
+          focused 
+            ? 'border-l-2 border-r-2 border-[#00f5ff] shadow-[0_8px_12px_-5px_rgba(0,245,255,0.1)]' 
+            : 'border-l-2 border-r-2 border-transparent shadow-[0_8px_12px_-5px_rgba(0,245,255,0.1)]'
+        }`}
       />
       {right && (
-        <div style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)' }}>
+        <div className="absolute right-3.5 top-1/2 -translate-y-1/2">
           {right}
         </div>
       )}
@@ -162,68 +146,21 @@ export default function AuthPage() {
     onError:   () => toast.error('Google sign-in was cancelled or failed.'),
   })
 
-  /* ── Styles ─────────────────────────────────────────────────────── */
-  const cardStyle = {
-    background: 'linear-gradient(160deg, #0d1f3c 0%, #071428 100%)',
-    borderRadius: 28,
-    padding: '28px 32px 32px',
-    border: '2px solid rgba(0,245,255,0.18)',
-    boxShadow: 'rgba(0,245,255,0.22) 0px 30px 40px -20px, rgba(0,0,0,0.6) 0px 10px 30px',
-  }
-
-  const tabBarStyle = {
-    display: 'flex',
-    background: 'rgba(0,0,0,0.35)',
-    borderRadius: 14,
-    padding: 4,
-    marginBottom: 22,
-    border: '1px solid rgba(0,245,255,0.12)',
-  }
-
-  const tabBtn = (active) => ({
-    flex: 1,
-    padding: '9px 0',
-    borderRadius: 10,
-    border: 'none',
-    fontWeight: 700,
-    fontSize: 13,
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    background: active ? 'linear-gradient(45deg, #0a84ff, #00f5ff)' : 'transparent',
-    color: active ? '#050d1a' : 'rgba(255,255,255,0.4)',
-    boxShadow: active ? 'rgba(0,245,255,0.35) 0px 6px 14px -6px' : 'none',
-  })
-
-  const submitBtnStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    width: '100%',
-    fontWeight: 800,
-    fontSize: 15,
-    background: 'linear-gradient(45deg, #0a84ff 0%, #00f5ff 100%)',
-    color: '#050d1a',
-    padding: '14px 0',
-    marginTop: 20,
-    borderRadius: 16,
-    border: 'none',
-    cursor: loading ? 'not-allowed' : 'pointer',
-    opacity: loading ? 0.6 : 1,
-    boxShadow: 'rgba(0,245,255,0.4) 0px 18px 14px -14px',
-    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-  }
+  /* ── Removed inline styles - using Tailwind classes below ─────────── */
 
   const eyeBtn = (
-    <button type="button" onClick={() => setShowPass(!showPass)}
-      style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.4)', display: 'flex' }}>
+    <button 
+      type="button" 
+      onClick={() => setShowPass(!showPass)}
+      className="bg-transparent border-none cursor-pointer text-white/40 hover:text-white/60 transition-colors flex items-center justify-center min-w-[44px] min-h-[44px]"
+    >
       {showPass ? <FiEyeOff size={15} /> : <FiEye size={15} />}
     </button>
   )
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 py-10 relative"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 py-10 sm:py-16 relative"
       style={{
         backgroundImage: `url('/auth-bg.png')`,
         backgroundSize: 'cover',
@@ -235,34 +172,61 @@ export default function AuthPage() {
       {loading && <AuthLoader message={tab === 'login' ? 'Logging in...' : 'Creating account...'} />}
       <div className="absolute inset-0 bg-black/50 z-0" />
 
+      {/* ── Navigation Buttons ────────────────────────────────── */}
+      <div className="absolute top-4 sm:top-6 left-4 right-4 sm:left-10 sm:right-10 flex items-center justify-between z-[20]">
+        <button 
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 px-3 sm:px-4 py-2 min-h-[44px] rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-[#00f5ff]/10 hover:border-[#00f5ff]/30 transition-all active:scale-95 group"
+        >
+          <FiArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
+          <span className="text-xs sm:text-sm font-bold">Back</span>
+        </button>
+        
+        <Link 
+          to="/"
+          className="flex items-center gap-2 px-3 sm:px-4 py-2 min-h-[44px] rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-[#00f5ff]/10 hover:border-[#00f5ff]/30 transition-all active:scale-95 group"
+        >
+          <FiHome size={18} />
+          <span className="text-xs sm:text-sm font-bold">Home</span>
+        </Link>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        style={{ width: '100%', maxWidth: 360, position: 'relative', zIndex: 10 }}
+        className="w-full max-w-[360px] sm:max-w-sm relative z-10"
       >
         {/* Logo */}
-        <div style={{ textAlign: 'center', marginBottom: 28 }}>
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 10, textDecoration: 'none' }}>
-            <GiFlame style={{ color: '#00f5ff', fontSize: 28 }} />
-            <span style={{ fontSize: 22, fontWeight: 900, color: '#fff' }}>
-              FF<span style={{ color: '#00f5ff' }}>ZONE</span>
+        <div className="text-center mb-6 sm:mb-7">
+          <Link to="/" className="inline-flex items-center gap-2 mb-2.5 no-underline">
+            <GiFlame className="text-[#00f5ff] text-2xl sm:text-3xl" />
+            <span className="text-xl sm:text-2xl font-black text-white">
+              FF<span className="text-[#00f5ff]">ZONE</span>
             </span>
           </Link>
-          <h1 style={{ fontSize: 20, fontWeight: 900, color: '#fff', margin: 0 }}>
+          <h1 className="text-lg sm:text-xl font-black text-white m-0">
             {tab === 'login' ? 'Welcome Back' : 'Join the Battle'}
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, marginTop: 4 }}>
+          <p className="text-white/40 text-xs sm:text-[13px] mt-1">
             {tab === 'login' ? 'Login to your account' : 'Create your free account'}
           </p>
         </div>
 
         {/* Card */}
-        <div style={cardStyle}>
+        <div className="bg-gradient-to-br from-[#0d1f3c] to-[#071428] rounded-[24px] sm:rounded-[28px] p-5 sm:p-7 sm:pb-8 border-2 border-[#00f5ff]/[0.18] shadow-[0_30px_40px_-20px_rgba(0,245,255,0.22),0_10px_30px_rgba(0,0,0,0.6)]">
           {/* Tab switcher */}
-          <div style={tabBarStyle}>
+          <div className="flex bg-black/35 rounded-[14px] p-1 mb-5 sm:mb-[22px] border border-[#00f5ff]/[0.12]">
             {['login', 'register'].map(t => (
-              <button key={t} onClick={() => setTab(t)} style={tabBtn(tab === t)}>
+              <button 
+                key={t} 
+                onClick={() => setTab(t)} 
+                className={`flex-1 py-2.5 sm:py-[9px] rounded-[10px] border-none font-bold text-xs sm:text-[13px] cursor-pointer transition-all duration-200 min-h-[44px] ${
+                  tab === t 
+                    ? 'bg-gradient-to-r from-[#0a84ff] to-[#00f5ff] text-[#050d1a] shadow-[0_6px_14px_-6px_rgba(0,245,255,0.35)]' 
+                    : 'bg-transparent text-white/40 hover:text-white/60'
+                }`}
+              >
                 {t === 'login' ? 'Login' : 'Register'}
               </button>
             ))}
@@ -275,14 +239,16 @@ export default function AuthPage() {
                 onSubmit={handleLogin}>
                 <InputField icon={FiMail} type="email" placeholder="E-mail" value={loginEmail} onChange={setLoginEmail} />
                 <InputField icon={FiLock} type={showPass ? 'text' : 'password'} placeholder="Password" value={loginPass} onChange={setLoginPass} right={eyeBtn} />
-                <div style={{ textAlign: 'right', marginTop: 8 }}>
-                  <a href="#" style={{ color: '#00f5ff', fontSize: 11, textDecoration: 'none' }}>Forgot Password?</a>
+                <div className="text-right mt-2">
+                  <a href="#" className="text-[#00f5ff] text-[11px] no-underline hover:underline">Forgot Password?</a>
                 </div>
-                <button type="submit" disabled={loading} style={submitBtnStyle}
-                  onMouseEnter={e => { if (!loading) { e.currentTarget.style.transform = 'scale(1.03)'; e.currentTarget.style.boxShadow = 'rgba(0,245,255,0.5) 0px 22px 14px -18px' }}}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'rgba(0,245,255,0.4) 0px 18px 14px -14px' }}
-                  onMouseDown={e => { if (!loading) e.currentTarget.style.transform = 'scale(0.97)' }}
-                  onMouseUp={e => { if (!loading) e.currentTarget.style.transform = 'scale(1.03)' }}>
+                <button 
+                  type="submit" 
+                  disabled={loading}
+                  className={`flex items-center justify-center gap-2 w-full font-extrabold text-sm sm:text-[15px] bg-gradient-to-r from-[#0a84ff] to-[#00f5ff] text-[#050d1a] py-3.5 mt-5 rounded-2xl border-none shadow-[0_18px_14px_-14px_rgba(0,245,255,0.4)] transition-all duration-200 min-h-[44px] ${
+                    loading ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:scale-[1.03] hover:shadow-[0_22px_14px_-18px_rgba(0,245,255,0.5)] active:scale-[0.97]'
+                  }`}
+                >
                   <FiZap /> Login
                 </button>
               </motion.form>
@@ -295,11 +261,13 @@ export default function AuthPage() {
                 <InputField icon={FiPhone} placeholder="Phone Number" value={phone} onChange={setPhone} />
                 <InputField icon={GiCrossedSwords} placeholder="Free Fire UID" value={uid} onChange={setUid} />
                 <InputField icon={FiLock} type={showPass ? 'text' : 'password'} placeholder="Password (min 6)" value={pass} onChange={setPass} right={eyeBtn} />
-                <button type="submit" disabled={loading} style={submitBtnStyle}
-                  onMouseEnter={e => { if (!loading) { e.currentTarget.style.transform = 'scale(1.03)'; e.currentTarget.style.boxShadow = 'rgba(0,245,255,0.5) 0px 22px 14px -18px' }}}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = 'rgba(0,245,255,0.4) 0px 18px 14px -14px' }}
-                  onMouseDown={e => { if (!loading) e.currentTarget.style.transform = 'scale(0.97)' }}
-                  onMouseUp={e => { if (!loading) e.currentTarget.style.transform = 'scale(1.03)' }}>
+                <button 
+                  type="submit" 
+                  disabled={loading}
+                  className={`flex items-center justify-center gap-2 w-full font-extrabold text-sm sm:text-[15px] bg-gradient-to-r from-[#0a84ff] to-[#00f5ff] text-[#050d1a] py-3.5 mt-5 rounded-2xl border-none shadow-[0_18px_14px_-14px_rgba(0,245,255,0.4)] transition-all duration-200 min-h-[44px] ${
+                    loading ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:scale-[1.03] hover:shadow-[0_22px_14px_-18px_rgba(0,245,255,0.5)] active:scale-[0.97]'
+                  }`}
+                >
                   <GiFlame /> Create Account
                 </button>
               </motion.form>
@@ -307,10 +275,10 @@ export default function AuthPage() {
           </AnimatePresence>
 
           {/* ── Divider ── */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '20px 0 16px' }}>
-            <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
-            <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: 11, whiteSpace: 'nowrap' }}>Or continue with</span>
-            <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
+          <div className="flex items-center gap-3 my-4 sm:my-5">
+            <div className="flex-1 h-px bg-white/[0.08]" />
+            <span className="text-white/30 text-[11px] whitespace-nowrap">Or continue with</span>
+            <div className="flex-1 h-px bg-white/[0.08]" />
           </div>
 
           {/* ── Google Button ── */}
@@ -318,47 +286,20 @@ export default function AuthPage() {
             type="button"
             onClick={() => googleLogin()}
             disabled={loading}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 10,
-              width: '100%',
-              padding: '12px 0',
-              borderRadius: 16,
-              border: '2px solid rgba(255,255,255,0.1)',
-              background: 'rgba(255,255,255,0.05)',
-              color: '#fff',
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: loading ? 'not-allowed' : 'pointer',
-              opacity: loading ? 0.6 : 1,
-              transition: 'all 0.2s ease',
-              boxShadow: 'rgba(0,0,0,0.3) 0px 4px 12px',
-            }}
-            onMouseEnter={e => {
-              if (!loading) {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'
-                e.currentTarget.style.transform = 'scale(1.02)'
-              }
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'
-              e.currentTarget.style.transform = 'scale(1)'
-            }}
-            onMouseDown={e => { if (!loading) e.currentTarget.style.transform = 'scale(0.98)' }}
-            onMouseUp={e => { if (!loading) e.currentTarget.style.transform = 'scale(1.02)' }}
+            className={`flex items-center justify-center gap-2.5 w-full py-3 rounded-2xl border-2 border-white/10 bg-white/5 text-white text-sm font-semibold shadow-[0_4px_12px_rgba(0,0,0,0.3)] transition-all duration-200 min-h-[44px] ${
+              loading 
+                ? 'cursor-not-allowed opacity-60' 
+                : 'cursor-pointer hover:bg-white/10 hover:border-white/25 hover:scale-[1.02] active:scale-[0.98]'
+            }`}
           >
             <GoogleIcon />
             Sign in with Google
           </button>
         </div>
 
-        <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.25)', fontSize: 11, marginTop: 16 }}>
+        <p className="text-center text-white/25 text-[11px] mt-4">
           By joining, you agree to our{' '}
-          <a href="/terms" style={{ color: '#00f5ff', textDecoration: 'none' }}>Terms of Service</a>.
+          <a href="/terms" className="text-[#00f5ff] no-underline hover:underline">Terms of Service</a>.
         </p>
       </motion.div>
     </div>

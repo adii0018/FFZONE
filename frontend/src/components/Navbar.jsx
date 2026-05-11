@@ -4,7 +4,7 @@
 
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
-import { FiMenu, FiX, FiUser, FiLogOut, FiShield, FiChevronDown, FiHelpCircle, FiMail, FiFileText } from 'react-icons/fi'
+import { FiMenu, FiX, FiUser, FiLogOut, FiShield, FiChevronDown, FiHelpCircle, FiMail, FiFileText, FiArrowLeft, FiHome } from 'react-icons/fi'
 import { GiFlame, GiTrophy, GiCrosshair, GiPodium, GiSwordsPower } from 'react-icons/gi'
 import { MdPeople, MdLeaderboard } from 'react-icons/md'
 import { HiSparkles } from 'react-icons/hi'
@@ -62,6 +62,7 @@ export default function Navbar() {
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/')
 
   const publicLinks = [
+    { to: '/', label: 'Home', icon: FiHome },
     { to: '/tournaments', label: 'Tournaments', icon: GiTrophy },
     // Hide Team Finder for admins to keep it clean
     ...(!isAdminPage && !isAdmin() ? [{ to: '/team-finder', label: 'Team Finder',  icon: MdPeople }] : []),
@@ -84,9 +85,22 @@ export default function Navbar() {
         : 'bg-[#050d1a] border-b border-[rgba(0,245,255,0.05)]'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-[64px] sm:h-[72px] flex items-center justify-between gap-2 sm:gap-4">
+        
+        {/* ── Left Navigation ─────────────────────────────── */}
+        <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+          {/* Back Button */}
+          {location.pathname !== '/' && (
+            <button 
+              onClick={() => navigate(-1)}
+              className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-[#00f5ff] hover:bg-[#00f5ff]/10 hover:border-[#00f5ff]/30 transition-all active:scale-90 group"
+              aria-label="Go back"
+            >
+              <FiArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
+            </button>
+          )}
 
-        {/* ── Logo ────────────────────────────────────────── */}
-        <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group relative z-50 flex-shrink-0 min-w-0">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group relative z-50 flex-shrink-0 min-w-0">
           <div className="absolute -inset-4 bg-gradient-to-r from-[#00f5ff]/20 to-transparent blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
           <GiFlame className="text-[#00f5ff] text-2xl sm:text-3xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 drop-shadow-[0_0_8px_rgba(0,245,255,0.6)] flex-shrink-0" />
           <span className="text-xl sm:text-2xl font-black text-white tracking-wider relative whitespace-nowrap">
@@ -97,6 +111,7 @@ export default function Navbar() {
             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>LIVE
           </span>
         </Link>
+        </div>
 
         {/* ── Desktop Nav ─────────────────────────────────── */}
         <div className="hidden lg:flex items-center gap-1 bg-white/[0.02] border border-white/5 px-4 py-2 rounded-full backdrop-blur-md">
@@ -255,6 +270,7 @@ export default function Navbar() {
 
           {/* Mobile nav links */}
           <p className="text-white/30 text-xs font-bold uppercase tracking-widest mb-3 ml-1 px-1">Navigate</p>
+          
           {allNavLinks.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}

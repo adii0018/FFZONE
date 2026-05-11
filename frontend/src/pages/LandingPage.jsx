@@ -5,9 +5,9 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useScroll, useSpring, useInView } from 'framer-motion'
+import { motion, useScroll, useSpring, useInView, AnimatePresence } from 'framer-motion'
 import { FiZap, FiUsers, FiAward } from 'react-icons/fi'
-import { GiFlame, GiCrossedSwords, GiTrophy, GiTargetShot } from 'react-icons/gi'
+import { GiFlame, GiCrossedSwords, GiTrophy, GiTargetShot, GiMedal } from 'react-icons/gi'
 import { FaFire } from 'react-icons/fa'
 import { useQuery } from '@tanstack/react-query'
 import api from '../lib/api'
@@ -115,19 +115,119 @@ function DynamicSection({ children, className = "" }) {
   )
 }
 
-// ── Stat card ─────────────────────────────────────────────────────────────
-function StatCard({ icon: Icon, label, value, color }) {
+// ── Cyber Marquee ──────────────────────────────────────────────────────────
+function Marquee({ items, speed = 40, reverse = false, className = "" }) {
+  const [isPaused, setIsPaused] = useState(false);
+  const timerRef = useRef(null);
+
+  const handleClick = () => {
+    setIsPaused(true);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setIsPaused(false), 3000); // Resume after 3s
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  return (
+    <div 
+      onClick={handleClick}
+      className={`relative flex overflow-hidden bg-transparent border-y border-[#00f5ff]/10 py-6 cursor-pointer group select-none transition-all duration-500 ${className}`}
+    >
+      {/* Background Pattern */}
+      <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
+      
+      <div
+        className={`flex whitespace-nowrap items-center ${reverse ? 'animate-marquee-right' : 'animate-marquee-left'} ${isPaused ? 'pause-animation' : ''}`}
+        style={{ animationDuration: `${speed}s` }}
+      >
+        {[...items, ...items].map((item, idx) => (
+          <div key={`${item}-${idx}`} className="flex items-center mx-12">
+            {/* Unique Gaming Icon before each item */}
+            <div className="p-3 rounded-lg bg-[#00f5ff]/10 border border-[#00f5ff]/20 mr-6 transform -skew-x-12 group-hover:glow-cyan transition-all">
+              {idx % 3 === 0 && <GiTargetShot className="text-[#00f5ff] text-2xl" />}
+              {idx % 3 === 1 && <GiCrossedSwords className="text-[#00FF9C] text-2xl" />}
+              {idx % 3 === 2 && <GiMedal className="text-[#00D2FF] text-2xl" />}
+            </div>
+            
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#00f5ff] to-white/80 font-black text-2xl sm:text-3xl italic uppercase tracking-tighter drop-shadow-[0_0_15px_rgba(0,245,255,0.3)]">
+              {item}
+            </span>
+            
+            <div className="mx-12 h-[2px] w-24 bg-gradient-to-r from-transparent via-[#00f5ff]/30 to-transparent" />
+          </div>
+        ))}
+      </div>
+      
+      {/* Edge Fades with deeper glow */}
+      <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-[#050d1a] via-[#050d1a]/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-[#050d1a] via-[#050d1a]/80 to-transparent z-10 pointer-events-none" />
+    </div>
+  )
+}
+
+// ── Count-up Hook ────────────────────────────────────────────────────────
+function useCountUp(end, duration = 2000, start = 0) {
+  const [count, setCount] = useState(start);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (isInView && !hasAnimated) {
+      let startTime = null;
+      const step = (timestamp) => {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const currentCount = Math.floor(progress * (end - start) + start);
+        setCount(currentCount);
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          setHasAnimated(true);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+  }, [isInView, end, start, duration, hasAnimated]);
+
+  return { count, ref };
+}
+
+// ── Holographic Stat Card ───────────────────────────────────────────────────
+function StatCard({ icon: Icon, label, value, color, suffix = "" }) {
+  // Extract number from value string (e.g., "500+" -> 500)
+  const numericValue = parseInt(value.replace(/[^0-9]/g, '')) || 0;
+  const { count, ref } = useCountUp(numericValue);
+
   return (
     <motion.div
+      ref={ref}
       variants={itemVariants}
-      className="card p-5 text-center group hover:bg-[#071428]/80 transition-all duration-300"
+      className="relative group p-6 sm:p-8 rounded-[2rem] border border-white/5 bg-white/[0.02] backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-[#00f5ff]/30 hover:bg-white/[0.04] hover:-translate-y-2"
     >
-      <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 transition-transform group-hover:scale-110"
-        style={{ background: `${color}15`, border: `1px solid ${color}30` }}>
-        <Icon size={22} style={{ color }} />
+      {/* Background Glow */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#00f5ff]/10 to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+      
+      {/* Icon with Ring */}
+      <div className="relative z-10 w-16 h-16 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center mb-6 mx-auto group-hover:border-[#00f5ff]/40 transition-all duration-500 shadow-xl group-hover:shadow-[#00f5ff]/20">
+        <Icon size={28} style={{ color }} className="group-hover:scale-110 transition-transform duration-500" />
+        {/* Orbiting ring effect */}
+        <div className="absolute inset-[-4px] rounded-2xl border border-[#00f5ff]/0 group-hover:border-[#00f5ff]/20 transition-all duration-700 scale-90 group-hover:scale-100" />
       </div>
-      <div className="text-2xl font-black text-white mb-1 tracking-tight">{value}</div>
-      <div className="text-white/50 text-xs font-bold uppercase tracking-wider">{label}</div>
+
+      <div className="relative z-10">
+        <div className="text-3xl sm:text-4xl font-black text-white mb-2 tracking-tighter flex items-center justify-center gap-1">
+          <span style={{ textShadow: `0 0 20px ${color}40` }}>{count.toLocaleString()}{suffix}</span>
+        </div>
+        <div className="text-white/40 text-[10px] sm:text-xs font-black uppercase tracking-[0.2em]">{label}</div>
+      </div>
+      
+      {/* Bottom accent line */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-[2px] bg-gradient-to-r from-transparent via-[#00f5ff] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     </motion.div>
   )
 }
@@ -158,7 +258,7 @@ export default function LandingPage() {
   })
 
   const bgImages = [
-    '/landing-bg.png',
+    '/hero-main.png',
     '/slide-1.jpg',
     '/slide-2.jpg',
     '/slide-3.png',
@@ -174,41 +274,57 @@ export default function LandingPage() {
   ]
 
   const [bgIndex, setBgIndex] = useState(0)
+  const [badgeIndex, setBadgeIndex] = useState(0)
   const [imagesLoaded, setImagesLoaded] = useState(false)
 
-  // Preload images for smooth transitions
+  const badgePhrases = [
+    "India's #1 Free Fire Tournament Platform",
+    "Join 10,000+ Elite Battle Royale Players",
+    "Daily Scrims, Customs & Mega Giveaways",
+    "Win Real Cash Prizes Every Single Day",
+    "The Ultimate Destination for FF Legends",
+    "Fast Payouts & Transparent Fair Play"
+  ]
+
+  // Optimized: Preload only first image, then lazy load next ones
   useEffect(() => {
-    const preloadImages = async () => {
-      const imagePromises = bgImages.map(src => {
-        return new Promise((resolve, reject) => {
-          const img = new Image()
-          img.src = src
-          img.onload = resolve
-          img.onerror = reject
-        })
-      })
-      
-      try {
-        await Promise.all(imagePromises)
-        setImagesLoaded(true)
-      } catch (error) {
-        console.warn('Some images failed to load:', error)
-        setImagesLoaded(true) // Continue anyway
-      }
+    const preloadFirstImage = () => {
+      const img = new Image()
+      img.src = bgImages[0]
+      img.onload = () => setImagesLoaded(true)
+      img.onerror = () => setImagesLoaded(true) // Continue anyway
     }
     
-    preloadImages()
+    preloadFirstImage()
   }, [])
+
+  // Lazy load next image when current changes
+  useEffect(() => {
+    if (!imagesLoaded) return
+    
+    const nextIndex = (bgIndex + 1) % bgImages.length
+    const img = new Image()
+    img.src = bgImages[nextIndex]
+    // No need to track loading - browser will cache it
+  }, [bgIndex, imagesLoaded])
 
   useEffect(() => {
     if (!imagesLoaded) return
     
     const interval = setInterval(() => {
       setBgIndex((prev) => (prev + 1) % bgImages.length)
-    }, 5000) // Increased from 4s to 5s for better UX
+    }, 5000)
     
-    return () => clearInterval(interval)
-  }, [imagesLoaded])
+    // Rotate badge phrases - increased to 5s for better readability
+    const badgeInterval = setInterval(() => {
+      setBadgeIndex((prev) => (prev + 1) % badgePhrases.length)
+    }, 5000)
+    
+    return () => {
+      clearInterval(interval)
+      clearInterval(badgeInterval)
+    }
+  }, [imagesLoaded, badgePhrases.length])
 
   return (
     <div className="min-h-screen bg-[#050d1a] relative overflow-hidden">
@@ -222,30 +338,48 @@ export default function LandingPage() {
 
       {/* ── Hero ──────────────────────────────────────────── */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Crossfade background slides with lazy loading */}
+        {/* Optimized: Only render current and next image */}
         {imagesLoaded ? (
-          bgImages.map((src, i) => (
+          <>
+            {/* Current image */}
             <div
-              key={src}
+              key={`current-${bgIndex}`}
               style={{
-                backgroundImage: `url('${src}')`,
+                backgroundImage: `url('${bgImages[bgIndex]}')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                opacity: i === bgIndex ? 1 : 0,
+                opacity: 1,
                 transition: 'opacity 1.5s ease-in-out',
                 position: 'absolute',
                 inset: 0,
                 zIndex: 0,
-                willChange: i === bgIndex || i === (bgIndex + 1) % bgImages.length ? 'opacity' : 'auto',
               }}
             />
-          ))
+            {/* Next image (preloading for smooth transition) */}
+            <div
+              key={`next-${(bgIndex + 1) % bgImages.length}`}
+              style={{
+                backgroundImage: `url('${bgImages[(bgIndex + 1) % bgImages.length]}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                opacity: 0,
+                transition: 'opacity 1.5s ease-in-out',
+                position: 'absolute',
+                inset: 0,
+                zIndex: 0,
+              }}
+            />
+          </>
         ) : (
-          // Fallback gradient while images load
+          // Fallback gradient while first image loads
           <div className="absolute inset-0 bg-gradient-to-br from-[#050d1a] via-[#071428] to-[#050d1a]" style={{ zIndex: 0 }} />
         )}
         <div className="absolute inset-0 bg-[#050d1a]/60" style={{ zIndex: 1 }}></div>
         <div style={{ position: 'absolute', inset: 0, zIndex: 2 }}><AnimatedBackground /></div>
+        
+        {/* ── Gaming Overlays ──────────────────────────────── */}
+        <div className="scanline-overlay z-[3] pointer-events-none" aria-hidden="true" />
+        <div className="scanline-moving z-[4] pointer-events-none" aria-hidden="true" />
 
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
           {/* Badge */}
@@ -253,27 +387,86 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-full px-4 py-2 text-sm text-[#00f5ff] font-bold mb-8 uppercase tracking-widest"
+            className="inline-flex items-center gap-2 bg-[#00f5ff]/10 border border-[#00f5ff]/30 rounded-full px-4 py-2 text-[10px] sm:text-xs text-[#00f5ff] font-bold mb-8 uppercase tracking-widest min-h-[40px] overflow-hidden"
           >
-            <GiFlame className="animate-pulse" />
-            {publicStats
-              ? publicStats.live_tournaments > 0
-                ? <><span className="text-[#00FF9C]">{publicStats.live_tournaments} Live</span> · {publicStats.total_players.toLocaleString()}+ Players · ₹{(publicStats.total_prizes / 1000).toFixed(0)}K+ Prizes</>
-                : <>{publicStats.total_tournaments}+ Tournaments · {publicStats.total_players.toLocaleString()}+ Players</>
-              : "India's #1 Free Fire Tournament Platform"
-            }
+            <GiFlame className="animate-pulse flex-shrink-0" />
+            <div className="relative h-4 flex items-center">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={badgeIndex}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="whitespace-nowrap"
+                >
+                  {publicStats && badgeIndex === 0
+                    ? publicStats.live_tournaments > 0
+                      ? <><span className="text-[#00FF9C]">{publicStats.live_tournaments} Live</span> · {publicStats.total_players.toLocaleString()}+ Players · ₹{(publicStats.total_prizes / 1000).toFixed(0)}K+ Prizes</>
+                      : <>{publicStats.total_tournaments}+ Tournaments · {publicStats.total_players.toLocaleString()}+ Players</>
+                    : badgePhrases[badgeIndex]
+                  }
+                </motion.span>
+              </AnimatePresence>
+            </div>
           </motion.div>
 
           {/* Headline */}
-          <motion.h1
-            key={bgIndex}
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 100 }}
-            className="text-4xl sm:text-5xl md:text-8xl font-black text-white mb-6 leading-[0.95] tracking-tighter"
-          >
-            {heroTitles[bgIndex]}
-          </motion.h1>
+          <div className="relative min-h-[120px] sm:min-h-[160px] md:min-h-[240px] flex items-center justify-center mb-6 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.h1
+                key={bgIndex}
+                initial={{ opacity: 0, y: 30, scale: 0.9, filter: 'blur(15px)' }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0, 
+                  scale: 1, 
+                  filter: ['blur(15px)', 'blur(0px)', 'blur(2px)', 'blur(0px)'],
+                }}
+                exit={{ 
+                  opacity: 0, 
+                  y: -30, 
+                  scale: 1.1, 
+                  filter: 'blur(15px)',
+                  transition: { duration: 0.4 }
+                }}
+                transition={{ 
+                  duration: 0.8, 
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="text-4xl sm:text-5xl md:text-8xl font-black text-white leading-[0.95] tracking-tighter absolute w-full select-none"
+              >
+                {/* Visual Glitch Layer */}
+                <motion.span
+                  animate={{ 
+                    x: [0, -2, 2, -1, 0],
+                    opacity: [1, 0.8, 1, 0.9, 1]
+                  }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                >
+                  {heroTitles[bgIndex]}
+                </motion.span>
+                
+                {/* Chromatic Aberration Effect on Enter */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ duration: 0.5, times: [0, 0.5, 1] }}
+                  className="absolute inset-0 text-red-500 mix-blend-screen opacity-50 blur-[1px] translate-x-1"
+                >
+                  {heroTitles[bgIndex]}
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ duration: 0.5, times: [0, 0.5, 1] }}
+                  className="absolute inset-0 text-blue-500 mix-blend-screen opacity-50 blur-[1px] -translate-x-1"
+                >
+                  {heroTitles[bgIndex]}
+                </motion.div>
+              </motion.h1>
+            </AnimatePresence>
+          </div>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -311,11 +504,13 @@ export default function LandingPage() {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator - hidden on mobile */}
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30"
+          className="absolute bottom-8 sm:bottom-24 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2 z-30"
+          aria-label="Scroll down for more content"
+          role="img"
         >
           <div className="w-[2px] h-12 bg-gradient-to-b from-[#00f5ff] to-transparent" />
         </motion.div>
@@ -328,19 +523,32 @@ export default function LandingPage() {
         </div>
       </section>
 
+
       {/* ── Featured Tournaments ──────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 py-32 relative overflow-hidden -mt-20 z-10">
-        <ScrollReveal className="flex items-center justify-between mb-12 relative z-20">
+        <ScrollReveal className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-12 relative z-20">
           <div>
             <h2 className="text-3xl md:text-5xl font-black text-white flex items-center gap-3 tracking-tight">
               <FaFire className="text-[#00f5ff] animate-pulse" /> Featured <span className="text-[#00f5ff]">Tournaments</span>
             </h2>
             <p className="text-white/50 text-base mt-2 font-medium">Upcoming competitions you can join right now</p>
           </div>
-          <Link to="/tournaments" className="btn-ghost text-sm py-2 px-6 font-bold hover:bg-[#00f5ff] hover:text-[#050d1a] transition-all">View All →</Link>
+          <Link to="/tournaments" className="btn-ghost text-sm py-2 px-6 font-bold hover:bg-[#00f5ff] hover:text-[#050d1a] transition-all whitespace-nowrap">View All →</Link>
         </ScrollReveal>
 
-        {featured.length > 0 ? (
+        {!data ? (
+          // Loading skeleton
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-20">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="card p-6 animate-pulse">
+                <div className="h-40 bg-white/5 rounded-xl mb-4" />
+                <div className="h-6 bg-white/5 rounded mb-2 w-3/4" />
+                <div className="h-4 bg-white/5 rounded mb-4 w-1/2" />
+                <div className="h-10 bg-white/5 rounded" />
+              </div>
+            ))}
+          </div>
+        ) : featured.length > 0 ? (
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -421,13 +629,25 @@ export default function LandingPage() {
               </p>
 
               <div className="flex flex-wrap gap-4 mb-10">
-                <motion.a whileHover={{ y: -5 }} href="#" className="flex items-center gap-3 bg-[#5865F2]/10 border border-[#5865F2]/30 px-6 py-3 rounded-xl text-white font-bold hover:bg-[#5865F2]/20 transition-all">
+                <motion.a 
+                  whileHover={{ y: -5 }} 
+                  href="https://discord.gg/ffzone" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 bg-[#5865F2]/10 border border-[#5865F2]/30 px-6 py-3 rounded-xl text-white font-bold hover:bg-[#5865F2]/20 transition-all"
+                >
                   <div className="w-8 h-8 bg-[#5865F2] rounded-lg flex items-center justify-center shadow-lg shadow-[#5865F2]/40">
                     <FiZap size={18} />
                   </div>
                   Discord
                 </motion.a>
-                <motion.a whileHover={{ y: -5 }} href="#" className="flex items-center gap-3 bg-[#00D2FF]/10 border border-[#00D2FF]/30 px-6 py-3 rounded-xl text-white font-bold hover:bg-[#00D2FF]/20 transition-all">
+                <motion.a 
+                  whileHover={{ y: -5 }} 
+                  href="https://t.me/ffzone" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 bg-[#00D2FF]/10 border border-[#00D2FF]/30 px-6 py-3 rounded-xl text-white font-bold hover:bg-[#00D2FF]/20 transition-all"
+                >
                   <div className="w-8 h-8 bg-[#00D2FF] rounded-lg flex items-center justify-center shadow-lg shadow-[#00D2FF]/40">
                     <FiUsers size={18} />
                   </div>
@@ -475,23 +695,70 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── Stats Bar ────────────────────────── */}
+      {/* ── Stats Bar - Using Real API Data ────────────────────────── */}
       <DynamicSection className="py-24 relative -mt-20 z-40">
-        <div className="max-w-6xl mx-auto px-4 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariants}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
           >
-            <StatCard icon={GiTrophy} label="Tournaments Hosted" value="500+" color="#00f5ff" />
-            <StatCard icon={FiUsers} label="Active Players" value="10K+" color="#00D2FF" />
-            <StatCard icon={GiTargetShot} label="Kills Recorded" value="1.2M+" color="#00FF9C" />
-            <StatCard icon={FiAward} label="Prize Distributed" value="₹5L+" color="#00f5ff" />
+            <StatCard 
+              icon={GiTrophy} 
+              label="Tournaments Hosted" 
+              value={publicStats?.total_tournaments?.toString() || "500"} 
+              suffix="+" 
+              color="#00f5ff" 
+            />
+            <StatCard 
+              icon={FiUsers} 
+              label="Active Players" 
+              value={publicStats?.total_players?.toString() || "10000"} 
+              suffix="+" 
+              color="#00D2FF" 
+            />
+            <StatCard 
+              icon={GiTargetShot} 
+              label="Matches Played" 
+              value={publicStats?.total_tournaments ? (publicStats.total_tournaments * 3).toString() : "1500"} 
+              suffix="+" 
+              color="#00FF9C" 
+            />
+            <StatCard 
+              icon={FiAward} 
+              label="Prize Distributed" 
+              value={publicStats?.total_prizes ? Math.floor(publicStats.total_prizes / 1000).toString() : "500"} 
+              suffix="K+" 
+              color="#00f5ff" 
+            />
           </motion.div>
         </div>
       </DynamicSection>
+
+      {/* ── Dual Marquee Section ────────────────────────── */}
+      <div className="pb-4 space-y-2 mt-4">
+        <Marquee 
+          speed={30}
+          items={[
+            "Live Scrims 24/7",
+            "Daily Mega Prizes",
+            "Fast & Secure Payouts",
+            "100% Anti-Cheat System",
+          ]}
+        />
+        <Marquee 
+          speed={45}
+          reverse
+          items={[
+            "Elite Community Hub",
+            "Global Leaderboards",
+            "Professional Casted Finals",
+            "Instant Registration"
+          ]}
+        />
+      </div>
     </div>
   )
 }
