@@ -15,6 +15,10 @@ export const getSafeApiUrl = () => {
   if (url.includes('onrender.com') && !url.startsWith('http')) {
     url = `https://${url}`;
   }
+  // If the user forgot to add /api at the end of VITE_API_URL in Vercel
+  if (url.includes('onrender.com') && !url.includes('/api')) {
+    url = url.endsWith('/') ? `${url}api` : `${url}/api`;
+  }
   return url;
 };
 
