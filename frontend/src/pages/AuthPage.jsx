@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiMail, FiLock, FiUser, FiPhone, FiZap, FiEye, FiEyeOff, FiArrowLeft, FiHome } from 'react-icons/fi'
 import { GiFlame, GiCrossedSwords } from 'react-icons/gi'
-import { useGoogleLogin } from '@react-oauth/google'
+import { GoogleLogin } from '@react-oauth/google'
 import toast from 'react-hot-toast'
 import api from '../lib/api'
 import useAuthStore from '../store/authStore'
@@ -118,18 +118,10 @@ export default function AuthPage() {
   const handleGoogleSuccess = async (tokenResponse) => {
     setLoading(true)
     try {
-      // Fetch user info from Google using the access token
-      const res      = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-      })
-      const userInfo = await res.json()
-
+      const credential = tokenResponse.credential || tokenResponse.access_token;
       // Send to our backend for verification + JWT issuance
       const { data } = await api.post('/auth/google/', {
-        credential: tokenResponse.access_token,
-        email:      userInfo.email,
-        name:       userInfo.name,
-        picture:    userInfo.picture,
+        credential: credential,
       })
 
       localStorage.setItem('access_token', data.access)
@@ -140,11 +132,6 @@ export default function AuthPage() {
       toast.error(err.response?.data?.error || 'Google login failed. Try again.')
     } finally { setLoading(false) }
   }
-
-  const googleLogin = useGoogleLogin({
-    onSuccess: handleGoogleSuccess,
-    onError:   () => toast.error('Google sign-in was cancelled or failed.'),
-  })
 
   /* ── Removed inline styles - using Tailwind classes below ─────────── */
 
@@ -282,19 +269,18 @@ export default function AuthPage() {
           </div>
 
           {/* ── Google Button ── */}
-          <button
-            type="button"
-            onClick={() => googleLogin()}
-            disabled={loading}
-            className={`flex items-center justify-center gap-2.5 w-full py-3 rounded-2xl border-2 border-white/10 bg-white/5 text-white text-sm font-semibold shadow-[0_4px_12px_rgba(0,0,0,0.3)] transition-all duration-200 min-h-[44px] ${
-              loading 
-                ? 'cursor-not-allowed opacity-60' 
-                : 'cursor-pointer hover:bg-white/10 hover:border-white/25 hover:scale-[1.02] active:scale-[0.98]'
-            }`}
-          >
-            <GoogleIcon />
-            Sign in with Google
-          </button>
+          <div className="w-full flex justify-center mt-2 overflow-hidden rounded-2xl shadow-[0_4px_12px_rgba(0,0,0,0.3)]">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => toast.error('Google sign-in was cancelled or failed.')}
+              useOneTap
+              theme="filled_black"
+              shape="rectangular"
+              size="large"
+              text="signin_with"
+              width="320"
+            />
+          </div>
         </div>
 
         <p className="text-center text-white/25 text-[11px] mt-4">

@@ -177,15 +177,23 @@ def google_auth(request):
     if not email:
         return Response({"error": "Could not retrieve email from Google."}, status=400)
 
-    # Verify the access_token is valid by calling Google's tokeninfo endpoint
+    # Verify the token
     import urllib.request, json as _json
     try:
-        req = urllib.request.Request(
-            "https://www.googleapis.com/oauth2/v3/userinfo",
-            headers={"Authorization": f"Bearer {credential}"},
-        )
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            google_data = _json.loads(resp.read().decode())
+        if credential.count('.') == 2:
+            # Verify as ID Token
+            google_data = id_token.verify_oauth2_token(
+                credential, google_requests.Request(), settings.GOOGLE_CLIENT_ID, clock_skew_in_seconds=10
+            )
+        else:
+            # Verify as Access Token
+            req = urllib.request.Request(
+                "https://www.googleapis.com/oauth2/v3/userinfo",
+                headers={"Authorization": f"Bearer {credential}"},
+            )
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                google_data = _json.loads(resp.read().decode())
+        
         # Use Google's response as the source of truth
         email      = google_data.get("email", email).strip().lower()
         name       = google_data.get("name", name)
