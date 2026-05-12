@@ -113,11 +113,13 @@ SIMPLE_JWT = {
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOWED_ORIGINS = [
     os.getenv("FRONTEND_URL", "http://localhost:5173"),
+    "https://ffzone.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     os.getenv("FRONTEND_URL", "http://localhost:5173"),
+    "https://ffzone.vercel.app",
 ]
 
 # ── File Uploads ──────────────────────────────────────────────────────────────
