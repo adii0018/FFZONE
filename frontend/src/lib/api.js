@@ -5,13 +5,21 @@
 
 import axios from 'axios'
 
-const getBaseURL = () => {
-  let url = import.meta.env.VITE_API_URL || '/api';
+export const getSafeApiUrl = () => {
+  let url = import.meta.env.VITE_API_URL || 'https://ffzone-1.onrender.com/api';
+  // Force override if Vercel still injects the old suspended URL
+  if (url.includes('ffzone-backend.onrender.com')) {
+    url = 'https://ffzone-1.onrender.com/api';
+  }
   // Ensure it starts with http/https if it's an external domain
   if (url.includes('onrender.com') && !url.startsWith('http')) {
     url = `https://${url}`;
   }
   return url;
+};
+
+const getBaseURL = () => {
+  return getSafeApiUrl();
 };
 
 const api = axios.create({
@@ -38,7 +46,8 @@ api.interceptors.response.use(
       const refresh = localStorage.getItem('refresh_token')
       if (refresh) {
         try {
-          const { data } = await axios.post(`${import.meta.env.VITE_API_URL || ''}/api/token/refresh/`, { refresh })
+          const baseUrl = getSafeApiUrl().replace(/\/api\/?$/, '');
+          const { data } = await axios.post(`${baseUrl}/api/token/refresh/`, { refresh })
           localStorage.setItem('access_token', data.access)
           original.headers.Authorization = `Bearer ${data.access}`
           return api(original)
@@ -58,7 +67,7 @@ export const getImageUrl = (path) => {
     return path
   }
   // For media files, use the backend base URL (not /api prefix)
-  let apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+  let apiUrl = getSafeApiUrl();
   // Strip /api suffix to get the backend root URL
   let baseUrl = apiUrl.replace(/\/api\/?$/, '')
   if (baseUrl.endsWith('/')) {
