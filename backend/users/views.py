@@ -186,14 +186,11 @@ def google_auth(request):
     name       = request.data.get("name", "")
     avatar_url = request.data.get("picture", "")
 
-    if not email:
-        return Response({"error": "Could not retrieve email from Google."}, status=400)
-
-    # Verify the token
+    # Verify the token — email will be extracted from verified token
     import urllib.request, json as _json
     try:
         if credential.count('.') == 2:
-            # Verify as ID Token
+            # Verify as ID Token (JWT from <GoogleLogin> component)
             google_data = id_token.verify_oauth2_token(
                 credential, google_requests.Request(), settings.GOOGLE_CLIENT_ID, clock_skew_in_seconds=10
             )
@@ -206,7 +203,7 @@ def google_auth(request):
             with urllib.request.urlopen(req, timeout=5) as resp:
                 google_data = _json.loads(resp.read().decode())
         
-        # Use Google's response as the source of truth
+        # Use Google's verified response as the source of truth
         email      = google_data.get("email", email).strip().lower()
         name       = google_data.get("name", name)
         avatar_url = google_data.get("picture", avatar_url)
