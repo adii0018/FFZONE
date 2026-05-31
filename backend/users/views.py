@@ -109,7 +109,19 @@ def register(request):
         return Response({"error": str(e)}, status=500)
 
     tokens = _tokens_for_user(user)
-    return Response({"message": "Registration successful.", **tokens}, status=201)
+    return Response({
+        "message": "Registration successful.",
+        **tokens,
+        "user": {
+            "id":         user.id,
+            "email":      user.email,
+            "name":       user.first_name,
+            "is_admin":   user.email == settings.ADMIN_EMAIL,
+            "rank":       "Bronze",
+            "avatar_url": "",
+            "uid":        data["uid"],
+        },
+    }, status=201)
 
 
 # ── Login ─────────────────────────────────────────────────────────────────────

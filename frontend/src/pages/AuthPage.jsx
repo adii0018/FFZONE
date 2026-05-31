@@ -59,7 +59,7 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const navigate = useNavigate()
-  const { login } = useAuthStore()
+  const { login, setUser } = useAuthStore()
 
   // Login form state
   const [loginEmail, setLoginEmail] = useState('')
@@ -97,8 +97,18 @@ export default function AuthPage() {
     setLoading(true)
     try {
       const { data } = await api.post('/auth/register/', { name, email, phone, uid, password: pass })
-      localStorage.setItem('access_token', data.access)
+
+      // ✅ Save tokens in localStorage
+      localStorage.setItem('access_token',  data.access)
       localStorage.setItem('refresh_token', data.refresh)
+
+      // ✅ Update Zustand authStore so user state is available across the app
+      useAuthStore.setState({
+        access_token:  data.access,
+        refresh_token: data.refresh,
+        user:          data.user,
+      })
+
       toast.success('Account created! Welcome to FFZone 🔥')
       navigate('/dashboard')
     } catch (err) {
@@ -115,17 +125,33 @@ export default function AuthPage() {
     } finally { setLoading(false) }
   }
 
+
   const handleGoogleSuccess = async (tokenResponse) => {
     setLoading(true)
     try {
       const credential = tokenResponse.credential || tokenResponse.access_token;
-      // Send to our backend for verification + JWT issuance
-      const { data } = await api.post('/auth/google/', {
-        credential: credential,
+
+      // Also send decoded user info as fallback for backend
+      const payload = { credential }
+      if (tokenResponse.email)   payload.email   = tokenResponse.email
+      if (tokenResponse.name)    payload.name    = tokenResponse.name
+      if (tokenResponse.picture) payload.picture = tokenResponse.picture
+
+      const { data } = await api.post('/auth/google/', payload)
+
+      // ✅ Save tokens in localStorage
+      localStorage.setItem('access_token',  data.access)
+      localStorage.setItem('refresh_token', data.refresh)
+
+      // ✅ Update Zustand authStore so user state is available across the app
+      setUser(data.user)
+      // Also update the persisted store tokens
+      useAuthStore.setState({
+        access_token:  data.access,
+        refresh_token: data.refresh,
+        user:          data.user,
       })
 
-      localStorage.setItem('access_token', data.access)
-      localStorage.setItem('refresh_token', data.refresh)
       toast.success(data.created ? 'Account created via Google! 🔥' : 'Welcome back! 🔥')
       navigate('/dashboard')
     } catch (err) {
