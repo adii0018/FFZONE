@@ -54,7 +54,7 @@ It brings the thrill of professional esports to every player, featuring:
 - 💜 Secure Razorpay payment system
 - 🔵 Sleek immersive Cyber-Neon UI
 - ⚡ Zero-latency notifications across all devices
-- 🏆 Full bracket & tournament management
+- 🏆 Fulll bracket & tournament management
 - 🔍 Team finder to build your dream squad
 
 > [!IMPORTANT]
